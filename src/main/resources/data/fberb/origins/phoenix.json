@@ -3,7 +3,8 @@
   "description": "The origin ever",
   "powers": [
     "fberb:leap",
-    "fberb:freez"
+    "fberb:freez",
+    "fberb:rebirth"
   ],
   "icon":{
     "item": "fberb:phoenix_brooch"

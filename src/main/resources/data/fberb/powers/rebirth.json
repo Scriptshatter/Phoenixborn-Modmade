@@ -6,8 +6,85 @@
             "sprite": "origins:textures/gui/badge/info.png",
             "recipe":{
                 "type": "minecraft:crafting_shaped",
-                "id": "fberb:rebirth_charm"
+                "id": "fberb:rebirth_charm",
+                "pattern": [
+                    "###",
+                    "%&%",
+                    "###"
+                ],
+                "key":{
+                    "#":{
+                        "item": "minecraft:blaze_rod"
+                    },
+                    "%":{
+                        "item": "minecraft:echo_shard"
+                    },
+                    "&":{
+                        "item": "minecraft:amethyst_shard"
+                    }
+                },
+                "result":{
+                    "item": "fberb:phoenix_brooch"
+                }
             }
         }
-    ]
+    ],
+    "crafting":{
+        "type": "origins:recipe",
+        "recipe": {
+            "type": "minecraft:crafting_shaped",
+            "id": "fberb:rebirth_charm",
+            "pattern": [
+                "###",
+                "%&%",
+                "###"
+            ],
+            "key":{
+                "#":{
+                    "item": "minecraft:blaze_rod"
+                },
+                "%":{
+                    "item": "minecraft:echo_shard"
+                },
+                "&":{
+                    "item": "minecraft:amethyst_shard"
+                }
+            },
+            "result":{
+                "item": "fberb:phoenix_brooch"
+            }
+        }
+    },
+    "on_death":{
+        "type": "origins:prevent_death",
+        "condition": {
+            "type": "fberb:check_rebirths",
+            "comparison": ">",
+            "compare_to": 0
+        },
+        "entity_action": {
+            "type": "origins:and",
+            "actions": [
+                {
+                    "type": "fberb:change_rebirths",
+                    "amount": -1
+                },
+                {
+                    "type": "origins:apply_effect",
+                    "effect": {
+                        "effect": "fberb:rebirth",
+                        "duration": 1200
+                    }
+                },
+                {
+                    "type": "origins:heal",
+                    "amount": 4
+                },
+                {
+                    "type": "origins:play_sound",
+                    "sound": "minecraft:entity.zombie_villager.cure"
+                }
+            ]
+        }
+    }
 }
