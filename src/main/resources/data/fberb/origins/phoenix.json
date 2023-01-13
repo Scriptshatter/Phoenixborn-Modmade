@@ -1,0 +1,11 @@
+{
+  "name": "Phoenix-born",
+  "description": "The origin ever",
+  "powers": [
+    "fberb:leap",
+    "fberb:freez"
+  ],
+  "icon":{
+    "item": "fberb:phoenix_brooch"
+  }
+}

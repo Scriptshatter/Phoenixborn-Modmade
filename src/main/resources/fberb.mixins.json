@@ -1,0 +1,19 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "net.scriptshatter.fberb.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "FurnaceMinecartEntityMixin",
+    "LivingEntityMixin",
+    "PlayerEntityMixin",
+    "PotionEntityMixin",
+    "Refresh_internal_temp",
+    "SnowballEntityMixin"
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

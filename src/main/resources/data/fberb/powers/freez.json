@@ -1,0 +1,19 @@
+{
+    "type": "origins:multiple",
+    "freeze":{
+        "type": "origins:freeze",
+        "condition": {
+          "type": "fberb:check_temp",
+          "comparison": "<=",
+          "compare_to": 100
+        }
+      },
+      "cold":{
+        "type": "origins:shaking",
+        "condition": {
+            "type": "fberb:check_temp",
+            "comparison": "<=",
+            "compare_to": 350
+          }
+      }
+}

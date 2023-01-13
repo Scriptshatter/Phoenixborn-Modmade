@@ -1,0 +1,13 @@
+{
+    "type": "origins:multiple",
+    "badges": [
+        {
+            "type": "origins:crafting_recipe",
+            "sprite": "origins:textures/gui/badge/info.png",
+            "recipe":{
+                "type": "minecraft:crafting_shaped",
+                "id": "fberb:rebirth_charm"
+            }
+        }
+    ]
+}

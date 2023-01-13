@@ -1,0 +1,39 @@
+{
+  "name": "Leap of flames",
+  "type": "origins:active_self",
+  "entity_action": {
+    "type": "origins:and",
+    "actions": [
+      {
+        "type": "fberb:change_temp",
+        "amount": -50
+      },
+      {
+        "type": "origins:add_velocity",
+        "y": 2,
+        "set": true,
+        "client": false
+      },
+      {
+        "type": "origins:spawn_particles",
+        "particle": {
+            "type": "minecraft:flame"
+        },
+        "count": 16,
+        "speed": 0.0,
+        "force": true,
+        "spread": {
+            "x": 1.5,
+            "y": 0.0,
+            "z": 1.5
+        }
+      },
+      {
+        "type": "origins:play_sound",
+        "sound": "minecraft:item.firecharge.use",
+        "volume": 1,
+        "pitch": 0.1
+      }
+    ]
+  }
+}
