@@ -3,10 +3,14 @@ package net.scriptshatter.fberb;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
 import net.scriptshatter.fberb.command.Set_temp;
 import net.scriptshatter.fberb.effects.EffectsRegistery;
 import net.scriptshatter.fberb.events.Temp_control;
 import net.scriptshatter.fberb.items.Items;
+import net.scriptshatter.fberb.items.Phoenix_brooch;
+import net.scriptshatter.fberb.sound.Register_sounds;
 import net.scriptshatter.fberb.util.Actionfactory;
 import net.scriptshatter.fberb.util.Entity_conditions;
 import net.scriptshatter.fberb.util.Phoenix_scales;
@@ -30,5 +34,6 @@ public class Phoenix implements ModInitializer {
 		Phoenix_scales.init();
 		Items.werk();
 		EffectsRegistery.registerEffects();
+		Register_sounds.help();
 	}
 }

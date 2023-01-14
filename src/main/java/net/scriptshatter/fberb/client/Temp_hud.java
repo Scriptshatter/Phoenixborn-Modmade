@@ -64,8 +64,8 @@ public class Temp_hud extends DrawableHelper implements GameHudRender {
             if(Ect.has_origin(client.player, Ect.FIRE_BIRD) && rebirths != 0){
                 RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
                 RenderSystem.setShaderTexture(0, ICON);
-                drawTexture(matrixStack, width-125, height-18,0,0,16,16,16,16);
-                drawCenteredText(matrixStack, client.textRenderer, String.valueOf(rebirths), width-100, height-13, 0xFFFFFF);
+                drawTexture(matrixStack, 5, 2,0,0,16,16,16,16);
+                drawCenteredText(matrixStack, client.textRenderer, String.valueOf(rebirths), 30, 7, 0xFFFFFF);
             }
         }
     }
