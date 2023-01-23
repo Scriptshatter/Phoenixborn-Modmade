@@ -20,7 +20,7 @@
                         "item": "minecraft:echo_shard"
                     },
                     "&":{
-                        "item": "minecraft:amethyst_shard"
+                        "item": "fberb:charged_amethyst"
                     }
                 },
                 "result":{
@@ -47,7 +47,7 @@
                     "item": "minecraft:echo_shard"
                 },
                 "&":{
-                    "item": "minecraft:amethyst_shard"
+                    "item": "fberb:charged_amethyst"
                 }
             },
             "result":{

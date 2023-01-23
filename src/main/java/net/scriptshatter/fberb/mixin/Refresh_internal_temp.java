@@ -33,6 +33,7 @@ public abstract class Refresh_internal_temp {
             if(origin.equals(Ect.FIRE_BIRD)){
                 Bird_parts.TEMP.get(player).set_internal_temp(0.7);
                 Bird_parts.TEMP.get(player).set_temp(500);
+                Bird_parts.TEMP.get(player).add_rebirths(-Bird_parts.TEMP.get(player).get_rebirths());
             }
             else if(origin.equals(Ect.FROST_BIRD)){
                 Bird_parts.TEMP.get(player).set_internal_temp(0.4);

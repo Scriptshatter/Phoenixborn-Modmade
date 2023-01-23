@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:blasting",
+  "cookingtime": 300,
+  "experience": 1,
+  "ingredient": {
+    "item": "minecraft:amethyst_shard"
+  },
+  "result": "fberb:charged_amethyst"
+}
