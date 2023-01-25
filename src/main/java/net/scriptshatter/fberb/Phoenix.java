@@ -5,6 +5,8 @@ import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
+import net.scriptshatter.fberb.blocks.Phoenix_block_entities;
+import net.scriptshatter.fberb.blocks.Phoenix_blocks;
 import net.scriptshatter.fberb.command.Set_temp;
 import net.scriptshatter.fberb.effects.EffectsRegistery;
 import net.scriptshatter.fberb.events.Temp_control;
@@ -16,6 +18,7 @@ import net.scriptshatter.fberb.util.Entity_conditions;
 import net.scriptshatter.fberb.util.Phoenix_scales;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import software.bernie.geckolib3.GeckoLib;
 
 public class Phoenix implements ModInitializer {
 	// This logger is used to write text to the console and the log file.
@@ -35,5 +38,7 @@ public class Phoenix implements ModInitializer {
 		Items.werk();
 		EffectsRegistery.registerEffects();
 		Register_sounds.help();
+		Phoenix_block_entities.register_block_entities();
+		Phoenix_blocks.i_exist();
 	}
 }

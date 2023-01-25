@@ -5,11 +5,13 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import net.scriptshatter.fberb.Phoenix;
+import net.scriptshatter.fberb.blocks.Phoenix_blocks;
 
 public class Items {
     //Making the icon for the phoenix
     public static final Item PHOENIX_BROOCH = register_items("phoenix_brooch", new Phoenix_brooch(new Item.Settings().group(ItemGroup.MISC)), Phoenix.MOD_ID);
     public static final Item CHARGED_AMETHYST = register_items("charged_amethyst", new Charged_amethyst(new Item.Settings().group(ItemGroup.MATERIALS)), Phoenix.MOD_ID);
+    public static final Item MACHINE_ITEM = register_items("machine", new Machine_item(Phoenix_blocks.MACHINE, new Item.Settings().group(ItemGroup.DECORATIONS)), Phoenix.MOD_ID);
 
     public static Item register_items(String name, Item item, String modid){
         return Registry.register(Registry.ITEM, new Identifier(modid, name), item);
