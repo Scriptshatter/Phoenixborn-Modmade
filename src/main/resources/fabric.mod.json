@@ -19,7 +19,8 @@
 
   "custom": {
     "cardinal-components": [
-      "fberb:temp"
+      "fberb:temp",
+      "fberb:inv"
     ]
   },
 
