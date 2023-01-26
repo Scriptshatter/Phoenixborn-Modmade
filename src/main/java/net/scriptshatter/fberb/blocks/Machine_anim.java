@@ -122,6 +122,11 @@ public class Machine_anim extends BlockWithEntity {
         }
         if(hit.getSide().equals(state.get(FACING).rotateYClockwise())){
             Machine block = Objects.requireNonNull(Phoenix_block_entities.MACHINE.get(world, pos));
+            if(player.getStackInHand(hand).isEmpty()){
+                player.giveItemStack(Bird_parts.INV.get(block).get_item(get_cubby(hit, state)));
+                Bird_parts.INV.get(block).take_item(get_cubby(hit, state));
+                return ActionResult.CONSUME;
+            }
             player.giveItemStack(Bird_parts.INV.get(block).get_item(get_cubby(hit, state)));
             //Machine_funcs.add_item(get_cubby(hit, state), player.getStackInHand(hand), Objects.requireNonNull(Phoenix_block_entities.MACHINE.get(world, pos)));
             Bird_parts.INV.get(block).add_item(get_cubby(hit, state), player.getStackInHand(hand));
