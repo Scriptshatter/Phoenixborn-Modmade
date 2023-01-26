@@ -19,8 +19,9 @@ import java.util.HashMap;
 public interface Machine_anim_int extends Component {
     void add_item(int slot, ItemStack item);
     void take_item(int slot);
+    void set_status(String status);
 
     ItemStack get_item(int slot);
-
+    String get_status();
     HashMap<Integer, ItemStack> get_inv();
 }

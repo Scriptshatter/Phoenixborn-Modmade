@@ -20,7 +20,7 @@
   "custom": {
     "cardinal-components": [
       "fberb:temp",
-      "fberb:inv"
+      "fberb:machine"
     ]
   },
 

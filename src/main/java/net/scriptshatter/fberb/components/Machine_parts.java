@@ -15,7 +15,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.HashMap;
 
 public class Machine_parts implements Machine_anim_int, AutoSyncedComponent {
-    private HashMap<Integer, ItemStack> machine_template(){
+    public static HashMap<Integer, ItemStack> machine_template(){
         HashMap<Integer, ItemStack> temp_potions = new HashMap<>();
         temp_potions.put(1, ItemStack.EMPTY);
         temp_potions.put(2, ItemStack.EMPTY);
@@ -29,6 +29,8 @@ public class Machine_parts implements Machine_anim_int, AutoSyncedComponent {
         return temp_potions;
     }
     private final HashMap<Integer, ItemStack> machine_inventory = machine_template();
+
+    private String status = "idle";
     private final Machine blockEntity;
     public Machine_parts(BlockEntity blockEntity) {
         this.blockEntity = (Machine)blockEntity;
@@ -52,8 +54,19 @@ public class Machine_parts implements Machine_anim_int, AutoSyncedComponent {
     }
 
     @Override
+    public void set_status(String status) {
+        this.status = status;
+        Bird_parts.INV.sync(blockEntity);
+    }
+
+    @Override
     public ItemStack get_item(int slot) {
         return this.machine_inventory.get(slot);
+    }
+
+    @Override
+    public String get_status() {
+        return this.status;
     }
 
     @Override
@@ -64,13 +77,13 @@ public class Machine_parts implements Machine_anim_int, AutoSyncedComponent {
     @Override
     public void readFromNbt(@NotNull NbtCompound tag) {
         this.blockEntity.readNbt(tag);
+        this.status = tag.getString("status");
         NbtList itemList = (NbtList) tag.get("Inventory");
         if(itemList != null){
             for (int i = 0; i < itemList.size(); i++) {
                 NbtCompound itemTag = itemList.getCompound(i);
                 ItemStack item = ItemStack.fromNbt(itemTag);
                 int slot = itemTag.getInt("Slot");
-                Phoenix.LOGGER.info(slot + item.getName().getString());
                 this.machine_inventory.put(slot, item);
             }
         }
@@ -79,6 +92,7 @@ public class Machine_parts implements Machine_anim_int, AutoSyncedComponent {
     @Override
     public void writeToNbt(@NotNull NbtCompound tag) {
         this.blockEntity.write(tag);
+        tag.putString("status", this.status);
         NbtList itemList = new NbtList();
         this.machine_inventory.forEach((slot, item) -> {
             NbtCompound itemTag = new NbtCompound();

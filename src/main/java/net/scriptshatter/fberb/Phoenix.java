@@ -12,6 +12,7 @@ import net.scriptshatter.fberb.effects.EffectsRegistery;
 import net.scriptshatter.fberb.events.Temp_control;
 import net.scriptshatter.fberb.items.Items;
 import net.scriptshatter.fberb.items.Phoenix_brooch;
+import net.scriptshatter.fberb.networking.Youve_got_mail;
 import net.scriptshatter.fberb.sound.Register_sounds;
 import net.scriptshatter.fberb.util.Actionfactory;
 import net.scriptshatter.fberb.util.Entity_conditions;
@@ -40,5 +41,6 @@ public class Phoenix implements ModInitializer {
 		Register_sounds.help();
 		Phoenix_block_entities.register_block_entities();
 		Phoenix_blocks.i_exist();
+		Youve_got_mail.registerC2SMail();
 	}
 }

@@ -1,13 +1,13 @@
 {
   "credit": "Made with Blockbench",
   "parent": "builtin/entity",
-  "textures": {
-    "particle": "minecraft:block/deepslate_bricks"
-  },
   "texture_size": [
     64,
     64
   ],
+  "textures": {
+    "particle": "minecraft:block/deepslate_bricks"
+  },
   "display": {
     "thirdperson_righthand": {
       "rotation": [
@@ -125,6 +125,5 @@
         0.5
       ]
     }
-  },
-  "particle": ""
+  }
 }

@@ -18,7 +18,7 @@ public final class Bird_parts implements EntityComponentInitializer, BlockCompon
     public static final ComponentKey<Temp_int> TEMP =
         ComponentRegistry.getOrCreate(new Identifier(Phoenix.MOD_ID, "temp"), Temp_int.class);
     public static final ComponentKey<Machine_anim_int> INV =
-            ComponentRegistry.getOrCreate(new Identifier(Phoenix.MOD_ID, "inv"), Machine_anim_int.class);
+            ComponentRegistry.getOrCreate(new Identifier(Phoenix.MOD_ID, "machine"), Machine_anim_int.class);
     @Override
     public void registerEntityComponentFactories(EntityComponentFactoryRegistry registry) {
         registry.beginRegistration(PlayerEntity.class, TEMP).respawnStrategy(RespawnCopyStrategy.ALWAYS_COPY).end(Temp::new);
