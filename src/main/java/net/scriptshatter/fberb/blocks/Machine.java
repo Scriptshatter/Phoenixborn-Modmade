@@ -79,7 +79,7 @@ public class Machine extends BlockEntity implements GeoBlockEntity {
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
-        AnimationController<Machine> turn_wheel = new AnimationController<>(this, state -> state.setAndContinue(TURN_WHEEL)).setAnimationSpeed(Bird_parts.INV.get(this).get_speed());
+        AnimationController<Machine> turn_wheel = new AnimationController<>(this, 1, state -> state.setAndContinue(TURN_WHEEL)).setAnimationSpeed(Bird_parts.INV.get(this).get_speed());
         turn_wheel.setAnimationSpeed(Bird_parts.INV.get(this).get_speed());
         Phoenix.LOGGER.info("Is turning at: " + Bird_parts.INV.get(this).being_used());
         controllerRegistrar.add(turn_wheel);
