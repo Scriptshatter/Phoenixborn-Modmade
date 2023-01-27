@@ -3,7 +3,7 @@ package net.scriptshatter.fberb.util;
 import io.github.apace100.apoli.power.factory.condition.ConditionFactory;
 import io.github.apace100.apoli.registry.ApoliRegistries;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.registry.Registry;
 import net.scriptshatter.fberb.condition.Check_revives;
 import net.scriptshatter.fberb.condition.Temp_condition;
 

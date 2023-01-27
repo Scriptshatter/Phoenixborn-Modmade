@@ -48,7 +48,7 @@ public class Temp_hud extends DrawableHelper implements GameHudRender {
             }
 
             //Make the empty temperature bar appear
-            RenderSystem.setShader(GameRenderer::getPositionTexShader);
+            RenderSystem.setShader(GameRenderer::getPositionTexProgram);
             RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
             RenderSystem.setShaderTexture(0, MARIO);
             drawTexture(matrixStack, temp_pos, height - 27, 0, 0, 32, 32, 32, 64);

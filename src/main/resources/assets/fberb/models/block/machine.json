@@ -6,7 +6,8 @@
     64
   ],
   "textures": {
-    "particle": "minecraft:block/deepslate_bricks"
+    "particle": "minecraft:block/deepslate_bricks",
+    "texture": "fberb:block/machine"
   },
   "display": {
     "thirdperson_righthand": {

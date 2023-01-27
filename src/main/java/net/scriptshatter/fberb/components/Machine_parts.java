@@ -8,6 +8,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;
+import net.minecraft.network.PacketByteBuf;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.scriptshatter.fberb.Phoenix;
 import net.scriptshatter.fberb.blocks.Machine;
 import org.jetbrains.annotations.NotNull;
@@ -34,6 +36,7 @@ public class Machine_parts implements Machine_anim_int, AutoSyncedComponent {
 
     private int craft_timer = 0;
     private double turn_wheel_speed = 0;
+    private int being_used = 0;
     private final Machine blockEntity;
     public Machine_parts(BlockEntity blockEntity) {
         this.blockEntity = (Machine)blockEntity;
@@ -76,8 +79,21 @@ public class Machine_parts implements Machine_anim_int, AutoSyncedComponent {
     }
 
     @Override
+    public void set_being_used(int used) {
+        this.being_used = used;
+        Bird_parts.INV.sync(blockEntity);
+    }
+
+    @Override
+    public void change_being_used(int used) {
+        this.being_used = Math.max(used, 0);
+        Bird_parts.INV.sync(blockEntity);
+    }
+
+    @Override
     public void change_speed(double speed) {
         if(this.turn_wheel_speed + speed <= 0) this.turn_wheel_speed = 0;
+        else if (this.turn_wheel_speed > 5) this.turn_wheel_speed = 5;
         else turn_wheel_speed += speed;
         Bird_parts.INV.sync(blockEntity);
     }
@@ -103,6 +119,11 @@ public class Machine_parts implements Machine_anim_int, AutoSyncedComponent {
     }
 
     @Override
+    public boolean being_used() {
+        return !(this.being_used <= 0);
+    }
+
+    @Override
     public HashMap<Integer, ItemStack> get_inv() {
         return this.machine_inventory;
     }
@@ -112,6 +133,7 @@ public class Machine_parts implements Machine_anim_int, AutoSyncedComponent {
         this.blockEntity.readNbt(tag);
         this.status = tag.getString("status");
         this.craft_timer = tag.getInt("craft_timer");
+        this.being_used = tag.getInt("flames");
         this.turn_wheel_speed = tag.getDouble("turn_speed");
         NbtList itemList = (NbtList) tag.get("Inventory");
         if(itemList != null){
@@ -130,6 +152,7 @@ public class Machine_parts implements Machine_anim_int, AutoSyncedComponent {
         tag.putString("status", this.status);
         tag.putDouble("turn_speed", this.turn_wheel_speed);
         tag.putInt("craft_timer", this.craft_timer);
+        tag.putInt("flames", this.being_used);
         NbtList itemList = new NbtList();
         this.machine_inventory.forEach((slot, item) -> {
             NbtCompound itemTag = new NbtCompound();
@@ -138,5 +161,17 @@ public class Machine_parts implements Machine_anim_int, AutoSyncedComponent {
             itemList.add(itemTag);
         });
         tag.put("Inventory", itemList);
+    }
+
+    @Override
+    public void writeSyncPacket(PacketByteBuf buf, ServerPlayerEntity recipient) {
+        AutoSyncedComponent.super.writeSyncPacket(buf, recipient);
+        buf.writeDouble(this.turn_wheel_speed);
+    }
+
+    @Override
+    public void applySyncPacket(PacketByteBuf buf) {
+        AutoSyncedComponent.super.applySyncPacket(buf);
+        this.turn_wheel_speed = buf.readDouble();
     }
 }

@@ -1,18 +1,15 @@
 package net.scriptshatter.fberb.blocks;
 
 import net.minecraft.block.*;
-import net.minecraft.block.entity.BellBlockEntity;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.mob.PiglinBrain;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.item.ItemStack;
+import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.DirectionProperty;
-import net.minecraft.tag.BlockTags;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.BlockMirror;
@@ -27,7 +24,6 @@ import net.minecraft.world.event.GameEvent;
 import net.minecraft.world.explosion.Explosion;
 import net.scriptshatter.fberb.components.Bird_parts;
 import org.jetbrains.annotations.Nullable;
-import software.bernie.geckolib3.network.GeckoLibNetwork;
 
 import java.util.Objects;
 
@@ -162,7 +158,7 @@ public class Machine_anim extends BlockWithEntity {
             return ActionResult.CONSUME;
         }
         if(hit.getSide().equals(state.get(FACING).rotateYCounterclockwise()) && Bird_parts.INV.get(block).get_status().matches("idle")){
-            //Bird_parts.INV.get(block).set_status("start");
+            Bird_parts.INV.get(block).set_time(2000);
             return ActionResult.CONSUME;
         }
         return ActionResult.CONSUME_PARTIAL;

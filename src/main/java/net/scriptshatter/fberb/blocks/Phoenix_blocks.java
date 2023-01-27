@@ -7,30 +7,19 @@ import net.minecraft.block.Material;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 import net.scriptshatter.fberb.Phoenix;
-import software.bernie.example.registry.RegistryUtils;
+import software.bernie.example.block.FertilizerBlock;
+import software.bernie.example.block.GeckoHabitatBlock;
+import software.bernie.geckolib.GeckoLib;
 
 public class Phoenix_blocks {
 
-    public static final Block MACHINE = registerBlockWithoutItem("machine", new Machine_anim(FabricBlockSettings.of(Material.METAL).nonOpaque()), ItemGroup.DECORATIONS);
+    public static final Machine_anim MACHINE = registerBlockWithoutItem("machine", new Machine_anim(FabricBlockSettings.of(Material.METAL).nonOpaque()));
 
-    private static Block registerBlock(String name, Block block, ItemGroup group){
-        register_block_item(name, block, group);
-        return Registry.register(Registry.BLOCK, new Identifier(Phoenix.MOD_ID, name), block);
-    }
-
-    private static Item register_block_item(String name, Block block, ItemGroup group){
-        return Registry.register(Registry.ITEM, new Identifier(Phoenix.MOD_ID, name),
-                new BlockItem(block, new FabricItemSettings().group(group)));
-    }
-
-    private static Block registerBlockWithoutItem(String name, Block block, ItemGroup group){
-        return Registry.register(Registry.BLOCK, new Identifier(Phoenix.MOD_ID, name), block);
-    }
-
-    public static void i_exist(){
-        Phoenix.LOGGER.info("HELLO YES BLOCKS ARE A THING");
+    private static <B extends Block> B registerBlockWithoutItem(String name, B block){
+        return Registry.register(Registries.BLOCK, new Identifier(Phoenix.MOD_ID, name), block);
     }
 }

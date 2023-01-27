@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "fberb:do_the_mario/charged_amethyst"
+    "layer0": "fberb:item/charged_amethyst"
   }
 }

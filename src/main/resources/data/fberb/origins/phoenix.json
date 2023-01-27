@@ -6,7 +6,8 @@
     "fberb:freez",
     "fberb:rebirth",
     "fberb:fire_immune",
-    "fberb:wings"
+    "fberb:wings",
+    "fberb:fire_breath"
   ],
   "icon":{
     "item": "fberb:phoenix_brooch"

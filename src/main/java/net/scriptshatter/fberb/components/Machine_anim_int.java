@@ -22,11 +22,14 @@ public interface Machine_anim_int extends Component {
     void set_status(String status);
     void change_time(int time);
     void set_time(int time);
+    void set_being_used(int used);
+    void change_being_used(int used);
     void change_speed(double speed);
 
     ItemStack get_item(int slot);
     String get_status();
     int get_time();
     double get_speed();
+    boolean being_used();
     HashMap<Integer, ItemStack> get_inv();
 }

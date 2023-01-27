@@ -11,13 +11,14 @@ import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.Items;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.tag.TagKey;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.property.Properties;
-import net.minecraft.tag.TagKey;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.scriptshatter.fberb.Phoenix;
@@ -34,8 +35,8 @@ import java.util.*;
 
 public class Temp_control implements ServerTickEvents.StartWorldTick {
     //I don't feel like registering 34 different candles, okay? I'm just gonna use tags.
-    private static final TagKey<Block> candles = TagKey.of(Registry.BLOCK_KEY, new Identifier("minecraft", "candles"));
-    private static final TagKey<Block> cake_candles = TagKey.of(Registry.BLOCK_KEY, new Identifier("minecraft", "candle_cakes"));
+    private static final TagKey<Block> candles = TagKey.of(RegistryKeys.BLOCK, new Identifier("minecraft", "candles"));
+    private static final TagKey<Block> cake_candles = TagKey.of(RegistryKeys.BLOCK, new Identifier("minecraft", "candle_cakes"));
     private static final UUID speedUuid = new UUID((long)23423422.222342, (long)253332342.22);
     private static final UUID atkUuid = new UUID((long)4564625234.222342, (long)3464353543.22);
 
@@ -134,7 +135,7 @@ public class Temp_control implements ServerTickEvents.StartWorldTick {
                 }
 
                 //Checks if entities around you are on fire.
-                for (EntityType<?> j: Registry.ENTITY_TYPE.stream().toList()) {
+                for (EntityType<?> j: Registries.ENTITY_TYPE.stream().toList()) {
                     List<?> check = world.getEntitiesByType(j, Entity::isOnFire);
 
                     for(Object i: check){
