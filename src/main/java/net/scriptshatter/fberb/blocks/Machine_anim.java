@@ -1,13 +1,15 @@
 package net.scriptshatter.fberb.blocks;
 
 import net.minecraft.block.*;
-import net.minecraft.block.entity.AbstractFurnaceBlockEntity;
+import net.minecraft.block.entity.BellBlockEntity;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.mob.PiglinBrain;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
+import net.minecraft.item.ItemStack;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.DirectionProperty;
 import net.minecraft.tag.BlockTags;
@@ -24,8 +26,8 @@ import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
 import net.minecraft.world.explosion.Explosion;
 import net.scriptshatter.fberb.components.Bird_parts;
-import net.scriptshatter.fberb.components.Machine_anim_int;
 import org.jetbrains.annotations.Nullable;
+import software.bernie.geckolib3.network.GeckoLibNetwork;
 
 import java.util.Objects;
 
@@ -45,13 +47,15 @@ public class Machine_anim extends BlockWithEntity {
 
     @Override
     public void onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
-        Machine block = Objects.requireNonNull(Phoenix_block_entities.MACHINE.get(world, pos));
-        this.spawnBreakParticles(world, player, pos, state);
-        if (state.isIn(BlockTags.GUARDED_BY_PIGLINS)) {
-            PiglinBrain.onGuardedBlockInteracted(player, false);
+        Machine block = Phoenix_block_entities.MACHINE.get(world, pos);
+        if(block != null){
+            this.spawnBreakParticles(world, player, pos, state);
+            if (state.isIn(BlockTags.GUARDED_BY_PIGLINS)) {
+                PiglinBrain.onGuardedBlockInteracted(player, false);
+            }
+            Bird_parts.INV.get(block).get_inv().forEach((slot, item) -> Block.dropStack(world, pos, item));
+            world.emitGameEvent(GameEvent.BLOCK_DESTROY, pos, GameEvent.Emitter.of(player, state));
         }
-        Bird_parts.INV.get(block).get_inv().forEach((slot, item) -> Block.dropStack(world, pos, item));
-        world.emitGameEvent(GameEvent.BLOCK_DESTROY, pos, GameEvent.Emitter.of(player, state));
     }
 
     @Override
@@ -158,7 +162,7 @@ public class Machine_anim extends BlockWithEntity {
             return ActionResult.CONSUME;
         }
         if(hit.getSide().equals(state.get(FACING).rotateYCounterclockwise()) && Bird_parts.INV.get(block).get_status().matches("idle")){
-            Bird_parts.INV.get(block).set_status("start");
+            //Bird_parts.INV.get(block).set_status("start");
             return ActionResult.CONSUME;
         }
         return ActionResult.CONSUME_PARTIAL;
@@ -170,7 +174,7 @@ public class Machine_anim extends BlockWithEntity {
     }
 
     @Nullable
-    protected static <T extends BlockEntity> BlockEntityTicker<T> checkType(World world, BlockEntityType<T> givenType, BlockEntityType<? extends Machine> expectedType) {
-        return world.isClient ? null : AbstractFurnaceBlock.checkType(givenType, expectedType, Machine::tick);
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
+        return checkType(type, Phoenix_block_entities.MACHINE, world.isClient ? Machine::clientTick : Machine::tick);
     }
 }

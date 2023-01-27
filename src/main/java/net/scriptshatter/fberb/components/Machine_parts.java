@@ -31,6 +31,9 @@ public class Machine_parts implements Machine_anim_int, AutoSyncedComponent {
     private final HashMap<Integer, ItemStack> machine_inventory = machine_template();
 
     private String status = "idle";
+
+    private int craft_timer = 0;
+    private double turn_wheel_speed = 0;
     private final Machine blockEntity;
     public Machine_parts(BlockEntity blockEntity) {
         this.blockEntity = (Machine)blockEntity;
@@ -60,6 +63,26 @@ public class Machine_parts implements Machine_anim_int, AutoSyncedComponent {
     }
 
     @Override
+    public void change_time(int time) {
+        if(this.craft_timer + time <= 0) this.craft_timer = 0;
+        else this.craft_timer += time;
+        Bird_parts.INV.sync(blockEntity);
+    }
+
+    @Override
+    public void set_time(int time) {
+        this.craft_timer = Math.max(time, 0);
+        Bird_parts.INV.sync(blockEntity);
+    }
+
+    @Override
+    public void change_speed(double speed) {
+        if(this.turn_wheel_speed + speed <= 0) this.turn_wheel_speed = 0;
+        else turn_wheel_speed += speed;
+        Bird_parts.INV.sync(blockEntity);
+    }
+
+    @Override
     public ItemStack get_item(int slot) {
         return this.machine_inventory.get(slot);
     }
@@ -67,6 +90,16 @@ public class Machine_parts implements Machine_anim_int, AutoSyncedComponent {
     @Override
     public String get_status() {
         return this.status;
+    }
+
+    @Override
+    public int get_time() {
+        return this.craft_timer;
+    }
+
+    @Override
+    public double get_speed() {
+        return this.turn_wheel_speed;
     }
 
     @Override
@@ -78,6 +111,8 @@ public class Machine_parts implements Machine_anim_int, AutoSyncedComponent {
     public void readFromNbt(@NotNull NbtCompound tag) {
         this.blockEntity.readNbt(tag);
         this.status = tag.getString("status");
+        this.craft_timer = tag.getInt("craft_timer");
+        this.turn_wheel_speed = tag.getDouble("turn_speed");
         NbtList itemList = (NbtList) tag.get("Inventory");
         if(itemList != null){
             for (int i = 0; i < itemList.size(); i++) {
@@ -93,6 +128,8 @@ public class Machine_parts implements Machine_anim_int, AutoSyncedComponent {
     public void writeToNbt(@NotNull NbtCompound tag) {
         this.blockEntity.write(tag);
         tag.putString("status", this.status);
+        tag.putDouble("turn_speed", this.turn_wheel_speed);
+        tag.putInt("craft_timer", this.craft_timer);
         NbtList itemList = new NbtList();
         this.machine_inventory.forEach((slot, item) -> {
             NbtCompound itemTag = new NbtCompound();

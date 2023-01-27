@@ -5,6 +5,7 @@ import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
+import net.scriptshatter.fberb.blocks.Machine;
 import net.scriptshatter.fberb.blocks.Phoenix_block_entities;
 import net.scriptshatter.fberb.blocks.Phoenix_blocks;
 import net.scriptshatter.fberb.command.Set_temp;
@@ -20,6 +21,7 @@ import net.scriptshatter.fberb.util.Phoenix_scales;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import software.bernie.geckolib3.GeckoLib;
+import software.bernie.geckolib3.network.GeckoLibNetwork;
 
 public class Phoenix implements ModInitializer {
 	// This logger is used to write text to the console and the log file.

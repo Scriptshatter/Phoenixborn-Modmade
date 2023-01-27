@@ -20,8 +20,13 @@ public interface Machine_anim_int extends Component {
     void add_item(int slot, ItemStack item);
     void take_item(int slot);
     void set_status(String status);
+    void change_time(int time);
+    void set_time(int time);
+    void change_speed(double speed);
 
     ItemStack get_item(int slot);
     String get_status();
+    int get_time();
+    double get_speed();
     HashMap<Integer, ItemStack> get_inv();
 }
