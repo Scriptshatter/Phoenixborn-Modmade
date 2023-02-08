@@ -43,7 +43,7 @@ public abstract class ItemRendererMixin {
                 int i = item.getItemBarStepTemp(stack);
                 int j = item.getItemBarColorTemp(stack);
                 this.renderGuiQuad(bufferBuilder, x + 2, y + 11, 13, 2, 0, 0, 0, 255);
-                this.renderGuiQuad(bufferBuilder, x + 2, y + 13, i, 1, j >> 16 & 255, (j >> 8 & 255)/5, j >> 8 & 255, 255);
+                this.renderGuiQuad(bufferBuilder, x + 2, y + 11, i, 1, j >> 16 & 255, (j >> 8 & 255)/5, j >> 8 & 255, 255);
                 RenderSystem.enableBlend();
                 RenderSystem.enableTexture();
                 RenderSystem.enableDepthTest();
