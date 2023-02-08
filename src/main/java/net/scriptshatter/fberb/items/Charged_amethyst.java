@@ -25,6 +25,7 @@ public class Charged_amethyst extends Item {
         if(!world.isClient() && Ect.has_origin(user, Ect.FIRE_BIRD)){
             user.playSound(SoundEvents.ITEM_FIRECHARGE_USE, SoundCategory.PLAYERS, 1, 1);
             Bird_parts.TEMP.get(user).change_temp(25);
+            itemStack.decrement(1);
             return TypedActionResult.consume(itemStack);
         }
         return super.use(world, user, hand);
