@@ -39,7 +39,7 @@ public abstract class LivingEntityMixin extends Entity {
             if (StatusEffectUtil.hasHaste(LivingEntity.class.cast(this))) {
                 duration = duration - (1 + StatusEffectUtil.getHasteAmplifier(LivingEntity.class.cast(this)));
             }
-            else if (this.hasStatusEffect(StatusEffects.MINING_FATIGUE)) {
+            if (this.hasStatusEffect(StatusEffects.MINING_FATIGUE)) {
                 duration = duration + (1 + Objects.requireNonNull(this.getStatusEffect(StatusEffects.MINING_FATIGUE)).getAmplifier()) * 2;
             }
             cir.setReturnValue(duration);

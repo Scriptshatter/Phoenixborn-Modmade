@@ -8,6 +8,7 @@ import net.fabricmc.fabric.impl.blockrenderlayer.BlockRenderLayerMapImpl;
 import net.fabricmc.fabric.impl.client.rendering.BuiltinItemRendererRegistryImpl;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.block.BlockModelRenderer;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
 import net.minecraft.resource.ResourceReloader;
@@ -33,7 +34,7 @@ public class Phoenix_client implements ClientModInitializer {
         //BlockEntityRendererRegistry.register(Phoenix_block_entities.MACHINE, Machine_render::new);
         //GeoItemRenderer.registerItemRenderer(Items.MACHINE_ITEM, new Machine_item_render());
         Youve_got_mail.registerS2CMail();
-        BlockEntityRendererFactories.register(Phoenix_block_entities.MACHINE, context -> new Machine_render());
+        BlockEntityRendererFactories.register(Phoenix_block_entities.MACHINE, Machine_render::new);
         BlockRenderLayerMapImpl.INSTANCE.putBlock(Phoenix_blocks.MACHINE, RenderLayer.getTranslucent());
     }
 }

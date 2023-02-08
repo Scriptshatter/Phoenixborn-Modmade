@@ -7,6 +7,7 @@ import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.mob.PiglinBrain;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
+import net.minecraft.item.ItemStack;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.DirectionProperty;
@@ -23,6 +24,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
 import net.minecraft.world.explosion.Explosion;
 import net.scriptshatter.fberb.components.Bird_parts;
+import net.scriptshatter.fberb.items.Items;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
@@ -49,7 +51,7 @@ public class Machine_anim extends BlockWithEntity {
             if (state.isIn(BlockTags.GUARDED_BY_PIGLINS)) {
                 PiglinBrain.onGuardedBlockInteracted(player, false);
             }
-            Bird_parts.INV.get(block).get_inv().forEach((slot, item) -> Block.dropStack(world, pos, item));
+            Bird_parts.INV.get(block).get_inv().forEach((item) -> Block.dropStack(world, pos, item));
             world.emitGameEvent(GameEvent.BLOCK_DESTROY, pos, GameEvent.Emitter.of(player, state));
         }
     }
@@ -57,7 +59,7 @@ public class Machine_anim extends BlockWithEntity {
     @Override
     public void onDestroyedByExplosion(World world, BlockPos pos, Explosion explosion) {
         Machine block = Objects.requireNonNull(Phoenix_block_entities.MACHINE.get(world, pos));
-        Bird_parts.INV.get(block).get_inv().forEach((slot, item) -> Block.dropStack(world, pos, item));
+        Bird_parts.INV.get(block).get_inv().forEach((item) -> Block.dropStack(world, pos, item));
     }
 
     @Override
@@ -83,15 +85,15 @@ public class Machine_anim extends BlockWithEntity {
     }
     private int gen_index(int mult, Double e){
         if(e <= 0.15 && e > -0.15){
-            return 3+mult;
+            return 2+mult;
         }
         else if(e > 0.15){
-            return mult;
+            return mult-1;
         }
         else if(e <= -0.15){
-            return 6+mult;
+            return 5+mult;
         }
-        return 1;
+        return 0;
     }
 
     private int get_cubby(BlockHitResult hit, BlockState state){
@@ -143,10 +145,18 @@ public class Machine_anim extends BlockWithEntity {
         Machine block = Objects.requireNonNull(Phoenix_block_entities.MACHINE.get(world, pos));
         if(hit.getSide().equals(state.get(FACING))){
             player.sendMessage(Text.literal("I now know how to use this"));
+            block.spit_item();
+            return ActionResult.CONSUME;
+        }
+        if(hit.getSide().equals(state.get(FACING).getOpposite())){
+            ItemStack amethyst = Items.CHARGED_AMETHYST.getDefaultStack();
+            amethyst.setCount(10);
+            Bird_parts.INV.get(block).craft_item(amethyst);
             return ActionResult.CONSUME;
         }
         if(hit.getSide().equals(state.get(FACING).rotateYClockwise())){
-            if(player.getStackInHand(hand).isEmpty()){
+            if(player.getStackInHand(hand).isEmpty() ||
+                    player.getStackInHand(hand).getItem().equals(Bird_parts.INV.get(block).get_item(get_cubby(hit, state)).getItem())){
                 player.giveItemStack(Bird_parts.INV.get(block).get_item(get_cubby(hit, state)));
                 Bird_parts.INV.get(block).take_item(get_cubby(hit, state));
                 return ActionResult.CONSUME;

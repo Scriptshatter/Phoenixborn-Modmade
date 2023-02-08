@@ -36,7 +36,8 @@ public class Turnwheel_action {
             }
 
             if(blockHit.getSide().equals(blockState.get(Machine_anim.FACING).rotateYCounterclockwise())){
-                Bird_parts.INV.get(block).set_being_used(3);
+                Bird_parts.INV.get(block).set_being_used(5);
+                Phoenix.LOGGER.info("Whats poppin");
             }
             // Add crafting here after done with animation
     }

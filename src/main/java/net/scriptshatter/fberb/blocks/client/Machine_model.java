@@ -5,6 +5,7 @@ import net.minecraft.util.Identifier;
 import net.scriptshatter.fberb.Phoenix;
 import net.scriptshatter.fberb.blocks.Machine;
 import software.bernie.example.block.entity.FertilizerBlockEntity;
+import software.bernie.example.block.entity.GeckoHabitatBlockEntity;
 import software.bernie.geckolib.GeckoLib;
 import software.bernie.geckolib.model.DefaultedBlockGeoModel;
 
@@ -22,17 +23,7 @@ public class Machine_model extends DefaultedBlockGeoModel<Machine> {
     }
 
     @Override
-    public Identifier getModelResource(Machine object) {
-        return super.getModelResource(object);
-    }
-
-    @Override
-    public Identifier getTextureResource(Machine object) {
-        return super.getTextureResource(object);
-    }
-
-    @Override
-    public Identifier getAnimationResource(Machine animatable) {
-        return super.getAnimationResource(animatable);
+    public RenderLayer getRenderType(Machine animatable, Identifier texture) {
+        return RenderLayer.getEntityTranslucent(getTextureResource(animatable));
     }
 }

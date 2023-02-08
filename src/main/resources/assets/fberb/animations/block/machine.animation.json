@@ -42,6 +42,9 @@
 						}
 					}
 				}
+			},
+			"timeline": {
+				"2.0": ""
 			}
 		},
 		"animation.machine.loop": {
@@ -137,6 +140,55 @@
 						}
 					}
 				}
+			},
+			"timeline": {
+				"1.5": ""
+			}
+		},
+		"animation.machine.spit": {
+			"animation_length": 0.5,
+			"bones": {
+				"chute": {
+					"position": {
+						"0.0": {
+							"vector": [0, 0, 0]
+						},
+						"0.0833": {
+							"vector": [0, -1.6, 0],
+							"easing": "easeInQuart"
+						},
+						"0.2083": {
+							"vector": [0, 4, 0],
+							"easing": "easeInExpo"
+						},
+						"0.375": {
+							"vector": [0, 0, 0],
+							"easing": "easeInElastic",
+							"easingArgs": [1]
+						}
+					},
+					"scale": {
+						"0.0": {
+							"vector": [1, 1, 1]
+						},
+						"0.0833": {
+							"vector": [1.2, 0.6, 1.2],
+							"easing": "easeInQuint"
+						},
+						"0.2083": {
+							"vector": [0.6, 2, 0.6],
+							"easing": "easeInExpo"
+						},
+						"0.375": {
+							"vector": [1, 1, 1],
+							"easing": "easeInElastic",
+							"easingArgs": [1]
+						}
+					}
+				}
+			},
+			"timeline": {
+				"0.2083": ""
 			}
 		}
 	},

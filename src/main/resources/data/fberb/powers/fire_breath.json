@@ -6,7 +6,7 @@
     "actions": [
       {
         "type": "fberb:change_temp",
-        "amount": -3
+        "amount": -0.5
       },
       {
         "type": "fberb:flame_throw"

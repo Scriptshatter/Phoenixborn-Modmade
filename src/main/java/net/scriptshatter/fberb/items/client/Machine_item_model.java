@@ -10,7 +10,7 @@ public class Machine_item_model extends GeoModel<Machine_item> {
 
     @Override
     public Identifier getModelResource(Machine_item animatable) {
-        return new Identifier(Phoenix.MOD_ID, "geo/block/machine.geo.json");
+        return new Identifier(Phoenix.MOD_ID, "geo/item/machine.geo.json");
     }
 
     @Override
