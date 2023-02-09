@@ -1,9 +1,20 @@
 {
-  "type": "minecraft:blasting",
-  "cookingtime": 300,
-  "experience": 1,
-  "ingredient": {
-    "item": "minecraft:amethyst_shard"
+  "type": "fberb:turnblast",
+  "blast_time": 100,
+  "key": {
+    "#": {
+      "item": "minecraft:amethyst_shard"
+    },
+    "$": {
+      "item": "minecraft:flint"
+    }
   },
-  "result": "fberb:charged_amethyst"
+  "pattern": [
+    "$$$",
+    "$#$",
+    "$$$"
+  ],
+  "result": {
+    "item": "fberb:charged_amethyst"
+  }
 }

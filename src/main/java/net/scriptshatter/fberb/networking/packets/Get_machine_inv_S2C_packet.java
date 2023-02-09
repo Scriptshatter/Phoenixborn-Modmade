@@ -30,6 +30,7 @@ import net.scriptshatter.fberb.networking.Youve_got_mail;
 import java.util.HashMap;
 
 public class Get_machine_inv_S2C_packet {
+    // Yea, this is actually a C2S packet, was originally gonna be a S2C packet but turns out I didn't need it, so I repurposed it.
     public static void receive(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender sender) {
 
     }

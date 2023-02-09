@@ -24,7 +24,7 @@ public interface Machine_anim_int extends Component, Inventory {
     void add_item(int slot, ItemStack item);
     void take_item(int slot);
     void set_status(String status);
-    void change_time(int time);
+    void change_time(float time);
     void set_time(int time);
     void set_being_used(int used);
     void change_being_used(int used);

@@ -17,6 +17,7 @@ import net.scriptshatter.fberb.events.Temp_control;
 import net.scriptshatter.fberb.items.Items;
 import net.scriptshatter.fberb.items.Phoenix_brooch;
 import net.scriptshatter.fberb.networking.Youve_got_mail;
+import net.scriptshatter.fberb.recipe.Phoenix_recipes;
 import net.scriptshatter.fberb.sound.Register_sounds;
 import net.scriptshatter.fberb.util.Actionfactory;
 import net.scriptshatter.fberb.util.Entity_conditions;
@@ -53,5 +54,6 @@ public class Phoenix implements ModInitializer {
 		ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register((content) -> {
 			content.add(Items.CHARGED_AMETHYST);
 		});
+		Phoenix_recipes.register_pizza();
 	}
 }

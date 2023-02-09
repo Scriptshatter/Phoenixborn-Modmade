@@ -4,6 +4,7 @@ import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.PiglinBrain;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
@@ -155,17 +156,22 @@ public class Machine_anim extends BlockWithEntity {
             return ActionResult.CONSUME;
         }
         if(hit.getSide().equals(state.get(FACING).rotateYClockwise())){
-            if(player.getStackInHand(hand).isEmpty() ||
-                    player.getStackInHand(hand).getItem().equals(Bird_parts.INV.get(block).get_item(get_cubby(hit, state)).getItem())){
+            if(Bird_parts.INV.get(block).get_status().matches("idle")){
+                if(player.getStackInHand(hand).isEmpty() ||
+                        player.getStackInHand(hand).getItem().equals(Bird_parts.INV.get(block).get_item(get_cubby(hit, state)).getItem())){
+                    player.giveItemStack(Bird_parts.INV.get(block).get_item(get_cubby(hit, state)));
+                    Bird_parts.INV.get(block).take_item(get_cubby(hit, state));
+                    return ActionResult.CONSUME;
+                }
                 player.giveItemStack(Bird_parts.INV.get(block).get_item(get_cubby(hit, state)));
-                Bird_parts.INV.get(block).take_item(get_cubby(hit, state));
+                //Machine_funcs.add_item(get_cubby(hit, state), player.getStackInHand(hand), Objects.requireNonNull(Phoenix_block_entities.MACHINE.get(world, pos)));
+                Bird_parts.INV.get(block).add_item(get_cubby(hit, state), player.getStackInHand(hand));
+                player.getStackInHand(hand).decrement(1);
                 return ActionResult.CONSUME;
             }
-            player.giveItemStack(Bird_parts.INV.get(block).get_item(get_cubby(hit, state)));
-            //Machine_funcs.add_item(get_cubby(hit, state), player.getStackInHand(hand), Objects.requireNonNull(Phoenix_block_entities.MACHINE.get(world, pos)));
-            Bird_parts.INV.get(block).add_item(get_cubby(hit, state), player.getStackInHand(hand));
-            player.getStackInHand(hand).decrement(1);
-            return ActionResult.CONSUME;
+            if(Bird_parts.INV.get(block).get_status().matches("animating")){
+                player.damage(DamageSource.CRAMMING, 2);
+            }
         }
         if(hit.getSide().equals(state.get(FACING).rotateYCounterclockwise()) && Bird_parts.INV.get(block).get_status().matches("idle")){
             Bird_parts.INV.get(block).set_time(2000);

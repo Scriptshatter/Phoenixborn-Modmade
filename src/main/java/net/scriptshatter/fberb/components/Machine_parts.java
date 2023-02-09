@@ -1,20 +1,13 @@
 package net.scriptshatter.fberb.components;
 
 import dev.onyxstudios.cca.api.v3.component.sync.AutoSyncedComponent;
-import io.github.apace100.origins.Origins;
-import io.github.apace100.origins.registry.ModComponents;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventories;
-import net.minecraft.inventory.Inventory;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
-import net.minecraft.network.PacketByteBuf;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.collection.DefaultedList;
 import net.scriptshatter.fberb.blocks.Machine;
 import org.jetbrains.annotations.NotNull;
@@ -28,7 +21,7 @@ public class Machine_parts implements Machine_anim_int, AutoSyncedComponent {
     private final List<ItemStack> crafted_items = new ArrayList<>();
 
     private float turn_stuff;
-    private int craft_timer = 0;
+    private float craft_timer = 0;
     private float turn_wheel_speed = 0;
     private int being_used = 0;
     private final Machine blockEntity;
@@ -76,9 +69,10 @@ public class Machine_parts implements Machine_anim_int, AutoSyncedComponent {
     }
 
     @Override
-    public void change_time(int time) {
+    public void change_time(float time) {
         if(this.craft_timer + time <= 0) this.craft_timer = 0;
         else this.craft_timer += time;
+        blockEntity.markDerty();
         Bird_parts.INV.sync(blockEntity);
     }
 
@@ -113,23 +107,19 @@ public class Machine_parts implements Machine_anim_int, AutoSyncedComponent {
 
     @Override
     public void craft_item(ItemStack itemStack) {
-        crafted_items.add(itemStack);
+        machine_inventory.set(9, itemStack);
         blockEntity.markDerty();
         Bird_parts.INV.sync(blockEntity);
     }
 
     @Override
     public void remove_item() {
-        if(this.crafted_items.size() > 0){
-            crafted_items.remove(0);
-            blockEntity.markDerty();
-            Bird_parts.INV.sync(blockEntity);
-        }
+        machine_inventory.set(9, null);
     }
 
     @Override
     public ItemStack get_crafted_item() {
-        if(machine_inventory.get(9).equals(ItemStack.EMPTY)) {
+        if(!machine_inventory.get(9).equals(ItemStack.EMPTY)) {
             ItemStack item = machine_inventory.get(9).copy();
             item.setCount(1);
             machine_inventory.get(9).decrement(1);
@@ -157,7 +147,7 @@ public class Machine_parts implements Machine_anim_int, AutoSyncedComponent {
 
     @Override
     public int get_time() {
-        return this.craft_timer;
+        return (int) this.craft_timer;
     }
 
     @Override
@@ -184,7 +174,7 @@ public class Machine_parts implements Machine_anim_int, AutoSyncedComponent {
     public void readFromNbt(@NotNull NbtCompound tag) {
         this.blockEntity.readNbt(tag);
         this.status = tag.getString("status");
-        this.craft_timer = tag.getInt("craft_timer");
+        this.craft_timer = tag.getFloat("craft_timer");
         this.being_used = tag.getInt("flames");
         this.turn_wheel_speed = tag.getFloat("turn_speed");
         this.turn_stuff = tag.getFloat("turnwheel_rot");
@@ -204,7 +194,7 @@ public class Machine_parts implements Machine_anim_int, AutoSyncedComponent {
         this.blockEntity.write(tag);
         tag.putString("status", this.status);
         tag.putFloat("turn_speed", this.turn_wheel_speed);
-        tag.putInt("craft_timer", this.craft_timer);
+        tag.putFloat("craft_timer", this.craft_timer);
         tag.putInt("flames", this.being_used);
         tag.putFloat("turnwheel_rot", this.turn_stuff);
         NbtList nbtList = new NbtList();
@@ -224,7 +214,18 @@ public class Machine_parts implements Machine_anim_int, AutoSyncedComponent {
 
     @Override
     public boolean isEmpty() {
-        return this.machine_inventory.isEmpty();
+        Iterator<ItemStack> var1 = this.machine_inventory.iterator();
+
+        ItemStack itemStack;
+        do {
+            if (!var1.hasNext()) {
+                return true;
+            }
+
+            itemStack = var1.next();
+        } while(itemStack.isEmpty());
+
+        return false;
     }
 
     @Override
@@ -244,17 +245,29 @@ public class Machine_parts implements Machine_anim_int, AutoSyncedComponent {
 
     @Override
     public ItemStack removeStack(int slot) {
-        return null;
+        ItemStack itemStack = this.machine_inventory.get(slot);
+        if (itemStack.isEmpty()) {
+            return ItemStack.EMPTY;
+        } else {
+            this.machine_inventory.set(slot, ItemStack.EMPTY);
+            return itemStack;
+        }
     }
 
     @Override
     public void setStack(int slot, ItemStack stack) {
+        this.machine_inventory.set(slot, stack);
+        if (!stack.isEmpty() && stack.getCount() > this.getMaxCountPerStack()) {
+            stack.setCount(this.getMaxCountPerStack());
+        }
 
+        this.markDirty();
     }
 
     @Override
     public void markDirty() {
-
+        blockEntity.markDerty();
+        Bird_parts.INV.sync(blockEntity);
     }
 
     @Override
@@ -264,6 +277,7 @@ public class Machine_parts implements Machine_anim_int, AutoSyncedComponent {
 
     @Override
     public void clear() {
-
+        this.machine_inventory.clear();
+        this.markDirty();
     }
 }
