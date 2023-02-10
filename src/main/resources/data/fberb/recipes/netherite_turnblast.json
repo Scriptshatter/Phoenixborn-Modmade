@@ -1,0 +1,23 @@
+{
+  "type": "fberb:turnblast",
+  "blast_time": 100,
+  "key": {
+    "#": {
+      "item": "fberb:charged_amethyst"
+    },
+    "$": {
+      "item": "minecraft:gold_ingot"
+    },
+    "@": {
+      "item": "minecraft:netherite_scrap"
+    }
+  },
+  "pattern": [
+    "@$$",
+    "$#$",
+    "$$@"
+  ],
+  "result": {
+    "item": "minecraft:netherite_ingot"
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "parent": "item/handheld",
+  "textures": {
+    "layer0": "fberb:item/phoenix_axe"
+  }
+}

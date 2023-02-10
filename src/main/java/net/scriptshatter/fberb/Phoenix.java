@@ -13,6 +13,7 @@ import net.scriptshatter.fberb.blocks.Phoenix_block_entities;
 import net.scriptshatter.fberb.blocks.Phoenix_blocks;
 import net.scriptshatter.fberb.command.Set_temp;
 import net.scriptshatter.fberb.effects.EffectsRegistery;
+import net.scriptshatter.fberb.entitys.Entity_registry;
 import net.scriptshatter.fberb.events.Temp_control;
 import net.scriptshatter.fberb.items.Items;
 import net.scriptshatter.fberb.items.Phoenix_brooch;
@@ -46,6 +47,7 @@ public class Phoenix implements ModInitializer {
 		Phoenix_block_entities.register_block_entities();
 		new Phoenix_blocks();
 		new Phoenix_block_entities();
+		new Entity_registry();
 		Youve_got_mail.registerC2SMail();
 		ItemGroupEvents.modifyEntriesEvent(ItemGroups.FUNCTIONAL).register((content) -> {
 			content.add(Items.MACHINE_ITEM);

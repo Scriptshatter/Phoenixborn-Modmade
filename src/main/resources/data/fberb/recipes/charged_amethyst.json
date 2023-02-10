@@ -6,13 +6,16 @@
       "item": "minecraft:amethyst_shard"
     },
     "$": {
+      "item": "minecraft:blaze_powder"
+    },
+    "^": {
       "item": "minecraft:flint"
     }
   },
   "pattern": [
-    "$$$",
+    " ^ ",
     "$#$",
-    "$$$"
+    " ^ "
   ],
   "result": {
     "item": "fberb:charged_amethyst"
