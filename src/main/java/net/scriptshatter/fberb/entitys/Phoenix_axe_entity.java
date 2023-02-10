@@ -58,7 +58,7 @@ public class Phoenix_axe_entity extends PersistentProjectileEntity {
             else {
                 this.setNoClip(true);
                 Vec3d vec3d = entity.getEyePos().subtract(this.getPos());
-                this.setPos(this.getX(), this.getY() + vec3d.y * 0.015 * (double)i, this.getZ());
+                this.setPos(this.getX(), this.getY() + vec3d.y * 0.015 * 2, this.getZ());
                 if (this.world.isClient) {
                     this.lastRenderY = this.getY();
                 }
