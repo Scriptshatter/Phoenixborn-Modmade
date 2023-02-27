@@ -11,7 +11,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.scriptshatter.fberb.Phoenix;
 import net.scriptshatter.fberb.components.Bird_parts;
-import net.scriptshatter.fberb.networking.packets.Finish_craft_C2S;
 import net.scriptshatter.fberb.networking.packets.Get_machine_inv_S2C_packet;
 import net.scriptshatter.fberb.networking.packets.Set_craft_timer_C2S;
 import net.scriptshatter.fberb.networking.packets.Set_status_C2S;

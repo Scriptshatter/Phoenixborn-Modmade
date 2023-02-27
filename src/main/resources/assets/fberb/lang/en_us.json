@@ -4,5 +4,9 @@
   "effect.fberb.rebirth": "From the Ashes",
   "fberb.deez_nuts": "DEEZ NUTS",
   "block.fberb.machine": "Turnblast",
-  "item.fberb.phoenix_axe": "Phoenix axe"
+  "item.fberb.phoenix_axe": "Phoenix axe",
+  "death.attack.fberb.phoenix_axe": "%1$s was cut down the middle by %2$s",
+  "death.attack.fberb.phoenix_axe.item": "%1$s was cut down the middle by %2$s with %3$s",
+  "death.attack.fberb.stupid_thing": "%1$s put their hand in live machinery like a moron. Laugh at them.",
+  "death.attack.fberb.stupid_thing.player": "%1$s thought dying from a machine was better than dying to %2$s"
 }

@@ -14,6 +14,7 @@ import net.scriptshatter.fberb.blocks.Phoenix_blocks;
 import net.scriptshatter.fberb.command.Set_temp;
 import net.scriptshatter.fberb.effects.EffectsRegistery;
 import net.scriptshatter.fberb.entitys.Entity_registry;
+import net.scriptshatter.fberb.entitys.client.Entity_register_registry_phoenix;
 import net.scriptshatter.fberb.events.Temp_control;
 import net.scriptshatter.fberb.items.Items;
 import net.scriptshatter.fberb.items.Phoenix_brooch;
@@ -21,6 +22,7 @@ import net.scriptshatter.fberb.networking.Youve_got_mail;
 import net.scriptshatter.fberb.recipe.Phoenix_recipes;
 import net.scriptshatter.fberb.sound.Register_sounds;
 import net.scriptshatter.fberb.util.Actionfactory;
+import net.scriptshatter.fberb.util.Dmg_sources;
 import net.scriptshatter.fberb.util.Entity_conditions;
 import net.scriptshatter.fberb.util.Phoenix_scales;
 import org.slf4j.Logger;
@@ -48,6 +50,7 @@ public class Phoenix implements ModInitializer {
 		new Phoenix_blocks();
 		new Phoenix_block_entities();
 		new Entity_registry();
+		Dmg_sources.register();
 		Youve_got_mail.registerC2SMail();
 		ItemGroupEvents.modifyEntriesEvent(ItemGroups.FUNCTIONAL).register((content) -> {
 			content.add(Items.MACHINE_ITEM);

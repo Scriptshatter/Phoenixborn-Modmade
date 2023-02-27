@@ -12,32 +12,30 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.scriptshatter.fberb.blocks.Machine;
 import net.scriptshatter.fberb.components.Bird_parts;
+import net.scriptshatter.fberb.entitys.Phoenix_axe_entity;
+import net.scriptshatter.fberb.items.Phoenix_axe;
 import net.scriptshatter.fberb.networking.Youve_got_mail;
 import net.scriptshatter.fberb.recipe.Turn_blast_recipe;
 
 import java.util.Optional;
+import java.util.UUID;
 
-public class Finish_craft_C2S {
+public class Axe_turn_C2S {
     public static void call(MinecraftServer minecraftServer, ServerPlayerEntity player, ServerPlayNetworkHandler serverPlayNetworkHandler, PacketByteBuf buf, PacketSender sender) {
-        BlockPos pos = buf.readBlockPos();
-        World world = minecraftServer.getWorld(player.getWorld().getRegistryKey());
-        assert world != null;
-        Machine block = (Machine) world.getWorldChunk(pos).getBlockEntity(pos);
-        if(block != null){
-            Optional<Turn_blast_recipe> match = world.getRecipeManager().getFirstMatch(Turn_blast_recipe.Type.INSTANCE, Bird_parts.INV.get(block), world);
-            if(match.isPresent()){
-                ItemStack result = match.get().getOutput().copy();
-                Bird_parts.INV.get(block).clear();
-                Bird_parts.INV.get(block).craft_item(result);
-            }
+        float turn_amount = buf.readFloat();
+        UUID target_uuid = buf.readUuid();
+        Phoenix_axe_entity target = (Phoenix_axe_entity) player.getWorld().getEntity(target_uuid);
+        if (target != null){
+            Bird_parts.PHOENIX_AXE_NBT.get(target).change_turn(turn_amount);
         }
     }
 
-    public static void craft(BlockPos pos){
+    public static void turn(float turn_amount, UUID uuid){
         PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
 
-        buf.writeBlockPos(pos);
+        buf.writeFloat(turn_amount);
+        buf.writeUuid(uuid);
 
-        ClientPlayNetworking.send(Youve_got_mail.CRAFT, buf);
+        ClientPlayNetworking.send(Youve_got_mail.AXE_TURN, buf);
     }
 }

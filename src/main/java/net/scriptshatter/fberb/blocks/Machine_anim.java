@@ -26,6 +26,7 @@ import net.minecraft.world.event.GameEvent;
 import net.minecraft.world.explosion.Explosion;
 import net.scriptshatter.fberb.components.Bird_parts;
 import net.scriptshatter.fberb.items.Items;
+import net.scriptshatter.fberb.util.Dmg_sources;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
@@ -170,7 +171,10 @@ public class Machine_anim extends BlockWithEntity {
                 return ActionResult.CONSUME;
             }
             if(Bird_parts.INV.get(block).get_status().matches("animating")){
-                player.damage(DamageSource.CRAMMING, 2);
+                player.damage(Dmg_sources.STUPID, 2);
+                if(player.isCreative()){
+                    player.damage(Dmg_sources.STUPID, Float.MAX_VALUE);
+                }
             }
         }
         if(hit.getSide().equals(state.get(FACING).rotateYCounterclockwise()) && Bird_parts.INV.get(block).get_status().matches("idle")){

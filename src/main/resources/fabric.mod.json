@@ -20,7 +20,8 @@
   "custom": {
     "cardinal-components": [
       "fberb:temp",
-      "fberb:machine"
+      "fberb:machine",
+      "fberb:phoenix_axe_turn"
     ]
   },
 

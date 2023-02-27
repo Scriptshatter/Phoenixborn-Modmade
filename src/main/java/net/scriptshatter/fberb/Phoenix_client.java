@@ -16,6 +16,7 @@ import net.scriptshatter.fberb.blocks.Phoenix_block_entities;
 import net.scriptshatter.fberb.blocks.Phoenix_blocks;
 import net.scriptshatter.fberb.blocks.client.Machine_render;
 import net.scriptshatter.fberb.client.Temp_hud;
+import net.scriptshatter.fberb.entitys.client.Entity_register_registry_phoenix;
 import net.scriptshatter.fberb.items.Items;
 import net.scriptshatter.fberb.networking.Youve_got_mail;
 import software.bernie.example.GeckoLibMod;
@@ -35,6 +36,7 @@ public class Phoenix_client implements ClientModInitializer {
         //GeoItemRenderer.registerItemRenderer(Items.MACHINE_ITEM, new Machine_item_render());
         Youve_got_mail.registerS2CMail();
         BlockEntityRendererFactories.register(Phoenix_block_entities.MACHINE, Machine_render::new);
+        Entity_register_registry_phoenix.register();
         BlockRenderLayerMapImpl.INSTANCE.putBlock(Phoenix_blocks.MACHINE, RenderLayer.getTranslucent());
     }
 }

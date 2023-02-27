@@ -2,36 +2,45 @@ package net.scriptshatter.fberb.items;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.client.render.item.BuiltinModelItemRenderer;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.projectile.PersistentProjectileEntity;
+import net.minecraft.entity.projectile.TridentEntity;
 import net.minecraft.item.AxeItem;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.MiningToolItem;
 import net.minecraft.item.ToolMaterial;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtElement;
-import net.minecraft.nbt.NbtList;
-import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.tag.BlockTags;
-import net.minecraft.registry.tag.TagKey;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.text.Text;
+import net.minecraft.stat.Stats;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.scriptshatter.fberb.components.Bird_parts;
+import net.scriptshatter.fberb.entitys.Phoenix_axe_entity;
+import net.scriptshatter.fberb.items.client.Phoenix_axe_item_renderer;
 import net.scriptshatter.fberb.util.Ect;
+import software.bernie.geckolib.animatable.GeoItem;
+import software.bernie.geckolib.animatable.client.RenderProvider;
+import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.core.animation.AnimatableManager;
+import software.bernie.geckolib.util.GeckoLibUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 
-public class Phoenix_axe extends AxeItem implements Birb_item {
+public class Phoenix_axe extends AxeItem implements Birb_item, GeoItem {
     public static final String TEMP_KEY = "temp";
     private final int max_temp;
+    private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
     private double temp;
+    private final Supplier<Object> renderProvider = GeoItem.makeRenderer(this);
     private final List<BlockPos> blocks_to_be_broken = new ArrayList<>();
 
     @Override
@@ -46,13 +55,43 @@ public class Phoenix_axe extends AxeItem implements Birb_item {
         else return 0;
     }
 
+    public void onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
+        if(!user.isSneaking()){
+            if (user instanceof PlayerEntity playerEntity){
+                int i = this.getMaxUseTime(stack) - remainingUseTicks;
+                if (!world.isClient && i >= 10) {
+                    stack.damage(1, playerEntity, ((p) -> p.sendToolBreakStatus(user.getActiveHand())));
+                    Phoenix_axe_entity tridentEntity = new Phoenix_axe_entity(world, playerEntity, stack);
+                    tridentEntity.setVelocity(playerEntity, playerEntity.getPitch(), playerEntity.getYaw(), 0.0F, 2.5F * 0.5F, 1.0F);
+                    if (playerEntity.getAbilities().creativeMode) {
+                        tridentEntity.pickupType = PersistentProjectileEntity.PickupPermission.CREATIVE_ONLY;
+                    }
+                    world.spawnEntity(tridentEntity);
+                    world.playSoundFromEntity((PlayerEntity)null, tridentEntity, SoundEvents.ITEM_TRIDENT_THROW, SoundCategory.PLAYERS, 1.0F, 1.0F);
+                    if (!playerEntity.getAbilities().creativeMode) {
+                        playerEntity.getInventory().removeOne(stack);
+                    }
+                }
+                playerEntity.incrementStat(Stats.USED.getOrCreateStat(this));
+            }
+        }
+    }
+
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
+        ItemStack itemStack = user.getStackInHand(hand);
         if(!world.isClient && user.isSneaking() && Bird_parts.TEMP.get(user).get_temp() > 50 && Ect.has_origin(user, Ect.FIRE_BIRD)){
-            ItemStack itemStack = user.getStackInHand(hand);
             if(this.get_temp(itemStack) < this.max_temp()){
                 Bird_parts.TEMP.get(user).change_temp(-5);
                 this.change_temp(5, itemStack);
+            }
+        }
+        else if(!world.isClient){
+            if (itemStack.getDamage() >= itemStack.getMaxDamage() - 1) {
+                return TypedActionResult.fail(itemStack);
+            } else {
+                user.setCurrentHand(hand);
+                return TypedActionResult.consume(itemStack);
             }
         }
         return super.use(world, user, hand);
@@ -238,5 +277,30 @@ public class Phoenix_axe extends AxeItem implements Birb_item {
     }
 
 
+    @Override
+    public void createRenderer(Consumer<Object> consumer) {
+        consumer.accept(new RenderProvider() {
+            private final Phoenix_axe_item_renderer renderer = new Phoenix_axe_item_renderer();
 
+            @Override
+            public BuiltinModelItemRenderer getCustomRenderer() {
+                return this.renderer;
+            }
+        });
+    }
+
+    @Override
+    public Supplier<Object> getRenderProvider() {
+        return this.renderProvider;
+    }
+
+    @Override
+    public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
+
+    }
+
+    @Override
+    public AnimatableInstanceCache getAnimatableInstanceCache() {
+        return this.cache;
+    }
 }

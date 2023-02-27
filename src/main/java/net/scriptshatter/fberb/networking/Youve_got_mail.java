@@ -11,7 +11,7 @@ public class Youve_got_mail {
     public static final Identifier TURN = new Identifier(Phoenix.MOD_ID, "turn");
     public static final Identifier STATUS = new Identifier(Phoenix.MOD_ID, "status");
     public static final Identifier TIMER = new Identifier(Phoenix.MOD_ID, "timer");
-    public static final Identifier CRAFT = new Identifier(Phoenix.MOD_ID, "craft");
+    public static final Identifier AXE_TURN = new Identifier(Phoenix.MOD_ID, "axe_turn");
 
     public static void registerS2CMail(){
         //ServerPlayNetworking.registerGlobalReceiver(MACHINE_INV_ID, Get_machine_inv_S2C_packet::call);
@@ -22,6 +22,6 @@ public class Youve_got_mail {
         ServerPlayNetworking.registerGlobalReceiver(TURN, Get_my_brain_C2S::call);
         ServerPlayNetworking.registerGlobalReceiver(STATUS, Set_status_C2S::call);
         ServerPlayNetworking.registerGlobalReceiver(TIMER, Set_craft_timer_C2S::call);
-        ServerPlayNetworking.registerGlobalReceiver(CRAFT, Finish_craft_C2S::call);
+        ServerPlayNetworking.registerGlobalReceiver(AXE_TURN, Axe_turn_C2S::call);
     }
 }
