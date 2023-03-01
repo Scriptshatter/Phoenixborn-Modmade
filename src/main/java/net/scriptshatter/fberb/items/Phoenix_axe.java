@@ -2,11 +2,9 @@ package net.scriptshatter.fberb.items;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.client.render.item.BuiltinModelItemRenderer;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
-import net.minecraft.entity.projectile.TridentEntity;
 import net.minecraft.item.AxeItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolMaterial;
@@ -17,31 +15,31 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stats;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
+import net.minecraft.util.UseAction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.scriptshatter.fberb.components.Bird_parts;
 import net.scriptshatter.fberb.entitys.Phoenix_axe_entity;
-import net.scriptshatter.fberb.items.client.Phoenix_axe_item_renderer;
 import net.scriptshatter.fberb.util.Ect;
-import software.bernie.geckolib.animatable.GeoItem;
-import software.bernie.geckolib.animatable.client.RenderProvider;
-import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.core.animation.AnimatableManager;
-import software.bernie.geckolib.util.GeckoLibUtil;
+import net.scriptshatter.fberb.util.Phoenix_use_actions;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Consumer;
-import java.util.function.Supplier;
 
-public class Phoenix_axe extends AxeItem implements Birb_item, GeoItem {
+public class Phoenix_axe extends AxeItem implements Birb_item {
     public static final String TEMP_KEY = "temp";
     private final int max_temp;
-    private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
     private double temp;
-    private final Supplier<Object> renderProvider = GeoItem.makeRenderer(this);
     private final List<BlockPos> blocks_to_be_broken = new ArrayList<>();
+
+    @Override
+    public Phoenix_use_actions get_use_case(PlayerEntity user) {
+        if(user.isSneaking()){
+            return Phoenix_use_actions.NONE;
+        }
+        return Phoenix_use_actions.PHOENIX_AXE;
+    }
 
     @Override
     public int max_temp() {
@@ -53,6 +51,16 @@ public class Phoenix_axe extends AxeItem implements Birb_item, GeoItem {
         NbtCompound nbtCompound = stack.getNbt();
         if(nbtCompound != null) return nbtCompound.getDouble(TEMP_KEY);
         else return 0;
+    }
+
+    @Override
+    public int getMaxUseTime(ItemStack stack) {
+        return 72000;
+    }
+
+    @Override
+    public UseAction getUseAction(ItemStack stack) {
+        return UseAction.SPEAR;
     }
 
     public void onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
@@ -67,7 +75,7 @@ public class Phoenix_axe extends AxeItem implements Birb_item, GeoItem {
                         tridentEntity.pickupType = PersistentProjectileEntity.PickupPermission.CREATIVE_ONLY;
                     }
                     world.spawnEntity(tridentEntity);
-                    world.playSoundFromEntity((PlayerEntity)null, tridentEntity, SoundEvents.ITEM_TRIDENT_THROW, SoundCategory.PLAYERS, 1.0F, 1.0F);
+                    world.playSoundFromEntity(null, tridentEntity, SoundEvents.ITEM_TRIDENT_THROW, SoundCategory.PLAYERS, 1.0F, 1.0F);
                     if (!playerEntity.getAbilities().creativeMode) {
                         playerEntity.getInventory().removeOne(stack);
                     }
@@ -84,6 +92,7 @@ public class Phoenix_axe extends AxeItem implements Birb_item, GeoItem {
             if(this.get_temp(itemStack) < this.max_temp()){
                 Bird_parts.TEMP.get(user).change_temp(-5);
                 this.change_temp(5, itemStack);
+                return TypedActionResult.fail(itemStack);
             }
         }
         else if(!world.isClient){
@@ -274,33 +283,5 @@ public class Phoenix_axe extends AxeItem implements Birb_item, GeoItem {
         }
         else this.temp += amount;
         write_nbt(itemStack);
-    }
-
-
-    @Override
-    public void createRenderer(Consumer<Object> consumer) {
-        consumer.accept(new RenderProvider() {
-            private final Phoenix_axe_item_renderer renderer = new Phoenix_axe_item_renderer();
-
-            @Override
-            public BuiltinModelItemRenderer getCustomRenderer() {
-                return this.renderer;
-            }
-        });
-    }
-
-    @Override
-    public Supplier<Object> getRenderProvider() {
-        return this.renderProvider;
-    }
-
-    @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
-
-    }
-
-    @Override
-    public AnimatableInstanceCache getAnimatableInstanceCache() {
-        return this.cache;
     }
 }

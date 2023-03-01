@@ -34,6 +34,7 @@ public class Phoenix_client implements ClientModInitializer {
         GameHudRender.HUD_RENDERS.add(new Temp_hud());
         //BlockEntityRendererRegistry.register(Phoenix_block_entities.MACHINE, Machine_render::new);
         //GeoItemRenderer.registerItemRenderer(Items.MACHINE_ITEM, new Machine_item_render());
+
         Youve_got_mail.registerS2CMail();
         BlockEntityRendererFactories.register(Phoenix_block_entities.MACHINE, Machine_render::new);
         Entity_register_registry_phoenix.register();

@@ -12,9 +12,10 @@ public class Youve_got_mail {
     public static final Identifier STATUS = new Identifier(Phoenix.MOD_ID, "status");
     public static final Identifier TIMER = new Identifier(Phoenix.MOD_ID, "timer");
     public static final Identifier AXE_TURN = new Identifier(Phoenix.MOD_ID, "axe_turn");
+    public static final Identifier CHECK_AXE_TEMP = new Identifier(Phoenix.MOD_ID, "check_axe_temp");
 
     public static void registerS2CMail(){
-        //ServerPlayNetworking.registerGlobalReceiver(MACHINE_INV_ID, Get_machine_inv_S2C_packet::call);
+        ClientPlayNetworking.registerGlobalReceiver(CHECK_AXE_TEMP, Check_axe_entity_temp_S2C::call);
     }
 
     public static void registerC2SMail(){

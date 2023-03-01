@@ -1,5 +1,6 @@
 package net.scriptshatter.fberb.entitys;
 
+import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -14,13 +15,17 @@ import net.minecraft.entity.projectile.TridentEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.scriptshatter.fberb.Phoenix;
 import net.scriptshatter.fberb.items.Items;
+import net.scriptshatter.fberb.items.Phoenix_axe;
+import net.scriptshatter.fberb.networking.packets.Check_axe_entity_temp_S2C;
 import net.scriptshatter.fberb.util.Dmg_sources;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoEntity;
@@ -40,7 +45,7 @@ public class Phoenix_axe_entity extends PersistentProjectileEntity implements Ge
     }
 
     public Phoenix_axe_entity(World world, LivingEntity owner, ItemStack item) {
-        super(Entity_registry.PHOENIX_AXE, owner, world);
+        super(Entity_registry.PHOENIX_AXE_ENTITY, owner, world);
         this.phoenix_stack = item.copy();
         this.dataTracker.set(ENCHANTED, item.hasGlint());
     }
@@ -77,6 +82,10 @@ public class Phoenix_axe_entity extends PersistentProjectileEntity implements Ge
             }
 
             if (entity instanceof LivingEntity livingEntity) {
+                if(Items.PHOENIX_AXE.temp(this.phoenix_stack) >= 5){
+                    livingEntity.setOnFireFor(5);
+                    Items.PHOENIX_AXE.change_temp(-5, this.phoenix_stack);
+                }
                 if (owner instanceof LivingEntity) {
                     EnchantmentHelper.onUserDamaged(livingEntity, owner);
                     EnchantmentHelper.onTargetDamaged((LivingEntity)owner, livingEntity);
@@ -111,11 +120,12 @@ public class Phoenix_axe_entity extends PersistentProjectileEntity implements Ge
         }
         Entity entity = this.getOwner();
         if((this.dealtDamage || this.isNoClip()) && entity != null){
-            if(!this.isOwnerAlive()){
+            if(!this.world.isClient() && (!this.isOwnerAlive() || (Items.PHOENIX_AXE.temp(this.asItemStack()) < 10 && this.returnTimer == 0))){
                 if (!this.world.isClient && this.pickupType == PersistentProjectileEntity.PickupPermission.ALLOWED) {
                     this.dropStack(this.asItemStack(), 0.1F);
                 }
 
+                Check_axe_entity_temp_S2C.axe_temp(this.getId(), (ServerPlayerEntity) entity);
                 this.discard();
             }
             else {
@@ -131,6 +141,7 @@ public class Phoenix_axe_entity extends PersistentProjectileEntity implements Ge
                 if (this.returnTimer == 0) {
                     // Temp sound effect
                     this.playSound(SoundEvents.ITEM_TRIDENT_RETURN, 10.0F, 1.0F);
+                    Items.PHOENIX_AXE.change_temp(-10, this.phoenix_stack);
                 }
 
                 ++this.returnTimer;
