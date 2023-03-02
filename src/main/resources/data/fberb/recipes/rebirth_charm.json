@@ -1,0 +1,24 @@
+{
+  "type": "fberb:turnblast",
+  "blast_time": 100,
+  "category": "misc",
+  "key": {
+    "#": {
+      "item": "fberb:charged_amethyst"
+    },
+    "$": {
+      "item": "minecraft:echo_shard"
+    },
+    "%": {
+      "item": "minecraft:nether_star"
+    }
+  },
+  "pattern": [
+    "###",
+    "$%$",
+    "###"
+  ],
+  "result": {
+    "item": "fberb:phoenix_brooch"
+  }
+}

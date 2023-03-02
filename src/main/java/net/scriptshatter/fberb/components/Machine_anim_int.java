@@ -8,6 +8,7 @@ import net.minecraft.block.ShapeContext;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.recipe.RecipeInputProvider;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.DefaultedList;
@@ -18,7 +19,7 @@ import net.minecraft.world.World;
 
 import java.util.HashMap;
 
-public interface Machine_anim_int extends Component, Inventory {
+public interface Machine_anim_int extends Component, Inventory, RecipeInputProvider {
     void turn(float turn_by);
 
     void add_item(int slot, ItemStack item);

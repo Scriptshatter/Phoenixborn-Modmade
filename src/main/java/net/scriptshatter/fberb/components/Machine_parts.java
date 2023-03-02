@@ -8,6 +8,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;
+import net.minecraft.recipe.RecipeMatcher;
 import net.minecraft.util.collection.DefaultedList;
 import net.scriptshatter.fberb.blocks.Machine;
 import org.jetbrains.annotations.NotNull;
@@ -272,12 +273,20 @@ public class Machine_parts implements Machine_anim_int, AutoSyncedComponent {
 
     @Override
     public boolean canPlayerUse(PlayerEntity player) {
-        return false;
+        return true;
     }
 
     @Override
     public void clear() {
         this.machine_inventory.clear();
         this.markDirty();
+    }
+
+
+    @Override
+    public void provideRecipeInputs(RecipeMatcher finder) {
+        for (ItemStack itemStack : this.machine_inventory) {
+            finder.addUnenchantedInput(itemStack);
+        }
     }
 }

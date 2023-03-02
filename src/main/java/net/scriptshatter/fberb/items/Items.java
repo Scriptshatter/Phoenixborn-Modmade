@@ -18,7 +18,7 @@ public class Items {
     public static final Phoenix_brooch PHOENIX_BROOCH = register_items("phoenix_brooch", new Phoenix_brooch(new FabricItemSettings()), Phoenix.MOD_ID);
     public static final Charged_amethyst CHARGED_AMETHYST = register_items("charged_amethyst", new Charged_amethyst(new FabricItemSettings()), Phoenix.MOD_ID);
     public static final Machine_item MACHINE_ITEM = register_items("machine", new Machine_item(), Phoenix.MOD_ID);
-    public static final Phoenix_axe PHOENIX_AXE = register_API_items("phoenix_axe", new Phoenix_axe(2, 2, new Charged_amethyst_mat(), 100, new FabricItemSettings()), Phoenix.MOD_ID);
+    public static final Phoenix_axe PHOENIX_AXE = register_API_items("phoenix_axe", new Phoenix_axe(5.5f, -3.0F, new Charged_amethyst_mat(), 150, new FabricItemSettings()), Phoenix.MOD_ID);
 
     public static <I extends Item> I register_items(String name, I item, String modid){
         return Registry.register(Registries.ITEM, new Identifier(modid, name), item);

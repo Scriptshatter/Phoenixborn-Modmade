@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "item": "minecraft:polished_blackstone_bricks"
+    },
+    "$": {
+      "item": "minecraft:blaze_rod"
+    },
+    "%": {
+      "item": "minecraft:slime_ball"
+    }
+  },
+  "pattern": [
+    "#$#",
+    "$%$",
+    "#$#"
+  ],
+  "result": {
+    "item": "fberb:machine"
+  }
+}

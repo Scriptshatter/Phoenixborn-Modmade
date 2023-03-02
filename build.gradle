@@ -20,6 +20,7 @@ repositories {
 		name = "Ladysnake Libs"
 		url = 'https://ladysnake.jfrog.io/artifactory/mods'
 	}
+	maven { url "<https://maven.shedaniel.me/>" }
 	maven { url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/' }
 	maven {
 		url = 'https://maven.cafeteria.dev'
@@ -66,6 +67,11 @@ dependencies {
 	modApi("com.github.Virtuoel:Pehkui:${project.pehkui_version}", {
 		exclude group: "net.fabricmc.fabric-api"
 	})
+
+	modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:$rei_version"
+
+	modCompileOnly "me.shedaniel:RoughlyEnoughItems-api-fabric:$rei_version"
+	modCompileOnly "me.shedaniel:RoughlyEnoughItems-default-plugin-fabric:$rei_version"
 	// modImplementation "net.fabricmc.fabric-api:fabric-api-deprecated:${project.fabric_version}"
 }
 

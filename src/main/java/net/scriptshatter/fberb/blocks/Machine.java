@@ -76,7 +76,7 @@ public class Machine extends BlockEntity implements GeoBlockEntity{
                 Bird_parts.INV.get(block).change_speed(0.005f);
                 if(Bird_parts.INV.get(block).get_status().matches("crafting")){
                     Bird_parts.INV.get(block).change_time(-(Bird_parts.INV.get(block).get_speed()/0.25f));
-                    Phoenix.LOGGER.info("Time left: " + Bird_parts.INV.get(block).get_time());
+                    //Phoenix.LOGGER.info("Time left: " + Bird_parts.INV.get(block).get_time());
                 }
             }
             else{

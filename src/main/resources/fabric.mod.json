@@ -35,6 +35,12 @@
     ],
     "cardinal-components": [
       "net.scriptshatter.fberb.components.Bird_parts"
+    ],
+    "rei_client": [
+      "net.scriptshatter.fberb.rei.Category_turnblast"
+    ],
+    "rei_common": [
+      "net.scriptshatter.fberb.rei.All_I_know_is_pain"
     ]
   },
   "mixins": [

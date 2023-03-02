@@ -3,6 +3,7 @@ package net.scriptshatter.fberb.recipe;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gson.*;
+import me.shedaniel.rei.plugin.common.displays.crafting.CraftingRecipeSizeProvider;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -15,7 +16,8 @@ import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
 import net.scriptshatter.fberb.components.Machine_anim_int;
 
-import java.util.Iterator;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -26,6 +28,10 @@ public class Turn_blast_recipe implements Recipe<Machine_anim_int> {
     private final ItemStack output;
     final DefaultedList<Ingredient> recipeItems;
     final int blast_time;
+
+    public DefaultedList<Ingredient> getIngredients() {
+        return this.recipeItems;
+    }
 
     private boolean matchesPattern(Machine_anim_int inv, int offsetX, int offsetY, boolean flipped) {
         for(int i = 0; i < 3; ++i) {
@@ -265,14 +271,6 @@ public class Turn_blast_recipe implements Recipe<Machine_anim_int> {
 
         @Override
         public Turn_blast_recipe read(Identifier id, JsonObject json) {
-            //ItemStack output = ShapedRecipe.outputFromJson(JsonHelper.getObject(json, "output"));
-
-            //JsonArray ingredients = JsonHelper.getArray(json, "ingredients");
-            //DefaultedList<Ingredient> inputs = DefaultedList.ofSize(9, Ingredient.EMPTY);
-
-            //for (int i = 0; i < inputs.size(); i++) {
-            //    inputs.set(i, Ingredient.fromJson(ingredients.get(i)));
-            //}
 
             Map<String, Ingredient> map = Turn_blast_recipe.readSymbols(JsonHelper.getObject(json, "key"));
             String[] strings = Turn_blast_recipe.removePadding(Turn_blast_recipe.getPattern(JsonHelper.getArray(json, "pattern")));

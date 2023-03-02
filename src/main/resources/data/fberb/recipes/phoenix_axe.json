@@ -6,13 +6,15 @@
       "item": "fberb:charged_amethyst"
     },
     "$": {
-      "item": "minecraft:gold_ingot"
+      "item": "minecraft:blaze_rod"
     }
   },
   "pattern": [
-    "$#$"
+    "## ",
+    "#$ ",
+    " $ "
   ],
   "result": {
-    "item": "minecraft:netherite_ingot"
+    "item": "fberb:phoenix_axe"
   }
 }

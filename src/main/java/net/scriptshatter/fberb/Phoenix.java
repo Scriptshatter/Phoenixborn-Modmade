@@ -8,6 +8,7 @@ import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemGroups;
+import net.minecraft.recipe.book.RecipeBookCategory;
 import net.scriptshatter.fberb.blocks.Machine;
 import net.scriptshatter.fberb.blocks.Phoenix_block_entities;
 import net.scriptshatter.fberb.blocks.Phoenix_blocks;
@@ -58,6 +59,9 @@ public class Phoenix implements ModInitializer {
 		});
 		ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register((content) -> {
 			content.add(Items.CHARGED_AMETHYST);
+		});
+		ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register((content) -> {
+			content.add(Items.PHOENIX_AXE);
 		});
 		Phoenix_recipes.register_pizza();
 	}

@@ -10,6 +10,11 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.tag.BlockTags;
+import net.minecraft.screen.CraftingScreenHandler;
+import net.minecraft.screen.NamedScreenHandlerFactory;
+import net.minecraft.screen.ScreenHandlerContext;
+import net.minecraft.screen.SimpleNamedScreenHandlerFactory;
+import net.minecraft.stat.Stats;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.DirectionProperty;
 import net.minecraft.text.Text;
@@ -151,10 +156,9 @@ public class Machine_anim extends BlockWithEntity {
             return ActionResult.CONSUME;
         }
         if(hit.getSide().equals(state.get(FACING).getOpposite())){
-            ItemStack amethyst = Items.CHARGED_AMETHYST.getDefaultStack();
-            amethyst.setCount(10);
-            Bird_parts.INV.get(block).craft_item(amethyst);
-            return ActionResult.CONSUME;
+            //player.openHandledScreen(state.createScreenHandlerFactory(world, pos));
+            //player.incrementStat(Stats.INTERACT_WITH_STONECUTTER);
+            //return ActionResult.CONSUME;
         }
         if(hit.getSide().equals(state.get(FACING).rotateYClockwise())){
             if(Bird_parts.INV.get(block).get_status().matches("idle")){

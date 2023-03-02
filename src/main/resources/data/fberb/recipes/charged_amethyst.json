@@ -3,21 +3,22 @@
   "blast_time": 100,
   "key": {
     "#": {
-      "item": "minecraft:amethyst_shard"
+      "item": "minecraft:netherite_scrap"
     },
     "$": {
-      "item": "minecraft:blaze_powder"
+      "item": "minecraft:amethyst_shard"
     },
-    "^": {
-      "item": "minecraft:flint"
+    "%": {
+      "item": "minecraft:blaze_powder"
     }
   },
   "pattern": [
-    " ^ ",
-    "$#$",
-    " ^ "
+      "#$#",
+      "$%$",
+      "#$#"
   ],
   "result": {
-    "item": "fberb:charged_amethyst"
+    "item": "fberb:charged_amethyst",
+    "count": 4
   }
 }
