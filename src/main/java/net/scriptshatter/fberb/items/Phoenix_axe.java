@@ -2,6 +2,9 @@ package net.scriptshatter.fberb.items;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
@@ -13,6 +16,8 @@ import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stats;
+import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.UseAction;
@@ -23,6 +28,7 @@ import net.scriptshatter.fberb.components.Bird_parts;
 import net.scriptshatter.fberb.entitys.Phoenix_axe_entity;
 import net.scriptshatter.fberb.util.Ect;
 import net.scriptshatter.fberb.util.Phoenix_use_actions;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +45,22 @@ public class Phoenix_axe extends AxeItem implements Birb_item {
             return Phoenix_use_actions.NONE;
         }
         return Phoenix_use_actions.PHOENIX_AXE;
+    }
+
+    @Override
+    public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
+        if(MinecraftClient.getInstance().player != null && Ect.has_origin(MinecraftClient.getInstance().player, Ect.FIRE_BIRD)){
+            if(Screen.hasShiftDown()){
+                tooltip.add(Text.translatable("tooltip.fberb.phoenix_axe.phoenixcharge").formatted(Formatting.DARK_GRAY));
+                tooltip.add(Text.translatable("tooltip.fberb.phoenix_axe.phoenixthrow").formatted(Formatting.DARK_GRAY));
+                tooltip.add(Text.translatable("tooltip.fberb.phoenix_axe.phoenixchop").formatted(Formatting.DARK_GRAY));
+            }
+            else{
+                tooltip.add(Text.translatable("tooltip.fberb.phoenix_axe.phoenixcrouch").formatted(Formatting.DARK_GRAY));
+            }
+        }
+
+        super.appendTooltip(stack, world, tooltip, context);
     }
 
     @Override

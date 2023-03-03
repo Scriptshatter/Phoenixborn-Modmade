@@ -14,6 +14,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
+import net.scriptshatter.fberb.Phoenix;
 import net.scriptshatter.fberb.components.Machine_anim_int;
 
 import java.util.ArrayList;
@@ -22,6 +23,7 @@ import java.util.Map;
 import java.util.Set;
 
 public class Turn_blast_recipe implements Recipe<Machine_anim_int> {
+
     final int width;
     final int height;
     private final Identifier id;
@@ -41,8 +43,16 @@ public class Turn_blast_recipe implements Recipe<Machine_anim_int> {
                 Ingredient ingredient = Ingredient.EMPTY;
                 if (k >= 0 && l >= 0 && k < this.width && l < this.height) {
                     if (flipped) {
+                        if(this.width - k - 1 + l * this.width >= 6){
+                            Phoenix.LOGGER.info(String.valueOf(offsetX));
+                            Phoenix.LOGGER.info(String.valueOf(offsetY));
+                            return false;
+                        }
                         ingredient = this.recipeItems.get(this.width - k - 1 + l * this.width);
                     } else {
+                        if(k + l * this.width >= 6){
+                            return false;
+                        }
                         ingredient = this.recipeItems.get(k + l * this.width);
                     }
                 }
@@ -56,12 +66,20 @@ public class Turn_blast_recipe implements Recipe<Machine_anim_int> {
         return true;
     }
 
-    public Turn_blast_recipe(Identifier id, ItemStack output, DefaultedList<Ingredient> recipeItems, int blast_time) {
+    public int getWidth() {
+        return this.width;
+    }
+
+    public int getHeight() {
+        return this.height;
+    }
+
+    public Turn_blast_recipe(Identifier id, ItemStack output, DefaultedList<Ingredient> recipeItems, int blast_time, int width, int height) {
         this.id = id;
         this.output = output;
         this.recipeItems = recipeItems;
-        this.width = 3;
-        this.height = 3;
+        this.width = width;
+        this.height = height;
         this.blast_time = blast_time;
     }
 
@@ -280,22 +298,26 @@ public class Turn_blast_recipe implements Recipe<Machine_anim_int> {
             ItemStack itemStack = Turn_blast_recipe.outputFromJson(JsonHelper.getObject(json, "result"));
             int blast_time = JsonHelper.getInt(json, "blast_time");
 
-            return new Turn_blast_recipe(id, itemStack, defaultedList, blast_time);
+            return new Turn_blast_recipe(id, itemStack, defaultedList, blast_time, i, j);
         }
 
         @Override
         public Turn_blast_recipe read(Identifier id, PacketByteBuf buf) {
+            int i = buf.readVarInt();
+            int j = buf.readVarInt();
             DefaultedList<Ingredient> defaultedList = DefaultedList.ofSize(9, Ingredient.EMPTY);
 
             defaultedList.replaceAll(ignored -> Ingredient.fromPacket(buf));
 
             ItemStack output = buf.readItemStack();
             int blast_time = buf.readInt();
-            return new Turn_blast_recipe(id, output, defaultedList, blast_time);
+            return new Turn_blast_recipe(id, output, defaultedList, blast_time, i, j);
         }
 
         @Override
         public void write(PacketByteBuf buf, Turn_blast_recipe recipe) {
+            buf.writeVarInt(recipe.width);
+            buf.writeVarInt(recipe.height);
             buf.writeInt(recipe.getIngredients().size());
 
             for (Ingredient ingredient : recipe.recipeItems) {

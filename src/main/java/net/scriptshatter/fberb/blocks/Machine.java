@@ -3,15 +3,12 @@ package net.scriptshatter.fberb.blocks;
 
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.scriptshatter.fberb.Phoenix;
 import net.scriptshatter.fberb.components.Bird_parts;
-import net.scriptshatter.fberb.networking.packets.Get_machine_inv_S2C_packet;
+import net.scriptshatter.fberb.networking.packets.Item_spit_C2S_packet;
 import net.scriptshatter.fberb.networking.packets.Set_craft_timer_C2S;
 import net.scriptshatter.fberb.networking.packets.Set_status_C2S;
 import net.scriptshatter.fberb.recipe.Turn_blast_recipe;
@@ -19,13 +16,11 @@ import software.bernie.geckolib.animatable.GeoBlockEntity;
 import software.bernie.geckolib.animatable.SingletonGeoAnimatable;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.core.animation.AnimatableManager;
-import software.bernie.geckolib.core.animation.Animation;
 import software.bernie.geckolib.core.animation.AnimationController;
 import software.bernie.geckolib.core.animation.RawAnimation;
 import software.bernie.geckolib.core.object.PlayState;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
-import java.util.Objects;
 import java.util.Optional;
 
 public class Machine extends BlockEntity implements GeoBlockEntity{
@@ -134,7 +129,7 @@ public class Machine extends BlockEntity implements GeoBlockEntity{
             Set_status_C2S.set_status(this.pos, "idle");
             event.getController().stop();
         });
-        AnimationController<Machine> spit_item = new AnimationController<>(this, "chute", state -> PlayState.STOP).triggerableAnim("spit_item", SPIT_ITEM).setCustomInstructionKeyframeHandler(spit_event -> Get_machine_inv_S2C_packet.item_spit(this.pos));
+        AnimationController<Machine> spit_item = new AnimationController<>(this, "chute", state -> PlayState.STOP).triggerableAnim("spit_item", SPIT_ITEM).setCustomInstructionKeyframeHandler(spit_event -> Item_spit_C2S_packet.item_spit(this.pos));
         controllerRegistrar.add(close_grid);
         controllerRegistrar.add(open_grid);
         controllerRegistrar.add(spit_item);

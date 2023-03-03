@@ -37,6 +37,7 @@ public class Phoenix_axe_entity_renderer extends GeoEntityRenderer<Phoenix_axe_e
         this.model.getBone("bone").ifPresent(axe -> {
             axe.setRotX(Bird_parts.PHOENIX_AXE_NBT.get(animatable).get_turn());
         });
+        poseStack.scale(1.1f, 1.1f, 1.1f);
         poseStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(MathHelper.lerp(partialTick, animatable.prevYaw, animatable.getYaw())));
         super.actuallyRender(poseStack, animatable, model, renderType, bufferSource, buffer, isReRender, partialTick, packedLight, packedOverlay, red, green, blue, alpha);
     }

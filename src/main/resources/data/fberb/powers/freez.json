@@ -1,5 +1,7 @@
 {
     "type": "origins:multiple",
+    "name": "Freezing",
+  "description": "Wouldn't recommend letting your temperature get too low. Not a fun experience. Temperature's to the right of your hotbar, or in the bottom left corner if you have your attack indicator set to hotbar.",
     "freeze":{
         "type": "origins:freeze",
         "condition": {

@@ -17,6 +17,7 @@ import net.scriptshatter.fberb.effects.EffectsRegistery;
 import net.scriptshatter.fberb.entitys.Entity_registry;
 import net.scriptshatter.fberb.entitys.client.Entity_register_registry_phoenix;
 import net.scriptshatter.fberb.events.Temp_control;
+import net.scriptshatter.fberb.gui.Tutorial_screen;
 import net.scriptshatter.fberb.items.Items;
 import net.scriptshatter.fberb.items.Phoenix_brooch;
 import net.scriptshatter.fberb.networking.Youve_got_mail;
@@ -52,6 +53,7 @@ public class Phoenix implements ModInitializer {
 		new Phoenix_block_entities();
 		new Entity_registry();
 		Dmg_sources.register();
+		Tutorial_screen.create();
 		Youve_got_mail.registerC2SMail();
 		ItemGroupEvents.modifyEntriesEvent(ItemGroups.FUNCTIONAL).register((content) -> {
 			content.add(Items.MACHINE_ITEM);

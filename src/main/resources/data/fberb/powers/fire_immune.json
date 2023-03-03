@@ -1,5 +1,7 @@
 {
     "type": "origins:modify_damage_taken",
+    "name": "Fire immune",
+    "description": "You dont take damage from fire because of formulaic reasoning",
     "damage_condition": {
         "type": "origins:fire"
     },

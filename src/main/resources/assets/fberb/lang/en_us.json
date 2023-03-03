@@ -4,9 +4,18 @@
   "effect.fberb.rebirth": "From the Ashes",
   "fberb.deez_nuts": "DEEZ NUTS",
   "block.fberb.machine": "Turnblast",
-  "item.fberb.phoenix_axe": "Phoenix axe",
+  "item.fberb.phoenix_axe": "Phoenix Axe",
   "death.attack.fberb.phoenix_axe": "%1$s was cut down the middle by %2$s",
   "death.attack.fberb.phoenix_axe.item": "%1$s was cut down the middle by %2$s with %3$s",
   "death.attack.fberb.stupid_thing": "%1$s put their hand in live machinery like a moron. Laugh at them.",
-  "death.attack.fberb.stupid_thing.player": "%1$s thought dying from a machine was better than dying to %2$s"
+  "death.attack.fberb.stupid_thing.player": "%1$s thought dying from a machine was better than dying to %2$s",
+  "rei.fberb.turnblast.caragory": "Phoenix Blasting",
+  "category.fberb.turnblast.time": "about %s sec",
+  "tooltip.fberb.turnblast.phoenixneeded": "You do not have the ability to utilize this device.",
+  "fberb.turnblast.hint": "In order to for this machine to function, it needs a",
+  "fberb.turnblast.hint2": "strong breeze and great heat cast upon the turnwheel.",
+  "tooltip.fberb.phoenix_axe.phoenixcharge": "Crouch and hold right click to charge your axe. Careful! this uses heat!",
+  "tooltip.fberb.phoenix_axe.phoenixthrow": "Hold right click to throw your axe. Every time it hits something or returns, it will use heat.",
+  "tooltip.fberb.phoenix_axe.phoenixchop": "Crouch while breaking wood or other items that are broken with an axe to break all connecting blocks of the same type.",
+  "tooltip.fberb.phoenix_axe.phoenixcrouch": "Hold shift down to see instructions"
 }

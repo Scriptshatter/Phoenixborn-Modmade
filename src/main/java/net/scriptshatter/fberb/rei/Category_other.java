@@ -17,6 +17,7 @@ import net.minecraft.text.Text;
 import net.scriptshatter.fberb.Phoenix;
 import net.scriptshatter.fberb.items.Items;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 public class Category_other implements DisplayCategory<Display_turnblast> {
@@ -38,18 +39,22 @@ public class Category_other implements DisplayCategory<Display_turnblast> {
     @Override
     public List<Widget> setupDisplay(Display_turnblast display, Rectangle bounds) {
         Point startPoint = new Point(bounds.getCenterX() - 58, bounds.getCenterY() - 27);
+        double cookingTime = display.getCookingTime();
         List<Widget> widgets = Lists.newArrayList();
         widgets.add(Widgets.createRecipeBase(bounds));
-        widgets.add(Widgets.createArrow(new Point(startPoint.x + 60, startPoint.y + 18)));
+        widgets.add(Widgets.createArrow(new Point(startPoint.x + 60, startPoint.y + 18)).animationDurationTicks(cookingTime));
         widgets.add(Widgets.createResultSlotBackground(new Point(startPoint.x + 95, startPoint.y + 19)));
         List<InputIngredient<EntryStack<?>>> input = display.getInputIngredients(3, 3);
         List<Slot> slots = Lists.newArrayList();
+        DecimalFormat df = new DecimalFormat("###.##");
         for (int y = 0; y < 3; y++)
             for (int x = 0; x < 3; x++)
                 slots.add(Widgets.createSlot(new Point(startPoint.x + 1 + x * 18, startPoint.y + 1 + y * 18)).markInput());
         for (InputIngredient<EntryStack<?>> ingredient : input) {
             slots.get(ingredient.getIndex()).entries(ingredient.get());
         }
+        widgets.add(Widgets.createLabel(new Point(bounds.x + bounds.width - 5, bounds.y + 5),
+                Text.translatable("category.fberb.turnblast.time", df.format(cookingTime / 20d))).noShadow().rightAligned().color(0xFF404040, 0xFFBBBBBB));
         widgets.addAll(slots);
         widgets.add(Widgets.createSlot(new Point(startPoint.x + 95, startPoint.y + 19)).entries(display.getOutputEntries().get(0)).disableBackground().markOutput());
         if (display.isShapeless()) {

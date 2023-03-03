@@ -4,16 +4,14 @@ import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.PiglinBrain;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.tag.BlockTags;
-import net.minecraft.screen.CraftingScreenHandler;
-import net.minecraft.screen.NamedScreenHandlerFactory;
-import net.minecraft.screen.ScreenHandlerContext;
-import net.minecraft.screen.SimpleNamedScreenHandlerFactory;
+import net.minecraft.screen.*;
 import net.minecraft.stat.Stats;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.DirectionProperty;
@@ -30,6 +28,8 @@ import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
 import net.minecraft.world.explosion.Explosion;
 import net.scriptshatter.fberb.components.Bird_parts;
+import net.scriptshatter.fberb.gui.Tutorial_gui;
+import net.scriptshatter.fberb.gui.Tutorial_screen;
 import net.scriptshatter.fberb.items.Items;
 import net.scriptshatter.fberb.util.Dmg_sources;
 import org.jetbrains.annotations.Nullable;
@@ -146,20 +146,22 @@ public class Machine_anim extends BlockWithEntity {
 
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-        if (world.isClient || Phoenix_block_entities.MACHINE.get(world, pos) == null) {
-            return ActionResult.SUCCESS;
-        }
-        Machine block = Objects.requireNonNull(Phoenix_block_entities.MACHINE.get(world, pos));
         if(hit.getSide().equals(state.get(FACING))){
-            player.sendMessage(Text.literal("I now know how to use this"));
-            block.spit_item();
-            return ActionResult.CONSUME;
-        }
-        if(hit.getSide().equals(state.get(FACING).getOpposite())){
             //player.openHandledScreen(state.createScreenHandlerFactory(world, pos));
             //player.incrementStat(Stats.INTERACT_WITH_STONECUTTER);
             //return ActionResult.CONSUME;
+            if(MinecraftClient.getInstance().isOnThread()){
+                MinecraftClient.getInstance().setScreenAndRender(new Tutorial_screen(new Tutorial_gui()));
+            }
+            return ActionResult.CONSUME;
         }
+        if (world.isClient || Phoenix_block_entities.MACHINE.get(world, pos) == null) {
+            if(hit.getSide().equals(state.get(FACING).rotateYClockwise())){
+                return ActionResult.SUCCESS;
+            }
+           return ActionResult.PASS;
+        }
+        Machine block = Objects.requireNonNull(Phoenix_block_entities.MACHINE.get(world, pos));
         if(hit.getSide().equals(state.get(FACING).rotateYClockwise())){
             if(Bird_parts.INV.get(block).get_status().matches("idle")){
                 if(player.getStackInHand(hand).isEmpty() ||
@@ -180,10 +182,6 @@ public class Machine_anim extends BlockWithEntity {
                     player.damage(Dmg_sources.STUPID, Float.MAX_VALUE);
                 }
             }
-        }
-        if(hit.getSide().equals(state.get(FACING).rotateYCounterclockwise()) && Bird_parts.INV.get(block).get_status().matches("idle")){
-            Bird_parts.INV.get(block).set_time(2000);
-            return ActionResult.CONSUME;
         }
         return ActionResult.CONSUME_PARTIAL;
     }

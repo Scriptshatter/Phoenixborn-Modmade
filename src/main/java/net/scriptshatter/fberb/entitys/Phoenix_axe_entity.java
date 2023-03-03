@@ -115,7 +115,7 @@ public class Phoenix_axe_entity extends PersistentProjectileEntity implements Ge
 
     @Override
     public void tick() {
-        if (this.inGroundTime > 4) {
+        if (this.inGroundTime > 4 && !(Items.PHOENIX_AXE.temp(this.asItemStack()) < 10 && this.returnTimer == 0)) {
             this.dealtDamage = true;
         }
         Entity entity = this.getOwner();

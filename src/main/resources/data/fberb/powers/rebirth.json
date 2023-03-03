@@ -1,60 +1,7 @@
 {
     "type": "origins:multiple",
-    "badges": [
-        {
-            "type": "origins:crafting_recipe",
-            "sprite": "origins:textures/gui/badge/info.png",
-            "recipe":{
-                "type": "minecraft:crafting_shaped",
-                "id": "fberb:rebirth_charm",
-                "pattern": [
-                    "###",
-                    "%&%",
-                    "###"
-                ],
-                "key":{
-                    "#":{
-                        "item": "minecraft:blaze_rod"
-                    },
-                    "%":{
-                        "item": "minecraft:echo_shard"
-                    },
-                    "&":{
-                        "item": "fberb:charged_amethyst"
-                    }
-                },
-                "result":{
-                    "item": "fberb:phoenix_brooch"
-                }
-            }
-        }
-    ],
-    "crafting":{
-        "type": "origins:recipe",
-        "recipe": {
-            "type": "minecraft:crafting_shaped",
-            "id": "fberb:rebirth_charm",
-            "pattern": [
-                "###",
-                "%&%",
-                "###"
-            ],
-            "key":{
-                "#":{
-                    "item": "minecraft:blaze_rod"
-                },
-                "%":{
-                    "item": "minecraft:echo_shard"
-                },
-                "&":{
-                    "item": "fberb:charged_amethyst"
-                }
-            },
-            "result":{
-                "item": "fberb:phoenix_brooch"
-            }
-        }
-    },
+    "name": "Rebirth",
+    "description": "Make rebirth charms with the Turnblast. BTW this mod has REI compatibility, would recommend using it.",
     "on_death":{
         "type": "origins:prevent_death",
         "condition": {

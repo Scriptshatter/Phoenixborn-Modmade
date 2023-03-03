@@ -1,4 +1,6 @@
 {
     "type": "origins:elytra_flight",
+    "name": "Bird",
+    "description": "Is the word. And birds\n\n\nhave wings.",
     "render_elytra": true
 }

@@ -1,5 +1,6 @@
 {
   "name": "Leap of flames",
+  "description": "Might be absorbed into a tool in the future. Same as the original, use heat to big jump.",
   "type": "origins:active_self",
   "entity_action": {
     "type": "origins:and",

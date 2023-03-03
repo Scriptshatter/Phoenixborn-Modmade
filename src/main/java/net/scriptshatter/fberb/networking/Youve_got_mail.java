@@ -7,7 +7,7 @@ import net.scriptshatter.fberb.Phoenix;
 import net.scriptshatter.fberb.networking.packets.*;
 
 public class Youve_got_mail {
-    public static final Identifier MACHINE_INV_ID = new Identifier(Phoenix.MOD_ID, "machine_inv");
+    public static final Identifier ITEM_SPIT = new Identifier(Phoenix.MOD_ID, "item_spit");
     public static final Identifier TURN = new Identifier(Phoenix.MOD_ID, "turn");
     public static final Identifier STATUS = new Identifier(Phoenix.MOD_ID, "status");
     public static final Identifier TIMER = new Identifier(Phoenix.MOD_ID, "timer");
@@ -19,7 +19,7 @@ public class Youve_got_mail {
     }
 
     public static void registerC2SMail(){
-        ServerPlayNetworking.registerGlobalReceiver(MACHINE_INV_ID, Get_machine_inv_S2C_packet::call);
+        ServerPlayNetworking.registerGlobalReceiver(ITEM_SPIT, Item_spit_C2S_packet::call);
         ServerPlayNetworking.registerGlobalReceiver(TURN, Get_my_brain_C2S::call);
         ServerPlayNetworking.registerGlobalReceiver(STATUS, Set_status_C2S::call);
         ServerPlayNetworking.registerGlobalReceiver(TIMER, Set_craft_timer_C2S::call);
