@@ -57,13 +57,15 @@ public class Phoenix implements ModInitializer {
 		Youve_got_mail.registerC2SMail();
 		ItemGroupEvents.modifyEntriesEvent(ItemGroups.FUNCTIONAL).register((content) -> {
 			content.add(Items.MACHINE_ITEM);
-			content.add(Items.PHOENIX_BROOCH);
 		});
 		ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register((content) -> {
 			content.add(Items.CHARGED_AMETHYST);
 		});
 		ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register((content) -> {
 			content.add(Items.PHOENIX_AXE);
+		});
+		ItemGroupEvents.modifyEntriesEvent(ItemGroups.FOOD_AND_DRINK).register((content) -> {
+			content.add(Items.PHOENIX_BROOCH);
 		});
 		Phoenix_recipes.register_pizza();
 	}
