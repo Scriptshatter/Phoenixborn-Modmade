@@ -9,6 +9,7 @@
     "fberb:wings",
     "fberb:fire_breath"
   ],
+  "impact": 3,
   "icon":{
     "item": "fberb:phoenix_brooch"
   }

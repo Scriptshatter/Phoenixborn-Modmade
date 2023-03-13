@@ -5,14 +5,20 @@ import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.item.TooltipContext;
+import net.minecraft.data.server.loottable.BlockLootTableGenerator;
+import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.enchantment.Enchantments;
+import net.minecraft.enchantment.SilkTouchEnchantment;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.item.AxeItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolMaterial;
+import net.minecraft.loot.context.LootContext;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.tag.BlockTags;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stats;
@@ -24,6 +30,7 @@ import net.minecraft.util.UseAction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
+import net.scriptshatter.fberb.Phoenix;
 import net.scriptshatter.fberb.components.Bird_parts;
 import net.scriptshatter.fberb.entitys.Phoenix_axe_entity;
 import net.scriptshatter.fberb.util.Ect;
@@ -32,6 +39,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Phoenix_axe extends AxeItem implements Birb_item {
     public static final String TEMP_KEY = "temp";
@@ -89,10 +97,12 @@ public class Phoenix_axe extends AxeItem implements Birb_item {
         if(!user.isSneaking()){
             if (user instanceof PlayerEntity playerEntity){
                 int i = this.getMaxUseTime(stack) - remainingUseTicks;
+                float speed_rem = (float)i / this.getMaxUseTime(stack);
+                Phoenix.LOGGER.info(String.valueOf(speed_rem));
                 if (!world.isClient && i >= 10) {
                     stack.damage(1, playerEntity, ((p) -> p.sendToolBreakStatus(user.getActiveHand())));
                     Phoenix_axe_entity tridentEntity = new Phoenix_axe_entity(world, playerEntity, stack);
-                    tridentEntity.setVelocity(playerEntity, playerEntity.getPitch(), playerEntity.getYaw(), 0.0F, 2.5F * 0.5F, 1.0F);
+                    tridentEntity.setVelocity(playerEntity, playerEntity.getPitch(), playerEntity.getYaw(), 0.0F, 2.5F, 1.0F);
                     if (playerEntity.getAbilities().creativeMode) {
                         tridentEntity.pickupType = PersistentProjectileEntity.PickupPermission.CREATIVE_ONLY;
                     }
@@ -275,7 +285,8 @@ public class Phoenix_axe extends AxeItem implements Birb_item {
 
     @Override
     public boolean postMine(ItemStack stack, World world, BlockState state, BlockPos pos, LivingEntity miner) {
-        if(!world.isClient() && miner.isSneaking() && state.isIn(BlockTags.AXE_MINEABLE)){
+        if(!world.isClient() && miner.isSneaking() && state.isIn(BlockTags.AXE_MINEABLE) && miner.isPlayer()){
+            LootContext.Builder builder = new LootContext.Builder((ServerWorld) world);
             if(this.get_temp(stack) <= 0){
                 return super.postMine(stack, world, state, pos, miner);
             }
@@ -285,7 +296,12 @@ public class Phoenix_axe extends AxeItem implements Birb_item {
                     return;
                 }
                 this.change_temp(-1, stack);
-                world.breakBlock(blockPos, true);
+                state.getBlock().onBreak(world, blockPos, state, (PlayerEntity) miner);
+                world.removeBlock(blockPos, false);
+                state.getBlock().onBroken(world, blockPos, state);
+                state.getBlock().afterBreak(world, (PlayerEntity) miner, blockPos, state, null, stack);
+                //world.breakBlock(pos, false);
+
             });
         }
         return super.postMine(stack, world, state, pos, miner);

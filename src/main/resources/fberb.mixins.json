@@ -4,6 +4,7 @@
   "package": "net.scriptshatter.fberb.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "BlockMixin",
     "EntityMixin",
     "FurnaceMinecartEntityMixin",
     "ItemStackMixin",

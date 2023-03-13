@@ -43,16 +43,8 @@ public class Turn_blast_recipe implements Recipe<Machine_anim_int> {
                 Ingredient ingredient = Ingredient.EMPTY;
                 if (k >= 0 && l >= 0 && k < this.width && l < this.height) {
                     if (flipped) {
-                        if(this.width - k - 1 + l * this.width >= 6){
-                            Phoenix.LOGGER.info(String.valueOf(offsetX));
-                            Phoenix.LOGGER.info(String.valueOf(offsetY));
-                            return false;
-                        }
                         ingredient = this.recipeItems.get(this.width - k - 1 + l * this.width);
                     } else {
-                        if(k + l * this.width >= 6){
-                            return false;
-                        }
                         ingredient = this.recipeItems.get(k + l * this.width);
                     }
                 }

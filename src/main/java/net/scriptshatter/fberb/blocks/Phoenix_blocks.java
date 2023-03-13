@@ -17,7 +17,7 @@ import software.bernie.geckolib.GeckoLib;
 
 public class Phoenix_blocks {
 
-    public static final Machine_anim MACHINE = registerBlockWithoutItem("machine", new Machine_anim(FabricBlockSettings.of(Material.METAL).nonOpaque()));
+    public static final Machine_anim MACHINE = registerBlockWithoutItem("machine", new Machine_anim(FabricBlockSettings.of(Material.METAL).strength(5f, 6f).requiresTool().nonOpaque()));
 
     private static <B extends Block> B registerBlockWithoutItem(String name, B block){
         return Registry.register(Registries.BLOCK, new Identifier(Phoenix.MOD_ID, name), block);

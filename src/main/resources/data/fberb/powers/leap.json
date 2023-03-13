@@ -2,6 +2,16 @@
   "name": "Leap of flames",
   "description": "Might be absorbed into a tool in the future. Same as the original, use heat to big jump.",
   "type": "origins:active_self",
+  "condition": {
+    "type": "fberb:check_temp",
+    "comparison": ">",
+    "compare_to": 50
+  },
+  "hud_render": {
+    "sprite_location": "origins:textures/gui/community/huang/resource_bar_02.png",
+    "bar_index": 15
+  },
+  "cooldown": 100,
   "entity_action": {
     "type": "origins:and",
     "actions": [

@@ -12,8 +12,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(Entity.class)
 public abstract class EntityMixin {
 
-    @Shadow public abstract boolean damage(DamageSource source, float amount);
-
     @Inject(method = "isInvulnerableTo", at = @At("HEAD"), cancellable = true)
     public void not_even_creative_can_save_you_from_stupidity(DamageSource damageSource, CallbackInfoReturnable<Boolean> cir){
         if(damageSource == Dmg_sources.STUPID){

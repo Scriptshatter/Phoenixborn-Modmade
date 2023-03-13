@@ -3,6 +3,7 @@ package net.scriptshatter.fberb;
 import io.github.apace100.origins.registry.ModItems;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
+import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.item.Item;
@@ -16,6 +17,7 @@ import net.scriptshatter.fberb.command.Set_temp;
 import net.scriptshatter.fberb.effects.EffectsRegistery;
 import net.scriptshatter.fberb.entitys.Entity_registry;
 import net.scriptshatter.fberb.entitys.client.Entity_register_registry_phoenix;
+import net.scriptshatter.fberb.events.Rev_temp;
 import net.scriptshatter.fberb.events.Temp_control;
 import net.scriptshatter.fberb.gui.Tutorial_screen;
 import net.scriptshatter.fberb.items.Items;
@@ -42,6 +44,7 @@ public class Phoenix implements ModInitializer {
 		// Registers the commands, events, actions, conditions, and the scales.
 		CommandRegistrationCallback.EVENT.register(Set_temp::register);
 		ServerTickEvents.START_WORLD_TICK.register(new Temp_control());
+		ServerPlayerEvents.AFTER_RESPAWN.register(new Rev_temp());
 		Actionfactory.register();
 		Entity_conditions.register();
 		Phoenix_scales.init();
@@ -63,6 +66,7 @@ public class Phoenix implements ModInitializer {
 		});
 		ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register((content) -> {
 			content.add(Items.PHOENIX_AXE);
+			content.add(Items.PHOENIX_PICKAXE);
 		});
 		ItemGroupEvents.modifyEntriesEvent(ItemGroups.FOOD_AND_DRINK).register((content) -> {
 			content.add(Items.PHOENIX_BROOCH);

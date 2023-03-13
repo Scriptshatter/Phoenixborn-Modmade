@@ -2,6 +2,11 @@
   "name": "flamethrower",
   "description": "Mainly used to work the Turnblast, wouldn't recommend trying to fight with it.",
   "type": "origins:active_self",
+  "condition": {
+    "type": "fberb:check_temp",
+    "comparison": ">",
+    "compare_to": 1
+  },
   "entity_action": {
     "type": "origins:and",
     "actions": [
@@ -16,9 +21,12 @@
         "type": "origins:raycast",
         "distance": 5,
         "command_along_ray": "particle minecraft:flame",
-        "hit_action": {
-          "type": "origins:set_on_fire",
-          "duration": 1
+        "bientity_action": {
+          "type": "origins:target_action",
+          "action": {
+            "type": "origins:set_on_fire",
+            "duration": 1
+          }
         }
       }
     ]

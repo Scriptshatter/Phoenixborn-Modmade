@@ -5,6 +5,7 @@
   "fberb.deez_nuts": "DEEZ NUTS",
   "block.fberb.machine": "Turnblast",
   "item.fberb.phoenix_axe": "Phoenix Axe",
+  "item.fberb.phoenix_pickaxe": "Phoenix Pickaxe",
   "death.attack.fberb.phoenix_axe": "%1$s was cut down the middle by %2$s",
   "death.attack.fberb.phoenix_axe.item": "%1$s was cut down the middle by %2$s with %3$s",
   "death.attack.fberb.stupid_thing": "%1$s put their hand in live machinery like a moron. Laugh at them.",

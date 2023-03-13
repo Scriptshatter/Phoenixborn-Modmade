@@ -9,8 +9,12 @@ public interface Temp_int extends AutoSyncedComponent {
     void set_internal_temp(double amount);
     void set_temp(double amount);
 
+    void set_rage(int amount);
+    void change_rage(int amount);
+
     int get_temp();
     int get_rebirths();
+    boolean is_mad();
 
     double get_internal_temp();
 
