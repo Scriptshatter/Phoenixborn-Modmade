@@ -2,7 +2,6 @@ package net.scriptshatter.fberb.items;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.MathHelper;
 import net.scriptshatter.fberb.util.Phoenix_use_actions;
 
 public interface Birb_item {
@@ -11,4 +10,5 @@ public interface Birb_item {
     double temp(ItemStack stack);
     int getItemBarColorTemp(ItemStack stack);
     int getItemBarStepTemp(ItemStack stack);
+    void change_temp(double amount, ItemStack itemStack);
 }

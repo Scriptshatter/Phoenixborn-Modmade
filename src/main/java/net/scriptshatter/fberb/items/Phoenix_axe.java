@@ -5,10 +5,6 @@ import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.item.TooltipContext;
-import net.minecraft.data.server.loottable.BlockLootTableGenerator;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.enchantment.Enchantments;
-import net.minecraft.enchantment.SilkTouchEnchantment;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
@@ -31,7 +27,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.scriptshatter.fberb.Phoenix;
-import net.scriptshatter.fberb.components.Bird_parts;
+import net.scriptshatter.fberb.Phoenix_client;
 import net.scriptshatter.fberb.entitys.Phoenix_axe_entity;
 import net.scriptshatter.fberb.util.Ect;
 import net.scriptshatter.fberb.util.Phoenix_use_actions;
@@ -39,7 +35,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Phoenix_axe extends AxeItem implements Birb_item {
     public static final String TEMP_KEY = "temp";
@@ -59,7 +54,7 @@ public class Phoenix_axe extends AxeItem implements Birb_item {
     public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
         if(MinecraftClient.getInstance().player != null && Ect.has_origin(MinecraftClient.getInstance().player, Ect.FIRE_BIRD)){
             if(Screen.hasShiftDown()){
-                tooltip.add(Text.translatable("tooltip.fberb.phoenix_axe.phoenixcharge").formatted(Formatting.DARK_GRAY));
+                tooltip.add(Text.translatable("tooltip.fberb.phoenix_tool.charge").formatted(Formatting.DARK_GRAY).append(Text.keybind(Phoenix_client.power_tool.getTranslationKey().formatted(Formatting.DARK_GRAY))));
                 tooltip.add(Text.translatable("tooltip.fberb.phoenix_axe.phoenixthrow").formatted(Formatting.DARK_GRAY));
                 tooltip.add(Text.translatable("tooltip.fberb.phoenix_axe.phoenixchop").formatted(Formatting.DARK_GRAY));
             }
@@ -78,9 +73,8 @@ public class Phoenix_axe extends AxeItem implements Birb_item {
 
     @Override
     public double temp(ItemStack stack) {
-        NbtCompound nbtCompound = stack.getNbt();
-        if(nbtCompound != null) return nbtCompound.getDouble(TEMP_KEY);
-        else return 0;
+        read_nbt(stack);
+        return this.temp;
     }
 
     @Override
@@ -120,14 +114,7 @@ public class Phoenix_axe extends AxeItem implements Birb_item {
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         ItemStack itemStack = user.getStackInHand(hand);
-        if(!world.isClient && user.isSneaking() && Bird_parts.TEMP.get(user).get_temp() > 50 && Ect.has_origin(user, Ect.FIRE_BIRD)){
-            if(this.get_temp(itemStack) < this.max_temp()){
-                Bird_parts.TEMP.get(user).change_temp(-5);
-                this.change_temp(5, itemStack);
-                return TypedActionResult.fail(itemStack);
-            }
-        }
-        else if(!world.isClient){
+        if(!world.isClient){
             if (itemStack.getDamage() >= itemStack.getMaxDamage() - 1) {
                 return TypedActionResult.fail(itemStack);
             } else {
@@ -287,12 +274,12 @@ public class Phoenix_axe extends AxeItem implements Birb_item {
     public boolean postMine(ItemStack stack, World world, BlockState state, BlockPos pos, LivingEntity miner) {
         if(!world.isClient() && miner.isSneaking() && state.isIn(BlockTags.AXE_MINEABLE) && miner.isPlayer()){
             LootContext.Builder builder = new LootContext.Builder((ServerWorld) world);
-            if(this.get_temp(stack) <= 0){
+            if(this.temp(stack) <= 0){
                 return super.postMine(stack, world, state, pos, miner);
             }
             check_blocks_around(world, pos, state.getBlock(), 0);
             blocks_to_be_broken.forEach(blockPos -> {
-                if(this.get_temp(stack) <= 0){
+                if(this.temp(stack) <= 0){
                     return;
                 }
                 this.change_temp(-1, stack);
@@ -305,11 +292,6 @@ public class Phoenix_axe extends AxeItem implements Birb_item {
             });
         }
         return super.postMine(stack, world, state, pos, miner);
-    }
-
-    public double get_temp(ItemStack itemStack){
-        read_nbt(itemStack);
-        return this.temp;
     }
 
     public void change_temp(double amount, ItemStack itemStack) {

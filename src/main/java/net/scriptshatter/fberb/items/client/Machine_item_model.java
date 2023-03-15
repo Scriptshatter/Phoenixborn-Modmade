@@ -3,7 +3,6 @@ package net.scriptshatter.fberb.items.client;
 import net.minecraft.util.Identifier;
 import net.scriptshatter.fberb.Phoenix;
 import net.scriptshatter.fberb.items.Machine_item;
-import software.bernie.geckolib.core.animatable.GeoAnimatable;
 import software.bernie.geckolib.model.GeoModel;
 
 public class Machine_item_model extends GeoModel<Machine_item> {

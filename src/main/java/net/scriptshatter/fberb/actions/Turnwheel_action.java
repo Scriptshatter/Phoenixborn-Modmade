@@ -4,9 +4,6 @@ import io.github.apace100.apoli.power.factory.action.ActionFactory;
 import io.github.apace100.calio.data.SerializableData;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.state.property.Properties;
-import net.minecraft.util.ActionResult;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.Vec3d;
@@ -15,7 +12,6 @@ import net.scriptshatter.fberb.Phoenix;
 import net.scriptshatter.fberb.blocks.Machine;
 import net.scriptshatter.fberb.blocks.Machine_anim;
 import net.scriptshatter.fberb.blocks.Phoenix_block_entities;
-import net.scriptshatter.fberb.blocks.Phoenix_blocks;
 import net.scriptshatter.fberb.components.Bird_parts;
 
 public class Turnwheel_action {

@@ -10,7 +10,6 @@ import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.item.Items;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.tag.TagKey;
@@ -19,7 +18,6 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.scriptshatter.fberb.Phoenix;
@@ -41,43 +39,7 @@ public class Temp_control implements ServerTickEvents.StartWorldTick {
     private static final UUID speedUuid = new UUID((long)23423422.222342, (long)253332342.22);
     private static final UUID atkUuid = new UUID((long)4564625234.222342, (long)3464353543.22);
 
-    static public List<BlockPos> destroy_blocks(BlockPos pos, Direction facing,int x,int y,int z){
-        List<BlockPos> list = new ArrayList<>();
-        for (int i = 0; i < y; i++) {
-            list.add(pos.up(i));
-            for (int j = 0; j < x; j++) {
-                if(facing.equals(Direction.NORTH) || facing.equals(Direction.SOUTH)){
-                    list.add(pos.up(i).west(j));
-                    list.add(pos.up(i).east(j));
-                    for (int k = 0; k < z; k++) {
-                        if(facing.equals(Direction.NORTH)){
-                            list.add(pos.up(i).west(j).north(k));
-                            list.add(pos.up(i).east(j).north(k));
-                        }
-                        else{
-                            list.add(pos.up(i).west(j).south(k));
-                            list.add(pos.up(i).east(j).south(k));
-                        }
-                    }
-                }
-                else{
-                    list.add(pos.up(i).north(j));
-                    list.add(pos.up(i).south(j));
-                    for (int k = 0; k < z; k++) {
-                        if(facing.equals(Direction.WEST)){
-                            list.add(pos.up(i).north(j).west(k));
-                            list.add(pos.up(i).south(j).west(k));
-                        }
-                        else{
-                            list.add(pos.up(i).north(j).east(k));
-                            list.add(pos.up(i).south(j).east(k));
-                        }
-                    }
-                }
-            }
-        }
-        return list;
-    }
+
 
 
     @Override
@@ -91,13 +53,6 @@ public class Temp_control implements ServerTickEvents.StartWorldTick {
                 ScaleType scaleType = ScaleRegistries.SCALE_TYPES.get(new Identifier(Phoenix.MOD_ID, "change_size"));
                 ScaleData data = scaleType.getScaleData(player);
                 data.setScale(0.8f);
-
-                if(Bird_parts.TEMP.get(player).is_mad()){
-                    BlockPos og_point = player.getBlockPos().offset(player.getHorizontalFacing(), 1);
-                    destroy_blocks(og_point, player.getHorizontalFacing(), 2, 3, 3).forEach(blockPos -> {
-                        world.breakBlock(blockPos, true);
-                    });
-                }
 
                 //Get colder the higher up you are, warmer the lower down.
                 double change = -(((double)player.getBlockY()-65)/1000);

@@ -3,7 +3,6 @@ package net.scriptshatter.fberb.recipe;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gson.*;
-import me.shedaniel.rei.plugin.common.displays.crafting.CraftingRecipeSizeProvider;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -14,11 +13,8 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
-import net.scriptshatter.fberb.Phoenix;
 import net.scriptshatter.fberb.components.Machine_anim_int;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 

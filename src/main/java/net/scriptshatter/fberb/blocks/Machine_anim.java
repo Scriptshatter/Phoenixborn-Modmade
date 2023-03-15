@@ -5,17 +5,13 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.PiglinBrain;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.item.ItemStack;
 import net.minecraft.registry.tag.BlockTags;
-import net.minecraft.screen.*;
-import net.minecraft.stat.Stats;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.DirectionProperty;
-import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.BlockMirror;
 import net.minecraft.util.BlockRotation;
@@ -37,6 +33,11 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Objects;
 
 public class Machine_anim extends BlockWithEntity {
+
+    @Override
+    public Item asItem() {
+        return Items.MACHINE_ITEM;
+    }
 
     public static final DirectionProperty FACING = HorizontalFacingBlock.FACING;
 
@@ -159,7 +160,7 @@ public class Machine_anim extends BlockWithEntity {
             if(hit.getSide().equals(state.get(FACING).rotateYClockwise())){
                 return ActionResult.SUCCESS;
             }
-           return ActionResult.PASS;
+           return ActionResult.CONSUME;
         }
         Machine block = Objects.requireNonNull(Phoenix_block_entities.MACHINE.get(world, pos));
         if(hit.getSide().equals(state.get(FACING).rotateYClockwise())){

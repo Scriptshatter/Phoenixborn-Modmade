@@ -18,5 +18,12 @@
   "tooltip.fberb.phoenix_axe.phoenixcharge": "Crouch and hold right click to charge your axe. Careful! this uses heat!",
   "tooltip.fberb.phoenix_axe.phoenixthrow": "Hold right click to throw your axe. Every time it hits something or returns, it will use heat.",
   "tooltip.fberb.phoenix_axe.phoenixchop": "Crouch while breaking wood or other items that are broken with an axe to break all connecting blocks of the same type.",
-  "tooltip.fberb.phoenix_axe.phoenixcrouch": "Hold shift down to see instructions"
+  "tooltip.fberb.phoenix_axe.phoenixcrouch": "Hold shift down to see instructions",
+  "category.fberb": "Phoenixborn",
+  "key.fberb.power_tool": "Charge Phoenix Tool",
+  "tooltip.fberb.phoenix_tool.charge": "To charge your tool, hold down ",
+  "tooltip.fberb.phoenix_pickaxe.cur_block": "Will currently point to: ",
+  "tooltip.fberb.phoenix_pickaxe.scan": "Right click an ore to select and scan for it. Right click the air to scan for the selected ore.",
+  "tooltip.fberb.phoenix_pickaxe.no_scan": "You do not have a block selected.",
+  "tooltip.fberb.phoenix_pickaxe.smelt": "Crouch while mining a block to smelt the dropped item."
 }

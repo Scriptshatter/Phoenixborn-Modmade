@@ -1,0 +1,20 @@
+{
+  "type": "fberb:turnblast",
+  "blast_time": 100,
+  "key": {
+    "#": {
+      "item": "fberb:charged_amethyst"
+    },
+    "$": {
+      "item": "minecraft:blaze_rod"
+    }
+  },
+  "pattern": [
+    "###",
+    " $ ",
+    " $ "
+  ],
+  "result": {
+    "item": "fberb:phoenix_pickaxe"
+  }
+}

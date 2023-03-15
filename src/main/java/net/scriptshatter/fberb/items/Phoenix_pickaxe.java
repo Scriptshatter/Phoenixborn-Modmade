@@ -1,31 +1,35 @@
 package net.scriptshatter.fberb.items;
 
-import io.github.apace100.apoli.util.Space;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.AxeItem;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.PickaxeItem;
-import net.minecraft.item.ToolMaterial;
-import net.minecraft.loot.context.LootContext;
+import net.minecraft.item.*;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.recipe.RecipeManager;
-import net.minecraft.recipe.SmeltingRecipe;
+import net.minecraft.particle.ParticleTypes;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.tag.TagKey;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.Hand;
-import net.minecraft.util.TypedActionResult;
-import net.minecraft.util.UseAction;
+import net.minecraft.text.Text;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.scriptshatter.fberb.components.Bird_parts;
-import net.scriptshatter.fberb.events.Temp_control;
+import net.scriptshatter.fberb.Phoenix;
+import net.scriptshatter.fberb.Phoenix_client;
 import net.scriptshatter.fberb.util.Ect;
 import net.scriptshatter.fberb.util.Phoenix_use_actions;
-import org.joml.Vector3f;
+import org.jetbrains.annotations.Nullable;
 
-import java.util.Locale;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Phoenix_pickaxe extends PickaxeItem implements Birb_item{
 
@@ -33,19 +37,13 @@ public class Phoenix_pickaxe extends PickaxeItem implements Birb_item{
     private final int max_temp;
     private double temp;
 
+    private Block cur_block = Blocks.COAL_ORE;
+
+
+
     public Phoenix_pickaxe(ToolMaterial material, int attackDamage, float attackSpeed, Settings settings, int max_temp) {
         super(material, attackDamage, attackSpeed, settings);
         this.max_temp = max_temp;
-    }
-
-    @Override
-    public int getMaxUseTime(ItemStack stack) {
-        return 72000;
-    }
-
-    @Override
-    public UseAction getUseAction(ItemStack stack) {
-        return UseAction.NONE;
     }
 
     @Override
@@ -60,33 +58,92 @@ public class Phoenix_pickaxe extends PickaxeItem implements Birb_item{
 
     @Override
     public double temp(ItemStack stack) {
-        NbtCompound nbtCompound = stack.getNbt();
-        if(nbtCompound != null) return nbtCompound.getDouble(TEMP_KEY);
-        else return 0;
+        read_nbt(stack);
+        return this.temp;
     }
+
+    public List<BlockPos> get_blocks(BlockPos pos, int x, int y, int z){
+        List<BlockPos> list = new ArrayList<>();
+        for (int i = 0; i < y; i++) {
+            for (int j = 0; j < x; j++) {
+                for (int k = 0; k < z; k++) {
+                    list.add(pos.up(i).west(j).south(k));
+                    list.add(pos.up(i).east(j).south(k));
+                    list.add(pos.up(i).west(j).north(k));
+                    list.add(pos.up(i).east(j).north(k));
+                    list.add(pos.down(i).west(j).south(k));
+                    list.add(pos.down(i).east(j).south(k));
+                    list.add(pos.down(i).west(j).north(k));
+                    list.add(pos.down(i).east(j).north(k));
+                }
+            }
+        }
+        return list;
+    }
+
 
 
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         ItemStack itemStack = user.getStackInHand(hand);
-        if(!world.isClient && user.isSneaking() && Bird_parts.TEMP.get(user).get_temp() > 50 && Ect.has_origin(user, Ect.FIRE_BIRD)){
-            if(this.get_temp(itemStack) < this.max_temp()){
-                Bird_parts.TEMP.get(user).change_temp(-5);
-                this.change_temp(5, itemStack);
-                return TypedActionResult.pass(itemStack);
+        if(!world.isClient && this.temp(itemStack) >= 25 && !this.cur_block.equals(Blocks.COMMAND_BLOCK)){
+            BlockPos og_point = user.getBlockPos();
+            read_nbt(itemStack);
+            get_blocks(og_point, 25, 25, 25).forEach(blockPos -> {
+                if(world.getBlockState(blockPos).getBlock().equals(this.cur_block)){
+                    ServerWorld serverWorld = (ServerWorld) world;
+                    Vec3d origin = new Vec3d(user.getX() - 0.5, user.getEyeY() - 0.5, user.getZ() - 0.5);
+                    Vec3d target = new Vec3d(blockPos.getX(), blockPos.getY(), blockPos.getZ());
+                    double length = origin.distanceTo(target);
+                    Vec3d direction = target.subtract(origin).normalize();
+                    for(double current = 0; current < length; current += 1){
+                        serverWorld.spawnParticles((ServerPlayerEntity) user, ParticleTypes.HAPPY_VILLAGER, true, origin.add(direction.multiply(current)).x + 0.5, origin.add(direction.multiply(current)).y + 0.5, origin.add(direction.multiply(current)).z + 0.5, 1, 0, 0, 0, 0);
+                    }
+                }
+            });
+            this.change_temp(-25, itemStack);
+            user.getItemCooldownManager().set(this, 20);
+            return TypedActionResult.success(itemStack, false);
+        }
+        // Vector3f vec = new Vector3f(0, 0.5f, 2);
+        // Space.LOCAL.toGlobal(vec, user);
+        // user.addVelocity(vec.x, vec.y, vec.z);
+        return super.use(world, user, hand);
+    }
+
+    @Override
+    public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
+        if(MinecraftClient.getInstance().player != null && Ect.has_origin(MinecraftClient.getInstance().player, Ect.FIRE_BIRD)){
+            if(Screen.hasShiftDown()){
+                tooltip.add(Text.translatable("tooltip.fberb.phoenix_pickaxe.scan").formatted(Formatting.DARK_GRAY));
+                tooltip.add(Text.translatable("tooltip.fberb.phoenix_pickaxe.smelt").formatted(Formatting.DARK_GRAY));
+                tooltip.add(Text.translatable("tooltip.fberb.phoenix_tool.charge").formatted(Formatting.DARK_GRAY).append(Text.keybind(Phoenix_client.power_tool.getTranslationKey().formatted(Formatting.DARK_GRAY))));
+            }
+            else{
+                this.read_nbt(stack);
+                if(this.cur_block.equals(Blocks.COMMAND_BLOCK)){
+                    tooltip.add(Text.translatable("tooltip.fberb.phoenix_pickaxe.no_scan").formatted(Formatting.DARK_GRAY));
+                }
+                else{
+                    tooltip.add(Text.translatable("tooltip.fberb.phoenix_pickaxe.cur_block").formatted(Formatting.DARK_GRAY).append(Text.translatable(cur_block.getTranslationKey()).formatted(Formatting.DARK_GRAY)));
+                }
+                tooltip.add(Text.translatable("tooltip.fberb.phoenix_axe.phoenixcrouch").formatted(Formatting.DARK_GRAY));
             }
         }
-        else if(!world.isClient){
-            Bird_parts.TEMP.get(user).set_rage(20);
-            BlockPos og_point = user.getBlockPos().offset(user.getHorizontalFacing(), 1);
-            Temp_control.destroy_blocks(og_point, user.getHorizontalFacing(), 2, 3, 4).forEach(blockPos -> {
-                world.breakBlock(blockPos, true);
-            });
+
+        super.appendTooltip(stack, world, tooltip, context);
+    }
+
+    public final TagKey<Block> PICK_DETECT = TagKey.of(RegistryKeys.BLOCK, new Identifier(Phoenix.MOD_ID, "pickaxe_selectable"));
+
+    @Override
+    public ActionResult useOnBlock(ItemUsageContext context) {
+        read_nbt(context.getStack());
+        if(context.getPlayer() != null && context.getPlayer().getWorld().getBlockState(context.getBlockPos()).isIn(PICK_DETECT)){
+            this.cur_block = context.getPlayer().getWorld().getBlockState(context.getBlockPos()).getBlock();
         }
-        Vector3f vec = new Vector3f(0, 0.5f, 2);
-        Space.LOCAL.toGlobal(vec, user);
-        user.addVelocity(vec.x, vec.y, vec.z);
-        return super.use(world, user, hand);
+        write_nbt(context.getStack());
+        return super.useOnBlock(context);
     }
 
     @Override
@@ -110,17 +167,22 @@ public class Phoenix_pickaxe extends PickaxeItem implements Birb_item{
 
     public void read_nbt(ItemStack stack){
         NbtCompound nbtCompound = stack.getNbt();
-        if(nbtCompound != null) this.temp = nbtCompound.getDouble(TEMP_KEY);
+        if(nbtCompound != null) {
+            this.temp = nbtCompound.getDouble(TEMP_KEY);
+            if(nbtCompound.getString("cur_block").split(":").length <= 1){
+                this.cur_block = Blocks.COMMAND_BLOCK;
+                return;
+            }
+            this.cur_block = Registries.BLOCK.get(Identifier.of(nbtCompound.getString("cur_block").split(":")[0], nbtCompound.getString("cur_block").split(":")[1]));
+        }
     }
 
     public void write_nbt(ItemStack stack){
         NbtCompound nbtCompound = stack.getNbt();
-        if(nbtCompound != null) nbtCompound.putDouble(TEMP_KEY, this.temp);
-    }
-
-    public double get_temp(ItemStack itemStack){
-        read_nbt(itemStack);
-        return this.temp;
+        if(nbtCompound != null) {
+            nbtCompound.putDouble(TEMP_KEY, this.temp);
+            nbtCompound.putString("cur_block", (Registries.BLOCK.getId(this.cur_block).getNamespace()) + ":" + (Registries.BLOCK.getId(this.cur_block).getPath()));
+        }
     }
 
     public void change_temp(double amount, ItemStack itemStack) {

@@ -1,28 +1,13 @@
 package net.scriptshatter.fberb.blocks.client;
 
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.*;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
-import net.minecraft.client.render.item.ItemRenderer;
-import net.minecraft.client.render.model.json.ModelTransformation;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.collection.DefaultedList;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.LightType;
-import net.minecraft.world.World;
-import net.scriptshatter.fberb.Phoenix;
 import net.scriptshatter.fberb.blocks.Machine;
 import net.scriptshatter.fberb.components.Bird_parts;
 import net.scriptshatter.fberb.networking.packets.Get_my_brain_C2S;
-import software.bernie.example.client.renderer.armor.WolfArmorRenderer;
 import software.bernie.geckolib.cache.object.BakedGeoModel;
-import software.bernie.geckolib.cache.object.GeoBone;
 import software.bernie.geckolib.renderer.GeoBlockRenderer;
-
-import java.util.Objects;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class Machine_render extends GeoBlockRenderer<Machine> {
     public Machine_render(BlockEntityRendererFactory.Context context) {

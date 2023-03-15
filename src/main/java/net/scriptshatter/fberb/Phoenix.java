@@ -1,34 +1,24 @@
 package net.scriptshatter.fberb;
 
-import io.github.apace100.origins.registry.ModItems;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemGroups;
-import net.minecraft.recipe.book.RecipeBookCategory;
-import net.scriptshatter.fberb.blocks.Machine;
 import net.scriptshatter.fberb.blocks.Phoenix_block_entities;
 import net.scriptshatter.fberb.blocks.Phoenix_blocks;
 import net.scriptshatter.fberb.command.Set_temp;
 import net.scriptshatter.fberb.effects.EffectsRegistery;
 import net.scriptshatter.fberb.entitys.Entity_registry;
-import net.scriptshatter.fberb.entitys.client.Entity_register_registry_phoenix;
 import net.scriptshatter.fberb.events.Rev_temp;
 import net.scriptshatter.fberb.events.Temp_control;
 import net.scriptshatter.fberb.gui.Tutorial_screen;
 import net.scriptshatter.fberb.items.Items;
-import net.scriptshatter.fberb.items.Phoenix_brooch;
 import net.scriptshatter.fberb.networking.Youve_got_mail;
 import net.scriptshatter.fberb.recipe.Phoenix_recipes;
 import net.scriptshatter.fberb.sound.Register_sounds;
-import net.scriptshatter.fberb.util.Actionfactory;
-import net.scriptshatter.fberb.util.Dmg_sources;
-import net.scriptshatter.fberb.util.Entity_conditions;
-import net.scriptshatter.fberb.util.Phoenix_scales;
+import net.scriptshatter.fberb.util.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -48,7 +38,7 @@ public class Phoenix implements ModInitializer {
 		Actionfactory.register();
 		Entity_conditions.register();
 		Phoenix_scales.init();
-		Items.werk();
+		new Items();
 		EffectsRegistery.registerEffects();
 		Register_sounds.help();
 		Phoenix_block_entities.register_block_entities();

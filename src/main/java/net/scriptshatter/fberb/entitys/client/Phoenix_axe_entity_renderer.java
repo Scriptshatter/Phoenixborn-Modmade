@@ -1,25 +1,15 @@
 package net.scriptshatter.fberb.entitys.client;
 
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.model.Model;
 import net.minecraft.client.render.*;
-import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory;
-import net.minecraft.client.render.entity.model.EntityModelLayers;
-import net.minecraft.client.render.entity.model.TridentEntityModel;
-import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.projectile.TridentEntity;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RotationAxis;
-import net.scriptshatter.fberb.Phoenix;
 import net.scriptshatter.fberb.components.Bird_parts;
 import net.scriptshatter.fberb.entitys.Phoenix_axe_entity;
 import net.scriptshatter.fberb.networking.packets.Axe_turn_C2S;
 import software.bernie.geckolib.cache.object.BakedGeoModel;
 import software.bernie.geckolib.renderer.GeoEntityRenderer;
-import virtuoel.pehkui.api.PehkuiConfig;
 
 public class Phoenix_axe_entity_renderer extends GeoEntityRenderer<Phoenix_axe_entity> {
     protected Phoenix_axe_entity_renderer(EntityRendererFactory.Context ctx) {

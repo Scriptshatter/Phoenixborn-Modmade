@@ -4,9 +4,6 @@ import net.minecraft.client.render.RenderLayer;
 import net.minecraft.util.Identifier;
 import net.scriptshatter.fberb.Phoenix;
 import net.scriptshatter.fberb.blocks.Machine;
-import software.bernie.example.block.entity.FertilizerBlockEntity;
-import software.bernie.example.block.entity.GeckoHabitatBlockEntity;
-import software.bernie.geckolib.GeckoLib;
 import software.bernie.geckolib.model.DefaultedBlockGeoModel;
 
 public class Machine_model extends DefaultedBlockGeoModel<Machine> {

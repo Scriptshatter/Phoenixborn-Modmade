@@ -12,9 +12,7 @@ import me.shedaniel.rei.api.common.category.CategoryIdentifier;
 import me.shedaniel.rei.api.common.entry.EntryStack;
 import me.shedaniel.rei.api.common.entry.InputIngredient;
 import me.shedaniel.rei.api.common.util.EntryStacks;
-import me.shedaniel.rei.plugin.common.displays.crafting.DefaultCraftingDisplay;
 import net.minecraft.text.Text;
-import net.scriptshatter.fberb.Phoenix;
 import net.scriptshatter.fberb.items.Items;
 
 import java.text.DecimalFormat;

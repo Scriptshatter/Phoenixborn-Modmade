@@ -9,7 +9,6 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 import net.scriptshatter.fberb.components.Bird_parts;
-import net.scriptshatter.fberb.sound.Register_sounds;
 import net.scriptshatter.fberb.util.Ect;
 
 import java.util.Random;

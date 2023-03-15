@@ -3,7 +3,6 @@ package net.scriptshatter.fberb.effects;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectCategory;
-import net.minecraft.potion.Potion;
 import net.scriptshatter.fberb.components.Bird_parts;
 import net.scriptshatter.fberb.util.Ect;
 

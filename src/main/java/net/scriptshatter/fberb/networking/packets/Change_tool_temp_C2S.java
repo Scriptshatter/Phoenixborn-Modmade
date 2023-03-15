@@ -8,27 +8,27 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayNetworkHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.scriptshatter.fberb.components.Bird_parts;
-import net.scriptshatter.fberb.entitys.Phoenix_axe_entity;
+import net.scriptshatter.fberb.items.Birb_item;
 import net.scriptshatter.fberb.networking.Youve_got_mail;
+import net.scriptshatter.fberb.util.Ect;
 
-import java.util.UUID;
-
-public class Axe_turn_C2S {
+public class Change_tool_temp_C2S {
     public static void call(MinecraftServer minecraftServer, ServerPlayerEntity player, ServerPlayNetworkHandler serverPlayNetworkHandler, PacketByteBuf buf, PacketSender sender) {
-        float turn_amount = buf.readFloat();
-        UUID target_uuid = buf.readUuid();
-        Phoenix_axe_entity target = (Phoenix_axe_entity) player.getWorld().getEntity(target_uuid);
-        if (target != null){
-            Bird_parts.PHOENIX_AXE_NBT.get(target).change_turn(turn_amount);
+        if(player.getHandItems() != null && Ect.has_origin(player, Ect.FIRE_BIRD)){
+            player.getHandItems().forEach(itemStack -> {
+                if(Bird_parts.TEMP.get(player).get_temp() > 50 && itemStack.getItem() instanceof Birb_item birb_item && birb_item.temp(itemStack) < birb_item.max_temp()){
+                    birb_item.change_temp(1, itemStack);
+                    Bird_parts.TEMP.get(player).change_temp(-1);
+                }
+            });
         }
     }
 
-    public static void turn(float turn_amount, UUID uuid){
+    public static void charge(){
         PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
 
-        buf.writeFloat(turn_amount);
-        buf.writeUuid(uuid);
 
-        ClientPlayNetworking.send(Youve_got_mail.AXE_TURN, buf);
+
+        ClientPlayNetworking.send(Youve_got_mail.CHANGE_TOOL_TEMP, buf);
     }
 }

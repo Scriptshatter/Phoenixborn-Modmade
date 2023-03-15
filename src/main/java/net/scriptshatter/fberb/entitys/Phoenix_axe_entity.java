@@ -1,6 +1,5 @@
 package net.scriptshatter.fberb.entitys;
 
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -11,20 +10,16 @@ import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
-import net.minecraft.entity.projectile.TridentEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
-import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.scriptshatter.fberb.Phoenix;
 import net.scriptshatter.fberb.items.Items;
-import net.scriptshatter.fberb.items.Phoenix_axe;
 import net.scriptshatter.fberb.networking.packets.Check_axe_entity_temp_S2C;
 import net.scriptshatter.fberb.util.Dmg_sources;
 import org.jetbrains.annotations.Nullable;
