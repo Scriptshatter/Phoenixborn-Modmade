@@ -37,16 +37,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Phoenix_axe extends AxeItem implements Birb_item {
-    public static final String TEMP_KEY = "temp";
     private final int max_temp;
     private double temp;
     private final List<BlockPos> blocks_to_be_broken = new ArrayList<>();
 
     @Override
     public Phoenix_use_actions get_use_case(PlayerEntity user) {
-        if(user.isSneaking()){
-            return Phoenix_use_actions.NONE;
-        }
         return Phoenix_use_actions.PHOENIX_AXE;
     }
 
@@ -88,26 +84,24 @@ public class Phoenix_axe extends AxeItem implements Birb_item {
     }
 
     public void onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
-        if(!user.isSneaking()){
-            if (user instanceof PlayerEntity playerEntity){
-                int i = this.getMaxUseTime(stack) - remainingUseTicks;
-                float speed_rem = (float)i / this.getMaxUseTime(stack);
-                Phoenix.LOGGER.info(String.valueOf(speed_rem));
-                if (!world.isClient && i >= 10) {
-                    stack.damage(1, playerEntity, ((p) -> p.sendToolBreakStatus(user.getActiveHand())));
-                    Phoenix_axe_entity tridentEntity = new Phoenix_axe_entity(world, playerEntity, stack);
-                    tridentEntity.setVelocity(playerEntity, playerEntity.getPitch(), playerEntity.getYaw(), 0.0F, 2.5F, 1.0F);
-                    if (playerEntity.getAbilities().creativeMode) {
-                        tridentEntity.pickupType = PersistentProjectileEntity.PickupPermission.CREATIVE_ONLY;
-                    }
-                    world.spawnEntity(tridentEntity);
-                    world.playSoundFromEntity(null, tridentEntity, SoundEvents.ITEM_TRIDENT_THROW, SoundCategory.PLAYERS, 1.0F, 1.0F);
-                    if (!playerEntity.getAbilities().creativeMode) {
-                        playerEntity.getInventory().removeOne(stack);
-                    }
+        if (user instanceof PlayerEntity playerEntity){
+            int i = this.getMaxUseTime(stack) - remainingUseTicks;
+            float speed_rem = (float)i / this.getMaxUseTime(stack);
+            Phoenix.LOGGER.info(String.valueOf(speed_rem));
+            if (!world.isClient && i >= 10) {
+                stack.damage(1, playerEntity, ((p) -> p.sendToolBreakStatus(user.getActiveHand())));
+                Phoenix_axe_entity tridentEntity = new Phoenix_axe_entity(world, playerEntity, stack);
+                tridentEntity.setVelocity(playerEntity, playerEntity.getPitch(), playerEntity.getYaw(), 0.0F, 2.5F, 1.0F);
+                if (playerEntity.getAbilities().creativeMode) {
+                    tridentEntity.pickupType = PersistentProjectileEntity.PickupPermission.CREATIVE_ONLY;
                 }
-                playerEntity.incrementStat(Stats.USED.getOrCreateStat(this));
+                world.spawnEntity(tridentEntity);
+                world.playSoundFromEntity(null, tridentEntity, SoundEvents.ITEM_TRIDENT_THROW, SoundCategory.PLAYERS, 1.0F, 1.0F);
+                if (!playerEntity.getAbilities().creativeMode) {
+                    playerEntity.getInventory().removeOne(stack);
+                }
             }
+            playerEntity.incrementStat(Stats.USED.getOrCreateStat(this));
         }
     }
 
@@ -273,7 +267,6 @@ public class Phoenix_axe extends AxeItem implements Birb_item {
     @Override
     public boolean postMine(ItemStack stack, World world, BlockState state, BlockPos pos, LivingEntity miner) {
         if(!world.isClient() && miner.isSneaking() && state.isIn(BlockTags.AXE_MINEABLE) && miner.isPlayer()){
-            LootContext.Builder builder = new LootContext.Builder((ServerWorld) world);
             if(this.temp(stack) <= 0){
                 return super.postMine(stack, world, state, pos, miner);
             }

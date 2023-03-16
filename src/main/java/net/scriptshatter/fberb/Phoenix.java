@@ -57,6 +57,7 @@ public class Phoenix implements ModInitializer {
 		ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register((content) -> {
 			content.add(Items.PHOENIX_AXE);
 			content.add(Items.PHOENIX_PICKAXE);
+			content.add(Items.PHOENIX_SHOVEL);
 		});
 		ItemGroupEvents.modifyEntriesEvent(ItemGroups.FOOD_AND_DRINK).register((content) -> {
 			content.add(Items.PHOENIX_BROOCH);

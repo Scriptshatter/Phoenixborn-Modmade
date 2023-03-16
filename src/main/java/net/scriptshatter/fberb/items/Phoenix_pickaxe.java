@@ -33,7 +33,6 @@ import java.util.List;
 
 public class Phoenix_pickaxe extends PickaxeItem implements Birb_item{
 
-    public static final String TEMP_KEY = "temp";
     private final int max_temp;
     private double temp;
 

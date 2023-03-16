@@ -5,6 +5,8 @@ import net.minecraft.item.ItemStack;
 import net.scriptshatter.fberb.util.Phoenix_use_actions;
 
 public interface Birb_item {
+
+    String TEMP_KEY = "temp";
     Phoenix_use_actions get_use_case(PlayerEntity user);
     int max_temp();
     double temp(ItemStack stack);
