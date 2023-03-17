@@ -94,7 +94,7 @@ public class Phoenix_shovel extends ShovelItem implements Birb_item {
             Identifier loot_table_id = state.getBlock().getLootTableId();
             LootTableEvents.MODIFY.register((resourceManager, lootManager, id, tableBuilder, source) -> {
                 if (loot_table_id.equals(id)) {
-                    LootTable nuggets = world.getServer().getLootManager().getTable(new Identifier("fberb", "blocks/spade"));
+                    LootTable nuggets = world.getServer().getLootManager().getTable(new Identifier("fberb", "gameplay/phoenix_shovel_nuggets"));
                     Arrays.stream(nuggets.pools).toList().forEach(tableBuilder::pool);
                 }
             });

@@ -22,7 +22,22 @@
               "function": "minecraft:apply_bonus"
             }
           ],
-          "name": "c:nuggets"
+          "name": "c:nuggets",
+          "expand": true
+        }
+      ],
+      "conditions": [
+        {
+          "condition": "fberb:tool_temp_condition",
+          "temp": 50
+        },
+        {
+          "condition": "minecraft:match_tool",
+          "predicate": {
+            "items": [
+              "fberb:phoenix_shovel"
+            ]
+          }
         }
       ],
       "rolls": 1
