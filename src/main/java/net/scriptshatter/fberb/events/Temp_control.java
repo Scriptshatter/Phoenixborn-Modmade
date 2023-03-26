@@ -281,7 +281,7 @@ public class Temp_control implements ServerTickEvents.StartWorldTick {
         temp_blocks.put(EntityType.HUSK, new AbstractMap.SimpleEntry<>(0.002, 2));
         temp_blocks.put(EntityType.SHEEP, new AbstractMap.SimpleEntry<>(0.005, 0));
         temp_blocks.put(EntityType.SNOW_GOLEM, new AbstractMap.SimpleEntry<>(-0.003, 1));
-        temp_blocks.put(EntityType.SNOWBALL, new AbstractMap.SimpleEntry<>(0.005, 0));
+        temp_blocks.put(EntityType.SNOWBALL, new AbstractMap.SimpleEntry<>(-0.005, 0));
         return temp_blocks;
     }
 

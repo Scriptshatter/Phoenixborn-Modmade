@@ -27,7 +27,7 @@ public abstract class PlayerEntityMixin extends Entity {
     void slowCold(BlockState block, CallbackInfoReturnable<Float> cir){
         final float temp = (Bird_parts.TEMP.get(this).get_temp());
 
-        if(temp <= 500 && Ect.has_origin((Entity) (Object) this, Ect.FIRE_BIRD))
+        if(temp <= 500 && Ect.has_origin(this, Ect.FIRE_BIRD))
         {
             cir.setReturnValue(cir.getReturnValueF() * ((temp*2)/1000));
         }
