@@ -15,7 +15,7 @@ public class Rebirth extends StatusEffect {
     @Override
     public void applyUpdateEffect(LivingEntity entity, int amplifier) {
         if(Ect.has_origin(entity, Ect.FIRE_BIRD)){
-            Bird_parts.TEMP.get(entity).change_temp(amplifier*10);
+            Bird_parts.TEMP.get(entity).change_temp((amplifier+1)*5);
         }
         if (entity.getHealth() < entity.getMaxHealth()) {
             entity.heal(0.1f);
