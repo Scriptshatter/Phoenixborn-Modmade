@@ -7,7 +7,11 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+import net.fabricmc.fabric.api.loot.v2.LootTableEvents;
+import net.minecraft.block.Blocks;
 import net.minecraft.item.ItemGroups;
+import net.minecraft.loot.LootTable;
+import net.minecraft.util.Identifier;
 import net.scriptshatter.fberb.blocks.Phoenix_block_entities;
 import net.scriptshatter.fberb.blocks.Phoenix_blocks;
 import net.scriptshatter.fberb.command.Set_temp;
@@ -26,6 +30,8 @@ import net.scriptshatter.fberb.util.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Arrays;
+
 public class Phoenix implements ModInitializer {
 	// This logger is used to write text to the console and the log file.
 	// It is considered best practice to use your mod id as the logger's name.
@@ -40,6 +46,12 @@ public class Phoenix implements ModInitializer {
 		ServerTickEvents.START_WORLD_TICK.register(new Temp_control());
 		ServerPlayerEvents.AFTER_RESPAWN.register(new Rev_temp());
 		//Add_loot.onServerStarted();
+		LootTableEvents.MODIFY.register((resourceManager, lootManager, id, tableBuilder, source) -> {
+			if (Blocks.GRAVEL.getLootTableId().equals(id)) {
+				LootTable nuggets = lootManager.getTable(new Identifier("fberb", "gameplay/phoenix_shovel_nuggets"));
+				Arrays.stream(nuggets.pools).toList().forEach(tableBuilder::pool);
+			}
+		});
 		Actionfactory.register();
 		Entity_conditions.register();
 		Phoenix_scales.init();

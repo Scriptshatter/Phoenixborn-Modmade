@@ -1,5 +1,6 @@
 package net.scriptshatter.fberb.blocks.client;
 
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.*;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
@@ -20,10 +21,11 @@ public class Machine_render extends GeoBlockRenderer<Machine> {
     public void actuallyRender(MatrixStack poseStack, Machine animatable, BakedGeoModel model, RenderLayer renderType, VertexConsumerProvider bufferSource, VertexConsumer buffer, boolean isReRender, float partialTick, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
         Get_my_brain_C2S.turn(animatable.getPos());
         float speed = Bird_parts.INV.get(this.animatable).get_turn();
-        this.model.getBone("bone4").ifPresent(turnwheel -> turnwheel.setRotX(-speed));
-        this.model.getBone("bone2").ifPresent(turnwheel -> turnwheel.setRotZ(speed));
-        this.model.getBone("bone3").ifPresent(turnwheel -> turnwheel.setRotZ(-speed));
-
+        if(!MinecraftClient.getInstance().isPaused()){
+            this.model.getBone("bone4").ifPresent(turnwheel -> turnwheel.setRotX(-speed));
+            this.model.getBone("bone2").ifPresent(turnwheel -> turnwheel.setRotZ(speed));
+            this.model.getBone("bone3").ifPresent(turnwheel -> turnwheel.setRotZ(-speed));
+        }
         super.actuallyRender(poseStack, animatable, model, renderType, bufferSource, buffer, isReRender, partialTick, packedLight, packedOverlay, red, green, blue, alpha);
     }
 }

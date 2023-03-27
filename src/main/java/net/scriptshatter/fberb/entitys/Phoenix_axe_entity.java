@@ -159,7 +159,7 @@ public class Phoenix_axe_entity extends PersistentProjectileEntity implements Ge
 
     protected SoundEvent getHitSound() {
         // Temp sound
-        return SoundEvents.ITEM_TRIDENT_HIT_GROUND;
+        return SoundEvents.BLOCK_AMETHYST_BLOCK_HIT;
     }
 
     public void onPlayerCollision(PlayerEntity player) {
@@ -171,7 +171,7 @@ public class Phoenix_axe_entity extends PersistentProjectileEntity implements Ge
 
     public void readCustomDataFromNbt(NbtCompound nbt) {
         super.readCustomDataFromNbt(nbt);
-        if (nbt.contains("Trident", NbtElement.COMPOUND_TYPE)) {
+        if (nbt.contains("Phoenix_axe", NbtElement.COMPOUND_TYPE)) {
             this.phoenix_stack = ItemStack.fromNbt(nbt.getCompound("Phoenix_axe"));
         }
         this.dealtDamage = nbt.getBoolean("DealtDamage");

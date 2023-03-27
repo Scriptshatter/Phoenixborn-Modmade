@@ -86,8 +86,6 @@ public class Phoenix_axe extends AxeItem implements Birb_item {
     public void onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
         if (user instanceof PlayerEntity playerEntity){
             int i = this.getMaxUseTime(stack) - remainingUseTicks;
-            float speed_rem = (float)i / this.getMaxUseTime(stack);
-            Phoenix.LOGGER.info(String.valueOf(speed_rem));
             if (!world.isClient && i >= 10) {
                 stack.damage(1, playerEntity, ((p) -> p.sendToolBreakStatus(user.getActiveHand())));
                 Phoenix_axe_entity tridentEntity = new Phoenix_axe_entity(world, playerEntity, stack);

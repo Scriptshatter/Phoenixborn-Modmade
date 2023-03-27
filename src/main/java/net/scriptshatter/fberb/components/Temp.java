@@ -2,9 +2,18 @@ package net.scriptshatter.fberb.components;
 
 import dev.onyxstudios.cca.api.v3.component.sync.AutoSyncedComponent;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtHelper;
+import net.minecraft.nbt.NbtInt;
+import net.minecraft.nbt.NbtList;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.scriptshatter.fberb.entitys.Phoenix_shovel_entity;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 public class Temp implements Temp_int, AutoSyncedComponent {
     private double temp = 0;
@@ -13,6 +22,7 @@ public class Temp implements Temp_int, AutoSyncedComponent {
     private int rage;
 
     private double internal_temp = 0.7;
+    private List<UUID> phoenix_shovels = new ArrayList<>();
 
     public Temp(PlayerEntity player) {
         this.player = player;
@@ -75,6 +85,16 @@ public class Temp implements Temp_int, AutoSyncedComponent {
     }
 
     @Override
+    public void add_shovel(UUID shovel) {
+        this.phoenix_shovels.add(shovel);
+    }
+
+    @Override
+    public void clear_shovels() {
+        this.phoenix_shovels.clear();
+    }
+
+    @Override
     public int get_temp() {
         return (int)this.temp;
     }
@@ -82,6 +102,11 @@ public class Temp implements Temp_int, AutoSyncedComponent {
     @Override
     public int get_rebirths() {
         return this.rebirths;
+    }
+
+    @Override
+    public List<UUID> get_shovels() {
+        return this.phoenix_shovels;
     }
 
     @Override
@@ -100,6 +125,7 @@ public class Temp implements Temp_int, AutoSyncedComponent {
         this.internal_temp = tag.getDouble("internal_temp");
         this.rebirths = tag.getInt("rebirths");
         this.rage = tag.getInt("rage");
+        tag.getList("phoenix_shovels", 10).forEach(nbtElement -> this.phoenix_shovels.add(NbtHelper.toUuid(nbtElement)));
     }
 
     @Override
@@ -108,6 +134,9 @@ public class Temp implements Temp_int, AutoSyncedComponent {
         tag.putDouble("internal_temp", this.internal_temp);
         tag.putInt("rebirths", this.rebirths);
         tag.putInt("rage", this.rage);
+        NbtList list = new NbtList();
+        phoenix_shovels.forEach(uuid -> list.add(NbtHelper.fromUuid(uuid)));
+        tag.put("phoenix_shovels", list);
     }
 
     //Needs to update fast.

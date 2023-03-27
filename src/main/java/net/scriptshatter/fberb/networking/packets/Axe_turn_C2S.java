@@ -17,8 +17,7 @@ public class Axe_turn_C2S {
     public static void call(MinecraftServer minecraftServer, ServerPlayerEntity player, ServerPlayNetworkHandler serverPlayNetworkHandler, PacketByteBuf buf, PacketSender sender) {
         float turn_amount = buf.readFloat();
         UUID target_uuid = buf.readUuid();
-        Phoenix_axe_entity target = (Phoenix_axe_entity) player.getWorld().getEntity(target_uuid);
-        if (target != null){
+        if(player.getWorld().getEntity(target_uuid) instanceof Phoenix_axe_entity target){
             Bird_parts.PHOENIX_AXE_NBT.get(target).change_turn(turn_amount);
         }
     }

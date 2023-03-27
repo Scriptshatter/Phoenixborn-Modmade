@@ -46,8 +46,10 @@ public class Machine extends BlockEntity implements GeoBlockEntity{
         writeNbt(nbtCompound);
     }
 
-
-
+    @Override
+    public boolean shouldPlayAnimsWhileGamePaused() {
+        return false;
+    }
 
     // Maybe separate the opening/closing animations and play the spinning animations separately? could save you a lot of headache and just make the thing look better.
     // Namely, always have the spinning animation running and just change the speed with it being spun

@@ -7,7 +7,7 @@ public class Entity_register_registry_phoenix {
 
     public static void register(){
         EntityRendererRegistry.register(Entity_registry.PHOENIX_AXE_ENTITY, Phoenix_axe_entity_renderer::new);
-
+        EntityRendererRegistry.register(Entity_registry.PHOENIX_SHOVEL_ENTITY, Phoenix_shovel_entity_renderer::new);
     }
 
 }

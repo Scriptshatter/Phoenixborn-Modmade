@@ -1,35 +1,21 @@
 package net.scriptshatter.fberb.items;
 
-import net.fabricmc.fabric.api.loot.v2.LootTableEvents;
-import net.minecraft.advancement.criterion.CuredZombieVillagerCriterion;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.data.server.tag.VanillaBlockTagProvider;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemUsageContext;
 import net.minecraft.item.ShovelItem;
 import net.minecraft.item.ToolMaterial;
-import net.minecraft.loot.LootPool;
-import net.minecraft.loot.LootTable;
-import net.minecraft.loot.context.*;
-import net.minecraft.loot.entry.TagEntry;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.registry.tag.TagKey;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.server.command.SummonCommand;
+import net.minecraft.util.ActionResult;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.world.World;
-import net.scriptshatter.fberb.Phoenix;
+import net.minecraft.util.math.Vec3d;
+import net.scriptshatter.fberb.components.Bird_parts;
+import net.scriptshatter.fberb.entitys.Phoenix_shovel_entity;
 import net.scriptshatter.fberb.util.Phoenix_use_actions;
-
-import java.util.Arrays;
-import java.util.List;
 
 public class Phoenix_shovel extends ShovelItem implements Birb_item {
 
@@ -86,23 +72,18 @@ public class Phoenix_shovel extends ShovelItem implements Birb_item {
         NbtCompound nbtCompound = stack.getNbt();
         if(nbtCompound != null) this.temp = nbtCompound.getDouble(TEMP_KEY);
     }
-    public final TagKey<Block> SHOVEL_MINEABLE = TagKey.of(RegistryKeys.BLOCK, new Identifier("minecraft","mineable/shovel"));
-
+    TagKey<Block> blocks = BlockTags.SHOVEL_MINEABLE;
     @Override
-    public boolean postMine(ItemStack stack, World world, BlockState state, BlockPos pos, LivingEntity miner) {
-        if(state.isIn(SHOVEL_MINEABLE) && world.getServer() != null && this.temp(stack) > 50){
-            Identifier loot_table_id = state.getBlock().getLootTableId();
-            LootTableEvents.MODIFY.register((resourceManager, lootManager, id, tableBuilder, source) -> {
-                if (loot_table_id.equals(id)) {
-                    LootTable nuggets = world.getServer().getLootManager().getTable(new Identifier("fberb", "gameplay/phoenix_shovel_nuggets"));
-                    Arrays.stream(nuggets.pools).toList().forEach(tableBuilder::pool);
-                }
-            });
+    public ActionResult useOnBlock(ItemUsageContext context) {
+        if(context.getPlayer() != null && context.getPlayer().isSneaking() && context.getWorld().getBlockState(context.getBlockPos()).isIn(blocks)){
+            Phoenix_shovel_entity life_will_change_persona_five = new Phoenix_shovel_entity(context.getWorld(), context.getPlayer(), context.getStack());
+            Bird_parts.TEMP.get(context.getPlayer()).add_shovel(life_will_change_persona_five.getUuid());
+            context.getWorld().spawnEntity(life_will_change_persona_five);
+            life_will_change_persona_five.setPosition(new Vec3d(context.getBlockPos().getX(), context.getBlockPos().getY()+0.5, context.getBlockPos().getZ()));
+            return ActionResult.SUCCESS;
         }
-        return super.postMine(stack, world, state, pos, miner);
+        return super.useOnBlock(context);
     }
-
-
 
     public void write_nbt(ItemStack stack){
         NbtCompound nbtCompound = stack.getNbt();
