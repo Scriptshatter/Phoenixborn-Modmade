@@ -9,10 +9,14 @@ import net.scriptshatter.fberb.Phoenix;
 
 public class Phoenix_block_entities {
     public static BlockEntityType<Machine> MACHINE;
+    public static BlockEntityType<Phoenix_shovel_block_entity> SHOVEL;
 
     public static void register_block_entities(){
         MACHINE = Registry.register(Registries.BLOCK_ENTITY_TYPE,
                 new Identifier(Phoenix.MOD_ID, "machine"),
                 FabricBlockEntityTypeBuilder.create(Machine::new, Phoenix_blocks.MACHINE).build(null));
+        SHOVEL = Registry.register(Registries.BLOCK_ENTITY_TYPE,
+                new Identifier(Phoenix.MOD_ID, "phoenix_shovel"),
+                FabricBlockEntityTypeBuilder.create(Phoenix_shovel_block_entity::new, Phoenix_blocks.SHOVEL).build(null));
     }
 }

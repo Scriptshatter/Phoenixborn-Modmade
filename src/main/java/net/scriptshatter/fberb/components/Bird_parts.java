@@ -11,6 +11,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Identifier;
 import net.scriptshatter.fberb.Phoenix;
 import net.scriptshatter.fberb.blocks.Machine;
+import net.scriptshatter.fberb.blocks.Phoenix_shovel_block_entity;
 import net.scriptshatter.fberb.entitys.Phoenix_axe_entity;
 
 public final class Bird_parts implements EntityComponentInitializer, BlockComponentInitializer {
@@ -21,6 +22,8 @@ public final class Bird_parts implements EntityComponentInitializer, BlockCompon
             ComponentRegistry.getOrCreate(new Identifier(Phoenix.MOD_ID, "phoenix_axe_turn"), Phoenix_axe_interface.class);
     public static final ComponentKey<Machine_anim_int> INV =
             ComponentRegistry.getOrCreate(new Identifier(Phoenix.MOD_ID, "machine"), Machine_anim_int.class);
+    public static final ComponentKey<Shovel_parts_int> SHOVEL =
+            ComponentRegistry.getOrCreate(new Identifier(Phoenix.MOD_ID, "shovel"), Shovel_parts_int.class);
     @Override
     public void registerEntityComponentFactories(EntityComponentFactoryRegistry registry) {
         registry.beginRegistration(PlayerEntity.class, TEMP).respawnStrategy(RespawnCopyStrategy.ALWAYS_COPY).end(Temp::new);
@@ -30,5 +33,6 @@ public final class Bird_parts implements EntityComponentInitializer, BlockCompon
     @Override
     public void registerBlockComponentFactories(BlockComponentFactoryRegistry registry) {
         registry.beginRegistration(Machine.class, INV).end(Machine_parts::new);
+        registry.beginRegistration(Phoenix_shovel_block_entity.class, SHOVEL).end(Shovel_parts::new);
     }
 }

@@ -20,7 +20,6 @@ public interface Machine_anim_int extends Component, Inventory, RecipeInputProvi
     void change_being_used(int used);
     void change_speed(float speed);
     void craft_item(ItemStack itemStack);
-    void remove_item();
 
     ItemStack get_crafted_item();
     boolean has_items_crafted();

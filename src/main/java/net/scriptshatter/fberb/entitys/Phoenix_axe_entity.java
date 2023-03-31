@@ -149,10 +149,6 @@ public class Phoenix_axe_entity extends PersistentProjectileEntity implements Ge
     protected ItemStack asItemStack() {
         return this.phoenix_stack.copy();
     }
-
-    public ItemStack get_item_stack() {
-        return this.phoenix_stack.copy();
-    }
     protected boolean tryPickup(PlayerEntity player) {
         return super.tryPickup(player) || this.isNoClip() && this.isOwner(player) && player.getInventory().insertStack(this.asItemStack());
     }

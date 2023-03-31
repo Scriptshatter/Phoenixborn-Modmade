@@ -2,6 +2,7 @@ package net.scriptshatter.fberb.items;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.MiningToolItem;
 import net.scriptshatter.fberb.util.Phoenix_use_actions;
 
 public interface Birb_item {

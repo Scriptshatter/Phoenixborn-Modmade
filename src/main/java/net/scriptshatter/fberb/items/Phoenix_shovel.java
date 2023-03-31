@@ -2,24 +2,17 @@ package net.scriptshatter.fberb.items;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUsageContext;
-import net.minecraft.item.ShovelItem;
-import net.minecraft.item.ToolMaterial;
+import net.minecraft.item.*;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.registry.tag.TagKey;
-import net.minecraft.server.command.SummonCommand;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
-import net.scriptshatter.fberb.components.Bird_parts;
-import net.scriptshatter.fberb.entitys.Phoenix_shovel_entity;
 import net.scriptshatter.fberb.util.Phoenix_use_actions;
 
-public class Phoenix_shovel extends ShovelItem implements Birb_item {
-
-
+public class Phoenix_shovel extends ShovelItem implements Birb_item{
     private final int max_temp;
     private double temp;
 
@@ -76,14 +69,15 @@ public class Phoenix_shovel extends ShovelItem implements Birb_item {
     @Override
     public ActionResult useOnBlock(ItemUsageContext context) {
         if(context.getPlayer() != null && context.getPlayer().isSneaking() && context.getWorld().getBlockState(context.getBlockPos()).isIn(blocks)){
-            Phoenix_shovel_entity life_will_change_persona_five = new Phoenix_shovel_entity(context.getWorld(), context.getPlayer(), context.getStack());
-            Bird_parts.TEMP.get(context.getPlayer()).add_shovel(life_will_change_persona_five.getUuid());
-            context.getWorld().spawnEntity(life_will_change_persona_five);
-            life_will_change_persona_five.setPosition(new Vec3d(context.getBlockPos().getX(), context.getBlockPos().getY()+0.5, context.getBlockPos().getZ()));
+            //ItemUsageContext usageContext = new ItemUsageContext(context.getWorld(), context.getPlayer(), context.getHand(), context.getStack(), new BlockHitResult(new Vec3d(context.getBlockPos().getX()+0.5, context.getBlockPos().getY()+1, context.getBlockPos().getZ()+0.5), context.getSide(), context.getBlockPos().up(), context.hitsInsideBlock()));
+            //ItemPlacementContext placementContext = new ItemPlacementContext(usageContext);
+
+            Items.PHOENIX_BLOCK_SHOVEL.useOnBlock(context);
             return ActionResult.SUCCESS;
         }
         return super.useOnBlock(context);
     }
+
 
     public void write_nbt(ItemStack stack){
         NbtCompound nbtCompound = stack.getNbt();

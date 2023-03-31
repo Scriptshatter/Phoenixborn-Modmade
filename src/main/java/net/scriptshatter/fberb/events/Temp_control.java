@@ -62,7 +62,6 @@ public class Temp_control implements ServerTickEvents.StartWorldTick {
                 if(player.isOnFire()){
                     Bird_parts.TEMP.get(player).change_temp(0.01);
                 }
-                Bird_parts.TEMP.get(player).change_rage(-1);
 
                 //Check how cold they are and debuff appropriately.
                 AttributedEntityAttributeModifier speed = new AttributedEntityAttributeModifier(EntityAttributes.GENERIC_MOVEMENT_SPEED, new EntityAttributeModifier(speedUuid, "name", (((double)Bird_parts.TEMP.get(player).get_temp()*2)/1000)-1, EntityAttributeModifier.Operation.MULTIPLY_TOTAL));

@@ -113,10 +113,6 @@ public class Machine_parts implements Machine_anim_int, AutoSyncedComponent {
         Bird_parts.INV.sync(blockEntity);
     }
 
-    @Override
-    public void remove_item() {
-        machine_inventory.set(9, null);
-    }
 
     @Override
     public ItemStack get_crafted_item() {

@@ -9,7 +9,6 @@ import net.minecraft.nbt.NbtInt;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.scriptshatter.fberb.entitys.Phoenix_shovel_entity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,10 +18,8 @@ public class Temp implements Temp_int, AutoSyncedComponent {
     private double temp = 0;
     private final PlayerEntity player;
     private int rebirths;
-    private int rage;
 
     private double internal_temp = 0.7;
-    private List<UUID> phoenix_shovels = new ArrayList<>();
 
     public Temp(PlayerEntity player) {
         this.player = player;
@@ -68,33 +65,6 @@ public class Temp implements Temp_int, AutoSyncedComponent {
     }
 
     @Override
-    public void set_rage(int amount) {
-        this.rage = Math.max(amount, 0);
-        Bird_parts.TEMP.sync(this.player);
-    }
-
-    @Override
-    public void change_rage(int amount) {
-        if (this.rage + amount <= 0) {
-            this.rage = 0;
-        }
-        else{
-            this.rage += amount;
-        }
-        Bird_parts.TEMP.sync(this.player);
-    }
-
-    @Override
-    public void add_shovel(UUID shovel) {
-        this.phoenix_shovels.add(shovel);
-    }
-
-    @Override
-    public void clear_shovels() {
-        this.phoenix_shovels.clear();
-    }
-
-    @Override
     public int get_temp() {
         return (int)this.temp;
     }
@@ -104,15 +74,6 @@ public class Temp implements Temp_int, AutoSyncedComponent {
         return this.rebirths;
     }
 
-    @Override
-    public List<UUID> get_shovels() {
-        return this.phoenix_shovels;
-    }
-
-    @Override
-    public boolean is_mad() {
-        return this.rage > 0;
-    }
 
     @Override
     public double get_internal_temp() {
@@ -124,8 +85,6 @@ public class Temp implements Temp_int, AutoSyncedComponent {
         this.temp = tag.getDouble("temp");
         this.internal_temp = tag.getDouble("internal_temp");
         this.rebirths = tag.getInt("rebirths");
-        this.rage = tag.getInt("rage");
-        tag.getList("phoenix_shovels", 10).forEach(nbtElement -> this.phoenix_shovels.add(NbtHelper.toUuid(nbtElement)));
     }
 
     @Override
@@ -133,10 +92,6 @@ public class Temp implements Temp_int, AutoSyncedComponent {
         tag.putDouble("temp", this.temp);
         tag.putDouble("internal_temp", this.internal_temp);
         tag.putInt("rebirths", this.rebirths);
-        tag.putInt("rage", this.rage);
-        NbtList list = new NbtList();
-        phoenix_shovels.forEach(uuid -> list.add(NbtHelper.fromUuid(uuid)));
-        tag.put("phoenix_shovels", list);
     }
 
     //Needs to update fast.

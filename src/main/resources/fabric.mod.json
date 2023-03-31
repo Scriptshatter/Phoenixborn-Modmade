@@ -21,7 +21,8 @@
     "cardinal-components": [
       "fberb:temp",
       "fberb:machine",
-      "fberb:phoenix_axe_turn"
+      "fberb:phoenix_axe_turn",
+      "fberb:shovel"
     ]
   },
 
