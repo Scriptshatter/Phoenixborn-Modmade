@@ -2,6 +2,7 @@ package net.scriptshatter.fberb.items;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.DoorBlock;
 import net.minecraft.block.ScaffoldingBlock;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
@@ -21,6 +22,7 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.World;
+import net.scriptshatter.fberb.Phoenix;
 import net.scriptshatter.fberb.blocks.Phoenix_blocks;
 import net.scriptshatter.fberb.blocks.Phoenix_shovel_block_entity;
 import net.scriptshatter.fberb.components.Bird_parts;
@@ -45,7 +47,8 @@ public class Phoenix_shovel_block_item extends BlockItem {
 
     @Override
     public ActionResult place(ItemPlacementContext context) {
-        ItemUsageContext usageContext = new ItemUsageContext(context.getWorld(), context.getPlayer(), context.getHand(), context.getStack(), new BlockHitResult(new Vec3d(context.getBlockPos().getX()+0.5, context.getBlockPos().getY()+0.9, context.getBlockPos().getZ()+0.5), Direction.UP, context.getSide() == Direction.UP ? context.getBlockPos() : context.getBlockPos().up().add(-context.getSide().getOffsetX(), 0, -context.getSide().getOffsetZ()), context.hitsInsideBlock()));
+        BlockPos blockPos = context.getSide() == Direction.UP ? context.getBlockPos() : context.getBlockPos().up().add(-context.getSide().getOffsetX(), 0, -context.getSide().getOffsetZ());
+        ItemUsageContext usageContext = new ItemUsageContext(context.getWorld(), context.getPlayer(), context.getHand(), context.getStack(), new BlockHitResult(context.getHitPos(), Direction.DOWN, context.getBlockPos(), context.hitsInsideBlock()));
         ItemPlacementContext context1 = new ItemPlacementContext(usageContext);
         return super.place(context1);
     }

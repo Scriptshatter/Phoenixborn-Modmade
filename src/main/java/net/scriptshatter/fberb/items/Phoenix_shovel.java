@@ -65,10 +65,9 @@ public class Phoenix_shovel extends ShovelItem implements Birb_item{
         NbtCompound nbtCompound = stack.getNbt();
         if(nbtCompound != null) this.temp = nbtCompound.getDouble(TEMP_KEY);
     }
-    TagKey<Block> blocks = BlockTags.SHOVEL_MINEABLE;
     @Override
     public ActionResult useOnBlock(ItemUsageContext context) {
-        if(context.getPlayer() != null && context.getPlayer().isSneaking() && context.getWorld().getBlockState(context.getBlockPos()).isIn(blocks)){
+        if(context.getPlayer() != null && context.getPlayer().isSneaking()){
             //ItemUsageContext usageContext = new ItemUsageContext(context.getWorld(), context.getPlayer(), context.getHand(), context.getStack(), new BlockHitResult(new Vec3d(context.getBlockPos().getX()+0.5, context.getBlockPos().getY()+1, context.getBlockPos().getZ()+0.5), context.getSide(), context.getBlockPos().up(), context.hitsInsideBlock()));
             //ItemPlacementContext placementContext = new ItemPlacementContext(usageContext);
 
