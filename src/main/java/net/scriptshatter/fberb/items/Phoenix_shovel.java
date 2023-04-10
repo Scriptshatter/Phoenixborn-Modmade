@@ -1,20 +1,49 @@
 package net.scriptshatter.fberb.items;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.*;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.registry.tag.TagKey;
+import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.World;
+import net.scriptshatter.fberb.Phoenix_client;
+import net.scriptshatter.fberb.util.Ect;
 import net.scriptshatter.fberb.util.Phoenix_use_actions;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 public class Phoenix_shovel extends ShovelItem implements Birb_item{
     private final int max_temp;
     private double temp;
+
+
+    @Override
+    public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
+        if(MinecraftClient.getInstance().player != null && Ect.has_origin(MinecraftClient.getInstance().player, Ect.FIRE_BIRD)){
+            if(Screen.hasShiftDown()){
+                tooltip.add(Text.translatable("tooltip.fberb.phoenix_shovel.aoe").formatted(Formatting.DARK_GRAY));
+                tooltip.add(Text.translatable("tooltip.fberb.phoenix_shovel.gravel").formatted(Formatting.DARK_GRAY));
+                tooltip.add(Text.translatable("tooltip.fberb.phoenix_tool.charge").formatted(Formatting.DARK_GRAY).append(Text.keybind(Phoenix_client.power_tool.getTranslationKey().formatted(Formatting.DARK_GRAY))));
+            }
+            else{
+                tooltip.add(Text.translatable("tooltip.fberb.phoenix_axe.phoenixcrouch").formatted(Formatting.DARK_GRAY));
+            }
+        }
+
+        super.appendTooltip(stack, world, tooltip, context);
+    }
 
 
     public Phoenix_shovel(ToolMaterial material, float attackDamage, float attackSpeed, Settings settings, int max_temp) {

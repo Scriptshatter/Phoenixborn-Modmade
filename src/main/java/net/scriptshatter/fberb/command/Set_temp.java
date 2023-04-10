@@ -22,14 +22,11 @@ public class Set_temp {
         public Set_temp() {
         }
         public static void register(CommandDispatcher<ServerCommandSource> dispatcher, CommandRegistryAccess commandRegistryAccess, CommandManager.RegistrationEnvironment registrationEnvironment) {
-            dispatcher.register((LiteralArgumentBuilder)((LiteralArgumentBuilder)((LiteralArgumentBuilder)CommandManager.literal("add_temp").requires((source) -> {
-                return source.hasPermissionLevel(2);
-            }))
-                    .executes((context) -> {
-                        return add_dxp((ServerCommandSource)context.getSource(),3, ImmutableList.of(((ServerCommandSource)context.getSource()).getPlayerOrThrow()));
-                    })).then(CommandManager.argument("targets", EntityArgumentType.entities()).then(CommandManager.argument("amount", IntegerArgumentType.integer()).executes((context) -> {
-                return add_dxp((ServerCommandSource)context.getSource(),IntegerArgumentType.getInteger(context, "amount"), EntityArgumentType.getPlayers(context, "targets"));
-            }))));
+            dispatcher.register((LiteralArgumentBuilder)(((LiteralArgumentBuilder)CommandManager.literal("add_temp").requires((source) -> source.hasPermissionLevel(2)))
+                    .executes((context) ->
+                            add_dxp((ServerCommandSource)context.getSource(),3, ImmutableList.of(((ServerCommandSource)context.getSource()).getPlayerOrThrow()))
+                    )).then(CommandManager.argument("targets", EntityArgumentType.entities()).then(CommandManager.argument("amount", IntegerArgumentType.integer()).executes((context) ->
+                    add_dxp(context.getSource(),IntegerArgumentType.getInteger(context, "amount"), EntityArgumentType.getPlayers(context, "targets"))))));
         }
 
         private static int add_dxp(ServerCommandSource source, int amount, Collection<? extends ServerPlayerEntity> targets){

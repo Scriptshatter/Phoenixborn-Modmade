@@ -57,10 +57,8 @@ public abstract class HeldItemRendererMixin {
             if (player.isUsingItem() && player.getItemUseTimeLeft() > 0 && player.getActiveHand() == hand && client.player != null) {
                 l = bl2 ? 1 : -1;
                 switch (GetFuel.checkStatus((Get_use_case) (Object) item, player)) {
-                    case DEFAULT:
-                        matrices.pop();
-                        break;
-                    case PHOENIX_AXE:
+                    case DEFAULT -> matrices.pop();
+                    case PHOENIX_AXE -> {
                         this.applyEquipOffset(matrices, arm, equipProgress);
                         matrices.translate((float) l * -0.8F, 0.18344387F, 0.7F);
                         matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(-13.935F));
@@ -82,11 +80,11 @@ public abstract class HeldItemRendererMixin {
                         matrices.scale(1.0F, 1.0F, 1.0F + f * 0.2F);
                         matrices.multiply(RotationAxis.NEGATIVE_Y.rotationDegrees((float) l * 45.0F));
                         this.pop_matrix(bl2, swingProgress, equipProgress, arm, matrices, player, item, vertexConsumers, light, ci);
-                        break;
-                    case NONE:
+                    }
+                    case NONE -> {
                         Phoenix.LOGGER.info("Item is not anything");
                         this.pop_matrix(bl2, swingProgress, equipProgress, arm, matrices, player, item, vertexConsumers, light, ci);
-                        break;
+                    }
                 }
             }
         }

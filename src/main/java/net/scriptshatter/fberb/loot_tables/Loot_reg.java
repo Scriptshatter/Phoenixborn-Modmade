@@ -2,6 +2,7 @@ package net.scriptshatter.fberb.loot_tables;
 
 import net.minecraft.loot.condition.LootCondition;
 import net.minecraft.loot.condition.LootConditionType;
+import net.minecraft.loot.context.LootContextType;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;

@@ -26,5 +26,8 @@
   "tooltip.fberb.phoenix_pickaxe.cur_block": "Will currently point to: ",
   "tooltip.fberb.phoenix_pickaxe.scan": "Right click an ore to select and scan for it. Right click the air to scan for the selected ore.",
   "tooltip.fberb.phoenix_pickaxe.no_scan": "You do not have a block selected.",
-  "tooltip.fberb.phoenix_pickaxe.smelt": "Crouch while mining a block to smelt the dropped item."
+  "tooltip.fberb.phoenix_pickaxe.smelt": "Crouch while mining a block to smelt the dropped item.",
+  "tooltip.fberb.phoenix_shovel.aoe": "Crouch and right click on a block that is mineable via shovel to place it down, turning it into a portable beacon. pick it up by punching it.",
+  "tooltip.fberb.phoenix_shovel.gravel": "When mining gravel there's a small chance this shovel will drop a random nugget.",
+  "tooltip.fberb.phoenix_shovel.blockitem": "Ignore this Item, it's exclusively for assisting the ACTUAL shovel. It may be removed in future updates."
 }

@@ -7,11 +7,12 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.scriptshatter.fberb.blocks.Phoenix_shovel_block_entity;
 import net.scriptshatter.fberb.items.Birb_item;
 import net.scriptshatter.fberb.items.Items;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 
 public class Shovel_parts implements Shovel_parts_int{
-    ItemStack itemStack = ItemStack.EMPTY;
+    ItemStack itemStack;
     UUID owner_uuid = null;
     Phoenix_shovel_block_entity block_entity;
 
@@ -23,15 +24,19 @@ public class Shovel_parts implements Shovel_parts_int{
     @Override
     public void readFromNbt(NbtCompound tag) {
         Bird_parts.SHOVEL.sync(block_entity);
-        this.itemStack = ItemStack.fromNbt(tag.getCompound("shovel"));
+        if(tag.contains("shovel") && ItemStack.fromNbt(tag.getCompound("shovel")).getItem() instanceof Birb_item){
+            this.itemStack = ItemStack.fromNbt(tag.getCompound("shovel"));
+        }
         if(tag.contains("owner_uuid")){
             this.owner_uuid = tag.getUuid("owner_uuid");
         }
     }
 
     @Override
-    public void writeToNbt(NbtCompound tag) {
-        tag.put("shovel", this.itemStack.writeNbt(new NbtCompound()));
+    public void writeToNbt(@NotNull NbtCompound tag) {
+        if(this.itemStack != null){
+            tag.put("shovel", this.itemStack.writeNbt(new NbtCompound()));
+        }
         if(this.owner_uuid != null){
             tag.putUuid("owner_uuid", this.owner_uuid);
         }
@@ -41,7 +46,8 @@ public class Shovel_parts implements Shovel_parts_int{
 
     @Override
     public void set_itemstack(ItemStack itemStack) {
-        this.itemStack = itemStack;
+        this.itemStack = new ItemStack(Items.PHOENIX_SHOVEL);
+        this.itemStack.setNbt(itemStack.getNbt());
     }
 
     @Override
@@ -68,7 +74,7 @@ public class Shovel_parts implements Shovel_parts_int{
 
     @Override
     public double get_temp() {
-        if(this.itemStack.getItem() instanceof Birb_item){
+        if(this.itemStack != null && this.itemStack.getItem() instanceof Birb_item){
             return Items.PHOENIX_SHOVEL.temp(this.itemStack);
         }
         return 0;
@@ -76,11 +82,15 @@ public class Shovel_parts implements Shovel_parts_int{
 
     @Override
     public void writeSyncPacket(PacketByteBuf buf, ServerPlayerEntity recipient) {
-        buf.writeItemStack(this.itemStack);
+        if(this.itemStack != null){
+            buf.writeItemStack(this.itemStack);
+        }
     }
 
     @Override
     public void applySyncPacket(PacketByteBuf buf) {
-        this.itemStack = buf.readItemStack();
+        if(buf.readItemStack() != null && buf.readItemStack().getItem() instanceof Birb_item){
+            this.itemStack = buf.readItemStack();
+        }
     }
 }

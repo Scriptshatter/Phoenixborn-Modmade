@@ -55,13 +55,9 @@ public class Machine_anim extends BlockWithEntity {
     public void onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
         Machine block = Phoenix_block_entities.MACHINE.get(world, pos);
         if(block != null){
-            this.spawnBreakParticles(world, player, pos, state);
-            if (state.isIn(BlockTags.GUARDED_BY_PIGLINS)) {
-                PiglinBrain.onGuardedBlockInteracted(player, false);
-            }
             Bird_parts.INV.get(block).get_inv().forEach((item) -> Block.dropStack(world, pos, item));
-            world.emitGameEvent(GameEvent.BLOCK_DESTROY, pos, GameEvent.Emitter.of(player, state));
         }
+        super.onBreak(world, pos, state, player);
     }
 
     @Override

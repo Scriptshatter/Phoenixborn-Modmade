@@ -1,0 +1,23 @@
+{
+  "type": "fberb:turnblast",
+  "blast_time": 100,
+  "key": {
+    "#": {
+      "item": "fberb:charged_amethyst"
+    },
+    "$": {
+      "item": "minecraft:blaze_rod"
+    },
+    "%": {
+      "item": "minecraft:nether_star"
+    }
+  },
+  "pattern": [
+    " # ",
+    " % ",
+    " $ "
+  ],
+  "result": {
+    "item": "fberb:phoenix_shovel"
+  }
+}
