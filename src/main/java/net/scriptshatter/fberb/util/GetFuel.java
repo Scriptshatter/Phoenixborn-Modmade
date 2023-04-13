@@ -11,4 +11,8 @@ public class GetFuel {
     public static Phoenix_use_actions checkStatus(Get_use_case itemStack, PlayerEntity player){
         return itemStack.use_actions(player);
     }
+
+    public static void render_outline_processor(Get_use_case worldRenderer, float tickDelta){
+        worldRenderer.render_processor(tickDelta);
+    }
 }

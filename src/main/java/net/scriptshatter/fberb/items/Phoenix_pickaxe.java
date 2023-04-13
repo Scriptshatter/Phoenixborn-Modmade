@@ -24,6 +24,8 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.scriptshatter.fberb.Phoenix;
 import net.scriptshatter.fberb.Phoenix_client;
+import net.scriptshatter.fberb.components.Bird_parts;
+import net.scriptshatter.fberb.networking.packets.Render_line_S2C;
 import net.scriptshatter.fberb.util.Ect;
 import net.scriptshatter.fberb.util.Phoenix_use_actions;
 import org.jetbrains.annotations.Nullable;
@@ -96,7 +98,8 @@ public class Phoenix_pickaxe extends PickaxeItem implements Birb_item{
                     double length = origin.distanceTo(target);
                     Vec3d direction = target.subtract(origin).normalize();
                     for(double current = 0; current < length; current += 1){
-                        serverWorld.spawnParticles((ServerPlayerEntity) user, ParticleTypes.HAPPY_VILLAGER, true, origin.add(direction.multiply(current)).x + 0.5, origin.add(direction.multiply(current)).y + 0.5, origin.add(direction.multiply(current)).z + 0.5, 1, 0, 0, 0, 0);
+                        //serverWorld.spawnParticles((ServerPlayerEntity) user, ParticleTypes.HAPPY_VILLAGER, true, origin.add(direction.multiply(current)).x + 0.5, origin.add(direction.multiply(current)).y + 0.5, origin.add(direction.multiply(current)).z + 0.5, 1, 0, 0, 0, 0);
+                        Bird_parts.TEMP.get(user).set_sight_time(20f);
                     }
                 }
             });
@@ -109,6 +112,8 @@ public class Phoenix_pickaxe extends PickaxeItem implements Birb_item{
         // user.addVelocity(vec.x, vec.y, vec.z);
         return super.use(world, user, hand);
     }
+
+
 
     @Override
     public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {

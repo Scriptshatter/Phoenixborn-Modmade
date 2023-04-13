@@ -1,6 +1,7 @@
 package net.scriptshatter.fberb.components;
 
 import dev.onyxstudios.cca.api.v3.component.sync.AutoSyncedComponent;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
@@ -18,6 +19,7 @@ public class Temp implements Temp_int, AutoSyncedComponent {
     private double temp = 0;
     private final PlayerEntity player;
     private int rebirths;
+    private float sight_time;
 
     private double internal_temp = 0.7;
 
@@ -65,6 +67,25 @@ public class Temp implements Temp_int, AutoSyncedComponent {
     }
 
     @Override
+    public void set_sight_time(float amount) {
+        this.sight_time = amount;
+        Bird_parts.TEMP.sync(this.player);
+    }
+
+    @Override
+    public void change_sight_time(float amount) {
+        this.sight_time = Math.max(amount + sight_time, 0);
+        if(this.sight_time <= 5){
+            Bird_parts.TEMP.sync(this.player);
+        }
+    }
+
+    @Override
+    public float get_sight_time() {
+        return this.sight_time;
+    }
+
+    @Override
     public int get_temp() {
         return (int)this.temp;
     }
@@ -85,6 +106,7 @@ public class Temp implements Temp_int, AutoSyncedComponent {
         this.temp = tag.getDouble("temp");
         this.internal_temp = tag.getDouble("internal_temp");
         this.rebirths = tag.getInt("rebirths");
+        this.sight_time = tag.getFloat("ore_see_time");
     }
 
     @Override
@@ -92,6 +114,7 @@ public class Temp implements Temp_int, AutoSyncedComponent {
         tag.putDouble("temp", this.temp);
         tag.putDouble("internal_temp", this.internal_temp);
         tag.putInt("rebirths", this.rebirths);
+        tag.putFloat("ore_see_time", this.sight_time);
     }
 
     //Needs to update fast.
@@ -99,11 +122,13 @@ public class Temp implements Temp_int, AutoSyncedComponent {
     public void writeSyncPacket(PacketByteBuf buf, ServerPlayerEntity player) {
         buf.writeDouble(this.temp);
         buf.writeInt(this.rebirths);
+        buf.writeFloat(this.sight_time);
     }
 
     @Override
     public void applySyncPacket(PacketByteBuf buf) {
         this.temp = buf.readDouble();
         this.rebirths = buf.readInt();
+        this.sight_time = buf.readFloat();
     }
 }

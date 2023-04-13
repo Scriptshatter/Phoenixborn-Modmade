@@ -13,6 +13,10 @@ public interface Temp_int extends AutoSyncedComponent {
     void set_internal_temp(double amount);
     void set_temp(double amount);
 
+    void set_sight_time(float amount);
+    void change_sight_time(float amount);
+    float get_sight_time();
+
     int get_temp();
     int get_rebirths();
 

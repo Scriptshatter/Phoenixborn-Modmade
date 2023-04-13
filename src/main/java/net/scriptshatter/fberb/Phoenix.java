@@ -9,6 +9,8 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.fabricmc.fabric.api.loot.v2.LootTableEvents;
 import net.minecraft.block.Blocks;
+import net.minecraft.client.render.block.entity.BlockEntityRenderDispatcher;
+import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.item.ItemGroups;
 import net.minecraft.loot.LootTable;
 import net.minecraft.util.Identifier;
@@ -17,7 +19,6 @@ import net.scriptshatter.fberb.blocks.Phoenix_blocks;
 import net.scriptshatter.fberb.command.Set_temp;
 import net.scriptshatter.fberb.effects.EffectsRegistery;
 import net.scriptshatter.fberb.entitys.Entity_registry;
-import net.scriptshatter.fberb.events.Add_loot;
 import net.scriptshatter.fberb.events.Rev_temp;
 import net.scriptshatter.fberb.events.Temp_control;
 import net.scriptshatter.fberb.gui.Tutorial_screen;
@@ -81,5 +82,7 @@ public class Phoenix implements ModInitializer {
 			content.add(Items.PHOENIX_BROOCH);
 		});
 		Phoenix_recipes.register_pizza();
+
+
 	}
 }

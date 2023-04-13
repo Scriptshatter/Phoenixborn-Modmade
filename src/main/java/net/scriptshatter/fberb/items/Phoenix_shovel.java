@@ -1,10 +1,16 @@
 package net.scriptshatter.fberb.items;
 
+import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
+import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.item.TooltipContext;
+import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.RenderPhase;
+import net.minecraft.client.render.VertexFormat;
+import net.minecraft.client.render.VertexFormats;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.*;
 import net.minecraft.nbt.NbtCompound;
@@ -27,6 +33,10 @@ import java.util.List;
 public class Phoenix_shovel extends ShovelItem implements Birb_item{
     private final int max_temp;
     private double temp;
+
+
+
+    public static final RenderLayer GLOWING_BLOCK = RenderLayer.of("glowing_block", VertexFormats.POSITION_COLOR_TEXTURE_LIGHT, VertexFormat.DrawMode.LINES, 256, RenderLayer.MultiPhaseParameters.builder().transparency(RenderPhase.TRANSLUCENT_TRANSPARENCY).target(RenderPhase.ITEM_TARGET).texture(RenderPhase.BLOCK_ATLAS_TEXTURE).cull(RenderPhase.DISABLE_CULLING).lightmap(RenderPhase.ENABLE_LIGHTMAP).overlay(RenderPhase.ENABLE_OVERLAY_COLOR).build(false));
 
 
     @Override
