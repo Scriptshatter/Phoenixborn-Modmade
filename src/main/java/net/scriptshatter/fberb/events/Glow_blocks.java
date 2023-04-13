@@ -18,11 +18,13 @@ import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.scriptshatter.fberb.Phoenix;
+import net.scriptshatter.fberb.effects.EffectsRegistery;
 import net.scriptshatter.fberb.util.GetFuel;
 import net.scriptshatter.fberb.util.Get_use_case;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Environment(EnvType.CLIENT)
 public class Glow_blocks implements WorldRenderEvents.AfterEntities{
@@ -82,6 +84,10 @@ public class Glow_blocks implements WorldRenderEvents.AfterEntities{
 
     @Override
     public void afterEntities(WorldRenderContext context) {
-        renderHighlights(context.matrixStack(), context.worldRenderer(), context.camera(), blockList(context.camera().getBlockPos(), 25, 25, 25), context.tickDelta());
+        if(MinecraftClient.getInstance().player != null && MinecraftClient.getInstance().player.hasStatusEffect(EffectsRegistery.ORE_SIGHT)){
+            int amp = Objects.requireNonNull(MinecraftClient.getInstance().player.getStatusEffect(EffectsRegistery.ORE_SIGHT)).getAmplifier()+1;
+            renderHighlights(context.matrixStack(), context.worldRenderer(), context.camera(), blockList(context.camera().getBlockPos(), amp*5, amp*5, amp*5), context.tickDelta());
+        }
+
     }
 }
