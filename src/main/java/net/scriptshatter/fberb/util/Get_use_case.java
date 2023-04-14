@@ -7,4 +7,6 @@ public interface Get_use_case {
     void render_processor(float tickDelta);
 
     Phoenix_use_actions use_actions(PlayerEntity player);
+
+    double get_fps();
 }
