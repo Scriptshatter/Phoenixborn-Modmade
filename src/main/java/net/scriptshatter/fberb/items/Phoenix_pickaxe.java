@@ -71,7 +71,6 @@ public class Phoenix_pickaxe extends PickaxeItem implements Birb_item{
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         ItemStack itemStack = user.getStackInHand(hand);
         if(!world.isClient && this.temp(itemStack) >= 25){
-            read_nbt(itemStack);
             this.change_temp(-25, itemStack);
             user.getItemCooldownManager().set(this, 20);
             user.addStatusEffect(new StatusEffectInstance(EffectsRegistery.ORE_SIGHT, 200, 4));

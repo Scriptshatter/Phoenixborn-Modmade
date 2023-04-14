@@ -11,12 +11,11 @@ import net.scriptshatter.fberb.Phoenix;
 
 public class Ect {
     //Gets the origins ready and makes a condition that checks if you have a particular origin.
-    public static final Identifier fire_id = new Identifier(Phoenix.MOD_ID, "phoenix");
-    public static final Identifier frost_id = new Identifier(Phoenix.MOD_ID, "frost");
-    public static final Origin FIRE_BIRD = OriginRegistry.get(fire_id);
-    public static final Origin FROST_BIRD = OriginRegistry.get(frost_id);
+    public static final Identifier FIRE_BIRD = new Identifier(Phoenix.MOD_ID, "phoenix");
+    public static final Identifier FROST_BIRD =  new Identifier(Phoenix.MOD_ID, "frost");
 
-    public static boolean has_origin(Entity entity, Origin origin){
+    public static boolean has_origin(Entity entity, Identifier origin_id){
+        Origin origin = OriginRegistry.get(origin_id);
         if(!entity.isPlayer() || ModComponents.ORIGIN.get(entity).getOrigin(OriginLayers.getLayer(new Identifier(Origins.MODID, "origin"))) == null){
             return false;
         }
