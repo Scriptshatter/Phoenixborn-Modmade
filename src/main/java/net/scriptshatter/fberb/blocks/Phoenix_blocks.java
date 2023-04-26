@@ -16,4 +16,8 @@ public class Phoenix_blocks {
     private static <B extends Block> B registerBlockWithoutItem(String name, B block){
         return Registry.register(Registries.BLOCK, new Identifier(Phoenix.MOD_ID, name), block);
     }
+
+    public static void werk(){
+        Phoenix.LOGGER.info("Blocks online!");
+    }
 }

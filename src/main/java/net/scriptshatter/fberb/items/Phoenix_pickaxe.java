@@ -1,5 +1,7 @@
 package net.scriptshatter.fberb.items;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.loader.impl.launch.FabricLauncherBase;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -86,17 +88,8 @@ public class Phoenix_pickaxe extends PickaxeItem implements Birb_item{
 
     @Override
     public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
-        if(MinecraftClient.getInstance().player != null && Ect.has_origin(MinecraftClient.getInstance().player, Ect.FIRE_BIRD)){
-            if(Screen.hasShiftDown()){
-                tooltip.add(Text.translatable("tooltip.fberb.phoenix_pickaxe.scan").formatted(Formatting.DARK_GRAY));
-                tooltip.add(Text.translatable("tooltip.fberb.phoenix_pickaxe.smelt").formatted(Formatting.DARK_GRAY));
-                tooltip.add(Text.translatable("tooltip.fberb.phoenix_tool.charge").formatted(Formatting.DARK_GRAY).append(Text.keybind(Phoenix_client.power_tool.getTranslationKey().formatted(Formatting.DARK_GRAY))));
-            }
-            else{
-                tooltip.add(Text.translatable("tooltip.fberb.phoenix_axe.phoenixcrouch").formatted(Formatting.DARK_GRAY));
-            }
-        }
-
+        tooltip.add(Text.translatable("tooltip.fberb.phoenix_shovel.aoe").formatted(Formatting.DARK_GRAY));
+        tooltip.add(Text.translatable("tooltip.fberb.phoenix_shovel.gravel").formatted(Formatting.DARK_GRAY));
         super.appendTooltip(stack, world, tooltip, context);
     }
 

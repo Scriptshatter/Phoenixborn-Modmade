@@ -34,23 +34,10 @@ public class Phoenix_shovel extends ShovelItem implements Birb_item{
     private final int max_temp;
     private double temp;
 
-
-
-    public static final RenderLayer GLOWING_BLOCK = RenderLayer.of("glowing_block", VertexFormats.POSITION_COLOR_TEXTURE_LIGHT, VertexFormat.DrawMode.LINES, 256, RenderLayer.MultiPhaseParameters.builder().transparency(RenderPhase.TRANSLUCENT_TRANSPARENCY).target(RenderPhase.ITEM_TARGET).texture(RenderPhase.BLOCK_ATLAS_TEXTURE).cull(RenderPhase.DISABLE_CULLING).lightmap(RenderPhase.ENABLE_LIGHTMAP).overlay(RenderPhase.ENABLE_OVERLAY_COLOR).build(false));
-
-
     @Override
     public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
-        if(MinecraftClient.getInstance().player != null && Ect.has_origin(MinecraftClient.getInstance().player, Ect.FIRE_BIRD)){
-            if(Screen.hasShiftDown()){
-                tooltip.add(Text.translatable("tooltip.fberb.phoenix_shovel.aoe").formatted(Formatting.DARK_GRAY));
-                tooltip.add(Text.translatable("tooltip.fberb.phoenix_shovel.gravel").formatted(Formatting.DARK_GRAY));
-                tooltip.add(Text.translatable("tooltip.fberb.phoenix_tool.charge").formatted(Formatting.DARK_GRAY).append(Text.keybind(Phoenix_client.power_tool.getTranslationKey().formatted(Formatting.DARK_GRAY))));
-            }
-            else{
-                tooltip.add(Text.translatable("tooltip.fberb.phoenix_axe.phoenixcrouch").formatted(Formatting.DARK_GRAY));
-            }
-        }
+        tooltip.add(Text.translatable("tooltip.fberb.phoenix_shovel.aoe").formatted(Formatting.DARK_GRAY));
+        tooltip.add(Text.translatable("tooltip.fberb.phoenix_shovel.gravel").formatted(Formatting.DARK_GRAY));
 
         super.appendTooltip(stack, world, tooltip, context);
     }

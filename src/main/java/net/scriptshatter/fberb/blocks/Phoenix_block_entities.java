@@ -19,4 +19,8 @@ public class Phoenix_block_entities {
                 new Identifier(Phoenix.MOD_ID, "phoenix_shovel"),
                 FabricBlockEntityTypeBuilder.create(Phoenix_shovel_block_entity::new, Phoenix_blocks.SHOVEL).build(null));
     }
+
+    public static void werk(){
+        Phoenix.LOGGER.info("Block entitys are a go!");
+    }
 }

@@ -25,7 +25,7 @@ public class Temp_hud extends DrawableHelper implements GameHudRender {
         //Make the temperature meter
         MinecraftClient client = MinecraftClient.getInstance();
         assert client.player != null;
-        if(Ect.has_origin(client.player, Ect.FIRE_BIRD) || Ect.has_origin(client.player, Ect.FROST_BIRD)) {
+        if(client.world != null && Ect.has_origin(client.player, Ect.FIRE_BIRD) || Ect.has_origin(client.player, Ect.FROST_BIRD)) {
             //Get the data needed
             int temp = 0;
             int width = 0;

@@ -1,6 +1,9 @@
 package net.scriptshatter.fberb.items;
 
+import com.mojang.authlib.Environment;
+import net.fabricmc.api.EnvType;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
+import net.fabricmc.loader.impl.launch.FabricLauncherBase;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.client.render.item.BuiltinModelItemRenderer;
@@ -55,10 +58,7 @@ public class Machine_item extends BlockItem implements GeoItem {
 
     @Override
     public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
-        if(MinecraftClient.getInstance().player != null && !Ect.has_origin(MinecraftClient.getInstance().player, Ect.FIRE_BIRD)){
-            tooltip.add(Text.translatable("tooltip.fberb.turnblast.phoenixneeded").formatted(Formatting.DARK_GRAY));
-        }
-
+        tooltip.add(Text.translatable("tooltip.fberb.turnblast.phoenixneeded").formatted(Formatting.DARK_GRAY));
         super.appendTooltip(stack, world, tooltip, context);
     }
 

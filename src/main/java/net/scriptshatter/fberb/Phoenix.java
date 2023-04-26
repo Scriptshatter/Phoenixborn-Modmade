@@ -56,16 +56,16 @@ public class Phoenix implements ModInitializer {
 		Actionfactory.register();
 		Entity_conditions.register();
 		Phoenix_scales.init();
-		new Items();
+		Items.werk();
 		Loot_reg.register_loot();
 		EffectsRegistery.registerEffects();
 		Register_sounds.help();
 		Phoenix_block_entities.register_block_entities();
-		new Phoenix_blocks();
-		new Phoenix_block_entities();
-		new Entity_registry();
+		Phoenix_blocks.werk();
+		Phoenix_block_entities.werk();
+		new Entity_registry().register();
 		Dmg_sources.register();
-		Tutorial_screen.create();
+
 		Youve_got_mail.registerC2SMail();
 		ItemGroupEvents.modifyEntriesEvent(ItemGroups.FUNCTIONAL).register((content) -> {
 			content.add(Items.MACHINE_ITEM);

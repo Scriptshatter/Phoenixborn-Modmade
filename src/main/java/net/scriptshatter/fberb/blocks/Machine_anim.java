@@ -147,9 +147,6 @@ public class Machine_anim extends BlockWithEntity {
             //player.openHandledScreen(state.createScreenHandlerFactory(world, pos));
             //player.incrementStat(Stats.INTERACT_WITH_STONECUTTER);
             //return ActionResult.CONSUME;
-            if(MinecraftClient.getInstance().isOnThread()){
-                MinecraftClient.getInstance().setScreenAndRender(new Tutorial_screen(new Tutorial_gui()));
-            }
             return ActionResult.CONSUME;
         }
         if (world.isClient || Phoenix_block_entities.MACHINE.get(world, pos) == null) {

@@ -18,6 +18,7 @@ import net.scriptshatter.fberb.client.Temp_hud;
 import net.scriptshatter.fberb.entitys.client.Entity_register_registry_phoenix;
 import net.scriptshatter.fberb.events.Glow_blocks;
 import net.scriptshatter.fberb.events.Tool_charge;
+import net.scriptshatter.fberb.gui.Tutorial_screen;
 import net.scriptshatter.fberb.networking.Youve_got_mail;
 import org.lwjgl.glfw.GLFW;
 
@@ -27,6 +28,7 @@ public class Phoenix_client implements ClientModInitializer {
     public static KeyBinding power_tool;
     @Override
     public void onInitializeClient() {
+        Tutorial_screen.create();
         GameHudRender.HUD_RENDERS.add(new Temp_hud());
         WorldRenderEvents.AFTER_ENTITIES.register(new Glow_blocks());
 

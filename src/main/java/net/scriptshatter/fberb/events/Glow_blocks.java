@@ -95,14 +95,16 @@ public class Glow_blocks implements WorldRenderEvents.AfterEntities{
             renderHighlights(context.matrixStack(), context.worldRenderer(), context.camera(), blockList(context.camera().getBlockPos(), Math.min(amp, max_amount)*5, Math.min(amp, max_amount)*5, Math.min(amp, max_amount)*5, context.world()), context.tickDelta());
             //Phoenix.LOGGER.info("FPS: " + MinecraftClient.getInstance().getCurrentFps() + "\nMax Amount: " + this.max_amount);
             //Phoenix.LOGGER.info(String.valueOf(context.tickDelta()));
-            if(MinecraftClient.getInstance().getCurrentFps() <= 5){
-                this.max_amount--;
+            if(MinecraftClient.getInstance().getCurrentFps() <= 15 && this.max_amount >= 5 && context.tickDelta() <= 0.1){
+                this.max_amount = 1;
             }
-            if(MinecraftClient.getInstance().getCurrentFps() <= 30 && context.tickDelta() <= 0.05){
-                this.max_amount--;
-            } else if (MinecraftClient.getInstance().getCurrentFps() >= 60 && context.tickDelta() <= 0.1) {
-                this.max_amount++;
+            else if(MinecraftClient.getInstance().getCurrentFps() <= 15 && this.max_amount >= 10 && context.tickDelta() <= 0.1){
+                this.max_amount = 5;
+            } else if (MinecraftClient.getInstance().getCurrentFps() <= 15 && this.max_amount >= 15 && context.tickDelta() <= 0.1) {
+                this.max_amount = 10;
             }
+        } else if (MinecraftClient.getInstance().getCurrentFps() <= 15 && this.max_amount >= 20 && context.tickDelta() <= 0.1) {
+            this.max_amount = 15;
         }
     }
 }
